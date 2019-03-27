@@ -6,9 +6,13 @@ const initialState = {}
 
 const middleware = [thunk];
 
-const store = createStore(rootReducer, initialState, compose(
-  applyMiddleware(...middleware),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && __window.__REDUX_DEVTOOLS_EXTENSION__()
-));
+const store = createStore(
+  rootReducer,
+  initialState,
+  compose(
+    applyMiddleware(...middleware),
+    window._REDUX_DEVTOOLS_EXTENSION_ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f 
+  )
+);
 
 export default store;
