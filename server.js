@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 global.__base = __dirname + '/';
 const config = require(path.join(__base, 'config/config'));
-const items = require(path.join(__base, 'routes/api/items'));
 
 //init app
 const app = express();
@@ -19,12 +18,17 @@ const db = config.mongodbURI;
 
 //Connect to mongoDB
 mongoose
-.connect(db)
+.connect(db, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+})
 .then(() => console.log('MongoDB Connected...'))
 .catch(err => console.log(err));
 
 //Use Routes
-app.use('/api/items', items);
+app.use('/api/items', require(path.join(__base, 'routes/api/items')));
+app.use('/api/users', require(path.join(__base, 'routes/api/users')));
+app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
 
 //init server
 const PORT = config.PORT || 5000
