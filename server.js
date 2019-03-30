@@ -30,6 +30,16 @@ app.use('/api/items', require(path.join(__base, 'routes/api/items')));
 app.use('/api/users', require(path.join(__base, 'routes/api/users')));
 app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
 
+// Serve static assets if in production
+if(config.node_env ==='production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 //init server
 const PORT = config.PORT || 5000
 app.listen(PORT, () => console.log(`Express server is listenning on port ${PORT}`));
