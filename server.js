@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 global.__base = __dirname + '/';
 const config = require(path.join(__base, 'config/config'));
+const routes = require(path.join(__base, 'initializers/routes'));
 const logger = require(path.join(__base, 'middleware/logger'));
 
 //init app
@@ -30,9 +31,12 @@ mongoose
 app.use(logger);
 
 //Use Routes
-app.use('/api/items', require(path.join(__base, 'routes/api/items')));
-app.use('/api/users', require(path.join(__base, 'routes/api/users')));
-app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
+// app.use('/api/items', require(path.join(__base, 'routes/api/items')));
+// app.use('/api/users', require(path.join(__base, 'routes/api/users')));
+// app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
+
+//init routes setup
+routes.setup(app);
 
 // Routes validation
 const reditectUnmatchedAPI = (req, res) => {
