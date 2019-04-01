@@ -1,5 +1,4 @@
 const path = require('path');
-const validate = require('express-validation');
 
 const Auth = require(path.join(__base, 'views/Auth/Auth'));
 
