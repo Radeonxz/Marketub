@@ -1,37 +1,28 @@
-const express = require('express');
+const moduleName = 'Users.js';
+
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const router = express.Router();
-
 const config = require(path.join(__base, 'config/config'));
 
 // User Model
-const User = require('../../models/User');
+const User = require(path.join(__base, 'models/User'));
 
-// @route   POST api/users
-// @desc    Register new user
-// @access  Public
-router.post('/', (req, res) => {
+// PostUsers
+const postUsers = (req, res) => {
   const { name, email, password } = req.body;
 
   //validation
   if(!name || !email || !password) {
-    // return res.status(400).json({ msg: 'Please enter all fields' });
-    return res.status(400).json({
-      'status': 'error',
-      'data': {
-        'level': 'ERR',
-        'code': '400',
-        'message': 'Please enter all fields'
-      }
-    });
+    config.err_400.data.message = 'Please enter all fields'
+    return res.status(400).json(config.err_400);
   }
 
   //check for existing user
   User.findOne({ email })
   .then(user => {
-    if(user) return res.status(400).json({ msg: 'User already exists' });
+    config.err_400.data.message = 'User already exists'
+    if(user) return res.status(400).json(config.err_400);
 
     const newUser = new User({
       name,
@@ -64,8 +55,5 @@ router.post('/', (req, res) => {
       });
     });
   });
-});
-
-
-
-module.exports = router;
+};
+exports.postUsers = postUsers;
