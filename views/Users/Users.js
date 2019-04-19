@@ -12,13 +12,13 @@ const User = require(path.join(__base, 'models/User'));
 const postUsers = (req, res) => {
   const { name, email, password } = req.body;
 
-  //validation
+  // Validation
   if(!name || !email || !password) {
     config.err_400.data.message = 'Please enter all fields'
     return res.status(400).json(config.err_400);
   }
 
-  //check for existing user
+  // Check for existing user
   User.findOne({ email })
   .then(user => {
     config.err_400.data.message = 'User already exists'
@@ -30,7 +30,7 @@ const postUsers = (req, res) => {
       password
     });
 
-    //Create salt & hash
+    // Create salt & hash
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if(err) throw err;
@@ -38,7 +38,7 @@ const postUsers = (req, res) => {
         newUser.save()
         .then(user => {
           jwt.sign(
-            //payload, secret, expiration, callback
+            // Payload, secret, expiration, callback
             { id: user.id }, config.JWTSecret, { expiresIn: 3600 }, (err, token) => {
               if(err) throw err;
               res.json({

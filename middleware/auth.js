@@ -6,16 +6,16 @@ const config = require(path.join(__base, 'config/config'));
 const auth = (req, res, next) => {
   const token = req.header('x-auth-token');
 
-  //check for token
+  // Check for token
   if(!token) {
     config.err_400.data.message = 'No token provided, access denied';
     return res.status(401).json(config.err_400.data);
   }
 
   try{
-    //verify token
+    // Verify token
     const decoded = jwt.verify(token, config.JWTSecret);
-    //add user from payload
+    // Add user from payload
     req.user = decoded;
     next();
   } catch(e) {
