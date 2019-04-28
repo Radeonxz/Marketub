@@ -15,7 +15,7 @@ const User = require('../../models/User');
 router.post('/', (req, res) => {
   const { name, email, password } = req.body;
 
-  //validation
+  // validation
   if(!name || !email || !password) {
     // return res.status(400).json({ msg: 'Please enter all fields' });
     return res.status(400).json({
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
     });
   }
 
-  //check for existing user
+  // check for existing user
   User.findOne({ email })
   .then(user => {
     if(user) return res.status(400).json({ msg: 'User already exists' });
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
       password
     });
 
-    //Create salt & hash
+    // Create salt & hash
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if(err) throw err;
@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
         newUser.save()
         .then(user => {
           jwt.sign(
-            //payload, secret, expiration, callback
+            // payload, secret, expiration, callback
             { id: user.id }, config.JWTSecret, { expiresIn: 3600 }, (err, token) => {
               if(err) throw err;
               res.json({
