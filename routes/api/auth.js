@@ -16,7 +16,7 @@ const User = require(path.join(__base, 'models/User'));
 router.post('/', (req, res) => {
   const { email, password } = req.body;
 
-  //validation
+  // validation
   if(!email || !password) {
     // return res.status(400).json({ msg: 'Please enter all fields' });
     return res.status(400).json({
@@ -29,18 +29,18 @@ router.post('/', (req, res) => {
     });
   }
 
-  //check for existing user
+  // check for existing user
   User.findOne({ email })
   .then(user => {
     if(!user) return res.status(400).json({ msg: 'User does not exist' });
 
-    //validate password
+    // validate password
     bcrypt.compare(password, user.password)
     .then(isMatch => {
       if(!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
       jwt.sign(
-        //payload, secret, expiration, callback
+        // payload, secret, expiration, callback
         { id: user.id }, config.JWTSecret, { expiresIn: 3600 }, (err, token) => {
           if(err) throw err;
           res.json({
