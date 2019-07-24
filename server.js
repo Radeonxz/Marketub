@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-
 const path = require('path');
 global.__base = __dirname + '/';
 const config = require(path.join(__base, 'config/config'));
