@@ -1,3 +1,7 @@
+const moduleNam = 'M&P';
+// const fctName = moduleNam + 'pid:' + process.pid;
+const fctName = `${moduleNam}'s pid: ${process.pid}`;
+
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -7,34 +11,19 @@ const config = require(path.join(__base, 'config/config'));
 const routes = require(path.join(__base, 'initializers/routes'));
 const logger = require(path.join(__base, 'middleware/logger'));
 
-//init app
+// Init express app setup
 const app = express();
+app.set('port', config.server.port);
+app.set('mongoURL', config.mongodb.url);
 
-//init body parser middleware
+// Init body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-//mongodb config
-const db = config.mongodbURI;
-
-//Connect to mongoDB
-mongoose
-.connect(db, {
-  useNewUrlParser: true,
-  useCreateIndex: true
-})
-.then(() => console.log('MongoDB Connected...'))
-.catch(err => console.log(err));
-
-//init logger middleware
+// Init logger middleware
 app.use(logger);
 
-//Use Routes
-// app.use('/api/items', require(path.join(__base, 'routes/api/items')));
-// app.use('/api/users', require(path.join(__base, 'routes/api/users')));
-// app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
-
-//init routes setup
+// Init routes setup
 routes.setup(app);
 
 // Routes validation
@@ -51,7 +40,6 @@ const reditectUnmatchedAPI = (req, res) => {
 }
 app.all('*', reditectUnmatchedAPI);
 
-
 // Serve static assets if in production
 if(config.node_env ==='production') {
   // Set static folder
@@ -62,6 +50,44 @@ if(config.node_env ==='production') {
   });
 }
 
-//init server
-const PORT = config.PORT || 5000
-app.listen(PORT, () => console.log(`Express server is listenning on port ${PORT}`));
+// MongoDB setup
+const MongoDBOptions = {
+  useNewUrlParser: true,
+  useCreateIndex: true
+}
+
+mongoose.connect(app.get('mongoURL'), MongoDBOptions)
+.then(() => {
+  // Start server
+  // logger.info('Express server starting ....');
+  const server = app.listen(app.get('port'), function () {
+    // logger.info('Express server is listening on port ' + server.address().port + ', ' + fctName);
+    console.info('Express server is listening on port ' + server.address().port + ', ' + fctName);
+  });
+}).catch((err) => {
+  console.log(err);
+});
+
+module.exports = app;
+
+// //mongodb config
+// const db = config.mongodbURI;
+
+// //Connect to mongoDB
+// mongoose
+// .connect(db, {
+//   useNewUrlParser: true,
+//   useCreateIndex: true
+// })
+// .then(() => console.log('MongoDB Connected...'))
+// .catch(err => console.log(err));
+
+
+//Use Routes
+// app.use('/api/items', require(path.join(__base, 'routes/api/items')));
+// app.use('/api/users', require(path.join(__base, 'routes/api/users')));
+// app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
+
+// //init server
+// const PORT = config.PORT || 5000
+// app.listen(PORT, () => console.log(`Express server is listenning on port ${PORT}`));

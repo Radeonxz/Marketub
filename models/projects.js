@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // const uuidv4 = require('uuid/v4');
 
 require(path.join(__base, 'utils/object'));
-const projectSchema = require(path.join(__base, 'mongoose/projects/schemas')).projectSchema;
+const projectSchema = require(path.join(__base, 'mongoose/projects/schema')).projectSchema;
 
 function Projects() {
   this.name = "Projects Object";

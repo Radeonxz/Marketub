@@ -10,7 +10,7 @@ StatusErr = {
 	}
 };
 
-_objectIdDel = (ObjectWithId) => {
+const _objectIdDel = ObjectWithId => {
   // http://www.connecto.io/blog/deep-copyingcloning-of-mongoose-object/
   if (ObjectWithId != null 
     && typeof ObjectWithId != 'string' 
@@ -36,7 +36,7 @@ _objectIdDel = (ObjectWithId) => {
   }
 };
 
-objectIdDel = (ObjectWithId) => {
+const objectIdDel = ObjectWithId => {
   const copiedObject = JSON.parse(JSON.stringify(ObjectWithId));
   _objectIdDel(copiedObject); 
 
