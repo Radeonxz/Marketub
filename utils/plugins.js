@@ -9,7 +9,7 @@ const moduleNam = 'utils/plugins~';
 // const valGUID = [{validator:GUIDvalidator, msg: 'Invalid GUID.'}];
 // exports.valGUID = valGUID;
 
-function updTime(context) {
+const updTime = context => {
   // get the current date
   const currentDate = new Date();
 
@@ -21,7 +21,7 @@ function updTime(context) {
 	context.created_at = currentDate;    
 }
 
-function modifiedOn (schema, options) { 
+const modifiedOn = (schema, options) => {
   schema.add({'created_at': { type: Date}});
   schema.add({'updated_at': { type: Date}});
 
@@ -30,18 +30,4 @@ function modifiedOn (schema, options) {
     next();
   });    
 }
-exports.modifiedOn = modifiedOn; 
-
-
-// Used only for questions and sections. Users are a specific case because employees do not increase
-// serialno
-function updSerial (schema, options) { 
-  schema.add({'serialno': { type: Number, default: 0}});
-
-  schema.pre('save', function(next) {
-    if(debug) console.log('calling schema.pre(save) updSerial');
-    this.serialno++;
-    next();
-  });    
-}
-exports.updSerial = updSerial;
+exports.modifiedOn = modifiedOn;

@@ -32,7 +32,7 @@ const postAuth = (req, res) => {
 
       jwt.sign(
         // Payload, secret, expiration, callback
-        { id: user.id }, config.JWTSecret, { expiresIn: 3600 }, (err, token) => {
+        { id: user.id }, config.JWT.JWTSecret, { expiresIn: 3600 }, (err, token) => {
           if(err) throw err;
           res.json({
             token,

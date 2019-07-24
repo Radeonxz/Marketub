@@ -1,0 +1,6 @@
+{
+  "_comment": "copy this file and rename it as nodemon.json and update the env",
+  "env": {
+    "MONGODB_URI": ""
+  }
+}
