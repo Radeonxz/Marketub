@@ -1,4 +1,4 @@
-const moduleName = 'logger.js';
+const moduleName = 'logger';
 
 const moment = require('moment');
 const logger = (req, res, next) => {

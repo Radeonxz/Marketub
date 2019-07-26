@@ -5,7 +5,7 @@ const path = require('path');
 
 const setup = app => {
   const normalizedPath = path.join(__base, 'routes/apis');
-  console.log('normalizedPath is', normalizedPath);
+
   fs.readdirSync(normalizedPath).forEach(file => {
     if (~file.indexOf('.js')) {
       const routes = require(path.join(__base, 'routes/apis/') + file);

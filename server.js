@@ -1,5 +1,4 @@
-const moduleNam = 'M&P';
-// const fctName = moduleNam + 'pid:' + process.pid;
+const moduleNam = 'server';
 const fctName = `${moduleNam}'s pid: ${process.pid}`;
 
 const express = require('express');
@@ -9,7 +8,7 @@ const path = require('path');
 global.__base = __dirname + '/';
 const config = require(path.join(__base, 'config/config'));
 const routes = require(path.join(__base, 'initializers/routes'));
-const logger = require(path.join(__base, 'middleware/logger'));
+const logger = require(path.join(__base, 'middlewares/logger'));
 
 // Init express app setup
 const app = express();
@@ -18,7 +17,7 @@ app.set('mongoURL', config.mongodb.url);
 
 // Init body parser middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 // Init logger middleware
 app.use(logger);
@@ -59,35 +58,12 @@ const MongoDBOptions = {
 mongoose.connect(app.get('mongoURL'), MongoDBOptions)
 .then(() => {
   // Start server
-  // logger.info('Express server starting ....');
+  console.info('Express server starting ....');
   const server = app.listen(app.get('port'), function () {
-    // logger.info('Express server is listening on port ' + server.address().port + ', ' + fctName);
     console.info('Express server is listening on port ' + server.address().port + ', ' + fctName);
   });
 }).catch((err) => {
-  console.log(err);
+  console.error(err);
 });
 
 module.exports = app;
-
-// //mongodb config
-// const db = config.mongodbURI;
-
-// //Connect to mongoDB
-// mongoose
-// .connect(db, {
-//   useNewUrlParser: true,
-//   useCreateIndex: true
-// })
-// .then(() => console.log('MongoDB Connected...'))
-// .catch(err => console.log(err));
-
-
-//Use Routes
-// app.use('/api/items', require(path.join(__base, 'routes/api/items')));
-// app.use('/api/users', require(path.join(__base, 'routes/api/users')));
-// app.use('/api/auth', require(path.join(__base, 'routes/api/auth')));
-
-// //init server
-// const PORT = config.PORT || 5000
-// app.listen(PORT, () => console.log(`Express server is listenning on port ${PORT}`));

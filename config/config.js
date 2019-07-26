@@ -24,7 +24,11 @@ config.server = {
 };
 
 config.JWT = {
-  'JWTSecret': process.env.JWTSecret
+  'JWTSecret': process.env.JWTSECRET
+}
+
+config.activation = {
+  'code': process.env.ACTIVATION
 }
 
 config.mongodb = {

@@ -10,7 +10,7 @@ StatusErr = {
 	}
 };
 
-const _objectIdDel = ObjectWithId => {
+_objectIdDel = ObjectWithId => {
   // http://www.connecto.io/blog/deep-copyingcloning-of-mongoose-object/
   if (ObjectWithId != null 
     && typeof ObjectWithId != 'string' 
@@ -21,6 +21,8 @@ const _objectIdDel = ObjectWithId => {
       // It is not an array because array length is defined
       delete ObjectWithId._id;
       delete ObjectWithId.__v;
+      ObjectWithId.password ? delete ObjectWithId.password : null;
+      ObjectWithId.email ? delete ObjectWithId.email : null;
         
       for (var key in ObjectWithId) {
         //recursive del calls on object elements
@@ -36,7 +38,7 @@ const _objectIdDel = ObjectWithId => {
   }
 };
 
-const objectIdDel = ObjectWithId => {
+objectIdDel = ObjectWithId => {
   const copiedObject = JSON.parse(JSON.stringify(ObjectWithId));
   _objectIdDel(copiedObject); 
 
