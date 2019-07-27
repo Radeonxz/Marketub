@@ -1,7 +1,7 @@
 const path = require('path');
 
 const Items = require(path.join(__base, 'views/Items/Items'));
-const auth = require(path.join(__base, 'middleware/auth'));
+const auth = require(path.join(__base, 'middlewares/authentication'));
 
 const setup = app => {
     app.get('/api/items', Items.getItems);

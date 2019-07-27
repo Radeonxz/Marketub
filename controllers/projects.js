@@ -17,7 +17,7 @@ const projectModel = ProjectM.getProjectModel();
 const query_resp = new Query_Resp();
 
 /********************** CRUD Project **********************/
-// Get paoject
+// Get project
 // const getProjectSchema = {
 // 	options: {
 //     allowUnknownBody: false,
@@ -35,7 +35,7 @@ getProject = (req, res) => {
   const project_id = req.params.id;
   const query = {project_id: project_id};
   console.log('res.locals.clientIp is', res.locals.clientIp);
-
+  console.log('req.user is', req.user);
   (async () => {
     try{
       const projectDB = await projectModel.findOne(query);

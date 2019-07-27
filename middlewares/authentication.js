@@ -1,3 +1,5 @@
+const moduleName = 'authentication';
+
 const path = require('path');
 const jwt = require('jsonwebtoken');
 
@@ -8,20 +10,22 @@ const auth = (req, res, next) => {
 
   // Check for token
   if(!token) {
-    config.err_400.data.message = 'No token provided, access denied';
-    return res.status(401).json(config.err_400.data);
+    const message = 'No token provided, access denied';
+    return res.status(401).json(message);
   }
 
   try{
     // Verify token
-    const decoded = jwt.verify(token, config.JWTSecret);
+    const decoded = jwt.verify(token, config.JWT.JWTSecret);
+    delete decoded.iat;
+    delete decoded.exp;
     // Add user from payload
     req.user = decoded;
     next();
   } catch(e) {
-    config.err_400.data.message = 'Token is not valid';
-    res.status(400).json(config.err_400);
+    const message = 'Token is not valid';
+    res.status(400).json(message);
   }
-}
+};
 
 module.exports = auth;
