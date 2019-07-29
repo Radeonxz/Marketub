@@ -21,6 +21,7 @@ const auth = (req, res, next) => {
     delete decoded.exp;
     // Add user from payload
     req.user = decoded;
+    res.locals.client.user = decoded;
     next();
   } catch(e) {
     const message = 'Token is not valid';

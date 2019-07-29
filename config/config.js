@@ -31,6 +31,12 @@ config.activation = {
   'code': process.env.ACTIVATION
 }
 
+config.nodemailer = {
+  'service': process.env.MAILER_SERVICE_PROVIDER || 'Gmail',
+  'email': process.env.MAILER_SERVICE_USER,
+  'password': process.env.MAILER_SERVICE_PASS,
+}
+
 config.mongodb = {
   'schemaOptions': {
     autoIndex: true,

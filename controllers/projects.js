@@ -34,7 +34,7 @@ getProject = (req, res) => {
  
   const project_id = req.params.id;
   const query = {project_id: project_id};
-  console.log('res.locals.clientIp is', res.locals.clientIp);
+  console.log('res.locals.clientIp is', res.locals.client.ip);
   console.log('req.user is', req.user);
   (async () => {
     try{
