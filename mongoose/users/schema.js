@@ -21,9 +21,9 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   github_link: { type: String, default: null, required: false },
   projects_array: { type: [projrctsArrSchema], required: false },
-  is_first_login: { type: Boolean, default: true, required: true },
-  first_login_token: { type: String, default: null, required: false, unique: true },
-  first_login_expires: { type: Date, default: null, required: false },
+  email_confirmed: { type: Boolean, default: false, required: true },
+  email_confirm_token: { type: String, default: null, required: false, unique: true },
+  email_confirm_expires: { type: Date, default: null, required: false },
   reset_password_token: { type: String, default: null, required: false, unique: true },
   reset_password_expires: { type: Date, default: null, required: false }
 }, userOptions);

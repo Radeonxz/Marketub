@@ -49,7 +49,7 @@ loginUser = (req, res) => {
         'token': token,
       };
 
-      if(userDB.is_first_login === true) {
+      if(userDB.email_confirmed === false) {
         const str = `Please activate account by confirming your email address`;
         StatusErr.data.details = str;
         StatusErr.data.token = token;
@@ -99,8 +99,8 @@ getActivation = (req, res) => {
       }
 
       const tempJWT = await UserM.genTempJWT();
-      userDB.first_login_token = tempJWT.token;
-      userDB.first_login_expires = tempJWT.expires;
+      userDB.email_confirm_token = tempJWT.token;
+      userDB.email_confirm_expires = tempJWT.expires;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp, tempJWT.token);
       const mailRes = await UserM.sendResetTokenMail(mailObj);
@@ -127,6 +127,71 @@ getActivation = (req, res) => {
 };
 
 exports.getActivation = getActivation;
+
+// Activate user
+const userActivateSchema = {
+	options: {
+    allowUnknownBody: false,
+    allowUnknownQuery: false
+	},
+	body: {
+    token: joi.string().required()
+	}
+};
+exports.userActivateSchema = userActivateSchema;
+
+userActivate = (req, res) => {
+  const fctName = moduleName + 'userActivate ';
+
+  const mailTemp = res.locals.client.route;
+  const { token } = req.body;
+  const query = {
+    email_confirm_token: token,
+    email_confirm_expires: {
+      $gt: Date.now()
+    }
+  };
+
+  (async () => {
+    try{
+      const userDB = await userModel.findOne(query);
+      if(!userDB) {
+        const str = 'Token is invalid or expired';
+        StatusErr.data.details = str;
+        StatusErr.data.code = 404;
+        return res.status(404).json(StatusErr);
+      }
+
+      userDB.email_confirm_token = null;
+      userDB.email_confirm_expires = null;
+      await userDB.save();
+      const mailObj = UserM.buildMailObj(userDB, mailTemp);
+      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      const token = await UserM.generateJWT(userDB.user_id);
+      const respData = {
+        'token': token,
+        'response': mailRes.response,
+        'user': {
+          'user_id': userDB.user_id,
+          'username': userDB.username,
+          'email': userDB.email,
+        },
+        'affected': 1
+      };
+
+      const query_response = query_resp.buildQueryRespA({'data': respData});
+      return res.status(200).json(query_response);
+    } catch(err) {
+      const str = 'userDB.update err: ' + err.message;
+      console.error(fctName + str);
+      StatusErr.data.details = str;
+      StatusErr.data.affected = 0;
+      return res.status(403).json(StatusErr);
+    }
+  })();
+}
+
+exports.userActivate = userActivate;
 
 // Register user
 const registerUserSchema = {

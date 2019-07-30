@@ -6,7 +6,7 @@ const hbs = require('nodemailer-express-handlebars');
 
 const config = require(path.join(__base, 'config/config'));
 
-const nodemailerSetup = (template) => {
+exports.nodemailerSetup = (template) => {
   const smtpTransport = nodemailer.createTransport({
     service: config.nodemailer.service,
     auth: {
@@ -28,5 +28,3 @@ const nodemailerSetup = (template) => {
   smtpTransport.use('compile', hbs(handlebarsOptions));
   return smtpTransport;
 };
-
-exports.nodemailerSetup = nodemailerSetup;

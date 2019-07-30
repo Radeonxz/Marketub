@@ -91,9 +91,13 @@ function Users() {
         break;
 
       case 'get_activation':
-          subject = 'Activate account';
-          url = `http://localhost:5555/auth/activate?token=${token}`;
-          break;
+        subject = 'Activate account';
+        url = `http://localhost:5555/auth/activate?token=${token}`;
+        break;
+
+      case 'activate':
+        subject = 'Email confirmed';
+        break;
       
       case 'forgot_password':
         subject = 'Change password';
