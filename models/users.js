@@ -23,13 +23,17 @@ function Users() {
     const code = config.activation.code;
     this.checkPassword(req.password, req.password_confirm);
     if(req.activation !== code) {
-      throw Error(`Please provide your activation code.`);
+      throw Error(`Invalid activation code.`);
     }
 
     const userModel = this.getUserModel();
     const userNM = new userModel(req);
+    if(req.role_id) {
+      userNM.account_info.role_id = req.role_id;
+    }
+
     // userNM.user_id = uuidv4();
-    userNM.user_id = 111;
+    userNM.account_info.user_id = 111;
     return userNM;
   };
 
@@ -55,8 +59,8 @@ function Users() {
   this.generateJWT = user => {
     const JWTSecret = config.JWT.JWTSecret;
     const jwtOptions = {
-      user_id: user.user_id,
-      is_first_login: user.is_first_login,
+      account_info: user.account_info,
+      email_confirmed: user.account_status.email_confirmed
     }
     return new Promise((resolve, reject) => {
       jwt.sign(jwtOptions, JWTSecret, { expiresIn: 3600 }, (err, token) => {

@@ -87,52 +87,52 @@ getAllUsers = (req, res) => {
 
 exports.getAllUsers = getAllUsers;
 
-// Post user
-const postUserSchema = {
+// Delete user
+const deleteUserSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
 	},
-	body: {
-    username: joi.string().required(),
-    email: joi.string().email().required(),
-    password: joi.string().required(),
-    password_confirm: joi.string().required(),
+	query: {
+    user_id: joi.string().required(),
+    email: joi.string().email().required()
 	}
 };
-exports.postUserSchema = postUserSchema;
+exports.deleteUserSchema = deleteUserSchema;
 
-postUser = (req, res) => {
-  const fctName = moduleName + 'postUser ';
+deleteUser = (req, res) => {
+  const fctName = moduleName + 'deleteUser ';
  
-  const userNM = UserM.addUser(req.body);
-  const user_id = userNM.user_id;
+  const user_id = req.query.user_id;
+  const email = req.query.email;
+
+  const query = {email: email, user_id: user_id};
 
   (async () => {
     try{
-      userNM.password = await UserM.hashPassword(userNM.password);
-      await userNM.save();
-      const token = await UserM.generateJWT(user_id);
+      const userDB = await userModel.findOne(query);
+      if(!userDB) {
+        const str = `user_id: ${user_id} with user's emai: ${email} not found`;
+        StatusErr.data.details = str;
+        StatusErr.data.code = 404;
+        return res.status(404).json(StatusErr);
+      }
+
+      await userModel.findOneAndRemove(query);
       const respData = {
-        'token': token,
-        'user': {
-          'user_id': user_id,
-          'username': req.body.username,
-          'email': req.body.email,
-        },
+        'user_id': user_id,
         'affected': 1
       };
 
       const query_response = query_resp.buildQueryRespA({'data': respData});
       return res.status(200).json(query_response);
     } catch(err) {
-      const str = 'userNM.save err: ' + err.message;
+      const str = 'userModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
-      StatusErr.data.affected = 0;
-      return res.status(403).json(StatusErr);
+      return res.status(403).json(err);
     }
   })();
 }
 
-exports.postUser = postUser;
+exports.deleteUser = deleteUser;

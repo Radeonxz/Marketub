@@ -49,7 +49,7 @@ loginUser = (req, res) => {
         'token': token,
       };
 
-      if(userDB.email_confirmed === false) {
+      if(userDB.account_status.email_confirmed === false) {
         const str = `Please activate account by confirming your email address`;
         StatusErr.data.details = str;
         StatusErr.data.token = token;
@@ -83,10 +83,10 @@ exports.getActivationSchema = getActivationSchema;
 
 getActivation = (req, res) => {
   const fctName = moduleName + 'getActivation ';
-
-  const mailTemp = res.locals.client.route;
-  const user_id = res.locals.client.user.user_id;
-  const query = {user_id: user_id};
+  console.log('req.client', req.client);
+  const mailTemp = req.client.route;
+  const user_id = req.client.user.account_info.user_id;
+  const query = {'account_info.user_id': user_id};
 
   (async () => {
     try{
@@ -99,18 +99,15 @@ getActivation = (req, res) => {
       }
 
       const tempJWT = await UserM.genTempJWT();
-      userDB.email_confirm_token = tempJWT.token;
-      userDB.email_confirm_expires = tempJWT.expires;
+      userDB.account_status.email_confirm_token = tempJWT.token;
+      userDB.account_status.email_confirm_expires = tempJWT.expires;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp, tempJWT.token);
       const mailRes = await UserM.sendResetTokenMail(mailObj);
       const respData = {
         'response': mailRes.response,
-        'user': {
-          'user_id': userDB.user_id,
-          'username': userDB.username,
-          'email': userDB.email,
-        },
+        'tempToken': tempJWT.token,
+        'account_info': userNM.account_info,
         'affected': 0
       };
 
@@ -143,11 +140,11 @@ exports.userActivateSchema = userActivateSchema;
 userActivate = (req, res) => {
   const fctName = moduleName + 'userActivate ';
 
-  const mailTemp = res.locals.client.route;
+  const mailTemp = req.client.route;
   const { token } = req.body;
   const query = {
-    email_confirm_token: token,
-    email_confirm_expires: {
+    'account_status.email_confirm_token': token,
+    'account_status.email_confirm_expires': {
       $gt: Date.now()
     }
   };
@@ -162,20 +159,17 @@ userActivate = (req, res) => {
         return res.status(404).json(StatusErr);
       }
 
-      userDB.email_confirm_token = null;
-      userDB.email_confirm_expires = null;
+      userDB.account_status.email_confirm_token = null;
+      userDB.account_status.email_confirm_expires = null;
+      userDB.account_status.email_confirmed = true;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp);
       const mailRes = await UserM.sendResetTokenMail(mailObj);
-      const token = await UserM.generateJWT(userDB.user_id);
+      const token = await UserM.generateJWT(userDB);
       const respData = {
         'token': token,
         'response': mailRes.response,
-        'user': {
-          'user_id': userDB.user_id,
-          'username': userDB.username,
-          'email': userDB.email,
-        },
+        'account_info': userNM.account_info,
         'affected': 1
       };
 
@@ -201,6 +195,7 @@ const registerUserSchema = {
 	},
 	body: {
     username: joi.string().required(),
+    role_id: joi.number(),
     email: joi.string().email().required(),
     activation: joi.string().required(),
     password: joi.string().required(),
@@ -211,21 +206,23 @@ exports.registerUserSchema = registerUserSchema;
 
 registerUser = (req, res) => {
   const fctName = moduleName + 'registerUser ';
+  const mailTemp = req.client.route;
 
   (async () => {
     try{
       const userNM = UserM.addUser(req.body);
-      const user_id = userNM.user_id;
       userNM.password = await UserM.hashPassword(userNM.password);
+      const tempJWT = await UserM.genTempJWT();
+      userNM.account_status.email_confirm_token = tempJWT.token;
+      userNM.account_status.email_confirm_expires = tempJWT.expires;
       await userNM.save();
-      const token = await UserM.generateJWT(user_id);
+      const mailObj = UserM.buildMailObj(userNM, mailTemp, tempJWT.token);
+      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      const token = await UserM.generateJWT(userNM);
       const respData = {
         'token': token,
-        'user': {
-          'user_id': user_id,
-          'username': req.body.username,
-          'email': req.body.email,
-        },
+        'response': mailRes.response,
+        'account_info': userNM.account_info,
         'affected': 1
       };
 
@@ -258,7 +255,7 @@ exports.forgotPasswordSchema = forgotPasswordSchema;
 forgotPassword = (req, res) => {
   const fctName = moduleName + 'forgotPassword ';
  
-  const mailTemp = res.locals.client.route;
+  const mailTemp = req.client.route;
   const { email } = req.body;
   const query = {email: email};
 
@@ -273,8 +270,8 @@ forgotPassword = (req, res) => {
       }
 
       const tempJWT = await UserM.genTempJWT();
-      userDB.reset_password_token = tempJWT.token;
-      userDB.reset_password_expires = tempJWT.expires;
+      userDB.account_status.reset_password_token = tempJWT.token;
+      userDB.account_status.reset_password_expires = tempJWT.expires;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp, tempJWT.token);
       const mailRes = await UserM.sendResetTokenMail(mailObj);
@@ -320,11 +317,11 @@ exports.resetPasswordSchema = resetPasswordSchema;
 resetPassword = (req, res) => {
   const fctName = moduleName + 'resetPassword ';
  
-  const mailTemp = res.locals.client.route;
+  const mailTemp = req.client.route;
   const { token, password, password_confirm } = req.body;
   const query = {
-    reset_password_token: token,
-    reset_password_expires: {
+    'account_status.reset_password_token': token,
+    'account_status.reset_password_expires': {
       $gt: Date.now()
     }
   };
@@ -341,8 +338,8 @@ resetPassword = (req, res) => {
 
       UserM.checkPassword(password, password_confirm);
       userDB.password = await UserM.hashPassword(password);
-      userDB.reset_password_token = null;
-      userDB.reset_password_expires = null;
+      userDB.account_status.reset_password_token = null;
+      userDB.account_status.reset_password_expires = null;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp);
       const mailRes = await UserM.sendResetTokenMail(mailObj);

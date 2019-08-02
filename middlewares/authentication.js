@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const config = require(path.join(__base, 'config/config'));
 
-const auth = (req, res, next) => {
+const authn = (req, res, next) => {
   const token = req.header('x-auth-token');
 
   // Check for token
@@ -19,9 +19,9 @@ const auth = (req, res, next) => {
     const decoded = jwt.verify(token, config.JWT.JWTSecret);
     delete decoded.iat;
     delete decoded.exp;
+
     // Add user from payload
-    req.user = decoded;
-    res.locals.client.user = decoded;
+    req.client.user = decoded;
     next();
   } catch(e) {
     const message = 'Token is not valid';
@@ -29,4 +29,4 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = authn;
