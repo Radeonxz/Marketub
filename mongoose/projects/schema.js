@@ -10,9 +10,10 @@ const projectOptions = config.mongodb.schemaOptions;
 
 const projectSchema = new Schema({
   owner_id: { type: Number, required: true },
+  project_id: { type: Number, required: true },
   name: [{ type: String, required: true }],
   description: [{ type: String, required: true }],
-  skill_sets: [{ type: String, required: true }],
+  skill_sets: [{ type: String, default: [], required: false }],
   timestamp: { type: String, required: true },
   site_link: { type: String, default: null, required: false },
   github_link: { type: String, default: null, required: false },

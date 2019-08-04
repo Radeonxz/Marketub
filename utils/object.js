@@ -23,6 +23,7 @@ _objectIdDel = ObjectWithId => {
       delete ObjectWithId.__v;
       ObjectWithId.password ? delete ObjectWithId.password : null;
       ObjectWithId.email ? delete ObjectWithId.email : null;
+      ObjectWithId.account_status ? delete ObjectWithId.account_status : null;
         
       for (var key in ObjectWithId) {
         //recursive del calls on object elements

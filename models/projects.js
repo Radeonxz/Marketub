@@ -14,6 +14,14 @@ function Projects() {
   this.getProjectModel = () => {
 	  return mongoose.model('Project', projectSchema);
   };
+
+  this.addProject = (req, owner_id) => {
+    const projectModel = this.getProjectModel();
+    const projectNM = new projectModel(req);
+    projectNM.owner_id = owner_id;
+    projectNM.project_id = 111;
+    return projectNM;
+  };
 }
 
 module.exports = Projects;
