@@ -5,6 +5,7 @@ const auths = require(path.join(__base, 'controllers/auths'));
 const Authn = require(path.join(__base, 'middlewares/authentication'));
 
 const setup = app => {
+    app.get('/api/auth/user', Authn, auths.getUser);
     app.post('/api/auth/login', validate(auths.loginUserSchema), auths.loginUser);
     app.get('/api/auth/get_activation', Authn, validate(auths.getActivationSchema), auths.getActivation);
     app.post('/api/auth/activate', validate(auths.userActivateSchema), auths.userActivate);

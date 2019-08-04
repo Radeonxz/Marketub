@@ -14,6 +14,37 @@ const userModel = UserM.getUserModel();
 // Response model
 const query_resp = new Query_Resp();
 
+// Get user
+getUser = (req, res) => {
+  const fctName = moduleName + 'getUser ';
+
+  const user_id = req.client.user.account_info.user_id;
+  const query = {user_id: user_id};
+
+  (async () => {
+    try{
+      const userDB = await userModel.findOne(query);
+      if(!userDB) {
+        const str = `User_id: ${user_id} not found`;
+        StatusErr.data.details = str;
+        StatusErr.data.code = 404;
+        return res.status(404).json(StatusErr);
+      }
+
+      const query_response = query_resp.buildQueryRespA({'data': userDB});
+      return res.status(200).json(query_response);
+    } catch(err) {
+      const str = `userDB.find err: ${err.message}`;
+      console.error(fctName + str);
+      StatusErr.data.details = str;
+      StatusErr.data.affected = 0;
+      return res.status(403).json(StatusErr);
+    }
+  })();
+};
+
+exports.getUser = getUser;
+
 // Login user
 const loginUserSchema = {
 	options: {
