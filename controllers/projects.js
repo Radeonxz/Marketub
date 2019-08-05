@@ -7,11 +7,16 @@ const joi = require('joi');
 
 require(path.join(__base, 'utils/object'));
 const Projects = require(path.join(__base, 'models/projects'));
+const Users = require(path.join(__base, 'models/users'));
 const Query_Resp = require(path.join(__base, 'models/query_response'));
 
 // Project model
 const ProjectM = new Projects();
 const projectModel = ProjectM.getProjectModel();
+
+// User model
+const UserM = new Users();
+const userModel = UserM.getUserModel();
 
 // Response model
 const query_resp = new Query_Resp();
@@ -62,7 +67,7 @@ const postProjectSchema = {
     timestamp: joi.string(),
     site_link: joi.string(),
     github_link: joi.string()
-	}
+  }
 };
 exports.postProjectSchema = postProjectSchema;
 
@@ -70,13 +75,35 @@ postProject = (req, res) => {
   const fctName = moduleName + 'postProject ';
 
   const owner_id = req.client.user.account_info.user_id;
+  const query = {'account_info.user_id': owner_id};
 
   (async () => {
     try{
-      const projectNM = ProjectM.addProject(req.body, owner_id);
+      if(req.file === undefined) {
+        throw Error(`File with extension not allowed.`);
+      }
+
+      const userDB = await userModel.findOne(query);
+      if(!userDB) {
+        const str = 'user_id: ' + owner_id + ' not found';
+        StatusErr.data.details = str;
+        StatusErr.data.code = 404;
+        return res.status(404).json(StatusErr);
+      }
+
+      const projectNM = ProjectM.addProject(req.body, req.file, owner_id);
+      console.log('userDB is', userDB);
+      const id = projectNM.project_id;
+      console.log('id is', id);
+      userDB.projects_array.push(id);
       await projectNM.save();
+      console.log('projectNM is', projectNM);
+      console.log('userDB is', userDB);
+      await userDB.save();
+      
       const respData = {
-        'project_id': projectNM.project_id,
+        'project_id': id,
+        'user_id': owner_id,
         'affected': 1
       };
 

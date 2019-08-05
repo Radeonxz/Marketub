@@ -15,6 +15,9 @@ const app = express();
 app.set('port', config.server.port);
 app.set('mongoURL', config.mongodb.url);
 
+// Init static upload folder
+app.use('/uploads', express.static('uploads'));
+
 // Init body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

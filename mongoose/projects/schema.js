@@ -17,7 +17,7 @@ const projectSchema = new Schema({
   timestamp: { type: String, required: true },
   site_link: { type: String, default: null, required: false },
   github_link: { type: String, default: null, required: false },
-  image: { data: Buffer, contentType: String },
+  screenshot: { type: String, required: false },
   likes: [{ type: String, default: [], required: false }],
 }, projectOptions);
 projectSchema.plugin(plugins.modifiedOn);

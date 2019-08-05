@@ -19,9 +19,11 @@ import { clearErrors } from '../../actions/errorActions';
 class RegisterModal extends Component {
   state = {
     modal: false,
-    name: '',
+    username: '',
     email: '',
     password: '',
+    password_confirm: '',
+    activation: '',
     msg: null
   }
 
@@ -66,13 +68,15 @@ class RegisterModal extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { name, email, password } = this.state;
+    const { username, email, password, password_confirm, activation } = this.state;
 
     // Create user object
     const newUser = {
-      name,
+      username,
       email,
-      password
+      password,
+      password_confirm,
+      activation
     };
 
     // Attempt to register
@@ -96,12 +100,12 @@ class RegisterModal extends Component {
 
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='name'>Name</Label>
+                <Label for='username'>Username</Label>
                 <Input
                   type='text'
-                  name='name'
+                  name='username'
                   id='name'
-                  placeholder='Name'
+                  placeholder='Username'
                   className='mb-3'
                   onChange={this.onChange}
                 />
@@ -122,6 +126,26 @@ class RegisterModal extends Component {
                   name='password'
                   id='password'
                   placeholder='Password'
+                  className='mb-3'
+                  onChange={this.onChange}
+                />
+
+                <Label for='password_confirm'>Confirm Password</Label>
+                <Input
+                  type='password'
+                  name='password_confirm'
+                  id='password_confirm'
+                  placeholder='Confirm Password'
+                  className='mb-3'
+                  onChange={this.onChange}
+                />
+
+                <Label for='password_confirm'>Activation</Label>
+                <Input
+                  type='text'
+                  name='activation'
+                  id='activation'
+                  placeholder='Activation Code'
                   className='mb-3'
                   onChange={this.onChange}
                 />
