@@ -6,7 +6,6 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Container
 } from 'reactstrap';
 import { connect } from 'react-redux';
@@ -37,7 +36,7 @@ class AppNavbar extends Component {
       <Fragment>
         <NavItem>
           <span className='navbar-text mr-3'>
-            <strong>{ user ? `Welcome back, ${user.name}` : null }</strong>
+            <strong>{ user ? `Welcome back, ${user.username}` : null }</strong>
           </span>
         </NavItem>
         <NavItem>

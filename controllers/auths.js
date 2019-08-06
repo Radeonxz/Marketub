@@ -19,7 +19,7 @@ getUser = (req, res) => {
   const fctName = moduleName + 'getUser ';
 
   const user_id = req.client.user.account_info.user_id;
-  const query = {user_id: user_id};
+  const query = {'account_info.user_id': user_id};
 
   (async () => {
     try{
@@ -77,7 +77,12 @@ loginUser = (req, res) => {
       await UserM.comparePass(password, userDB.password);
       const token = await UserM.generateJWT(userDB);
       const respData = {
-        'token': token,
+        token,
+        user: {
+          id: userDB.account_info.user_id,
+          name: userDB.username,
+          email: userDB.email
+        }
       };
 
       if(userDB.account_status.email_confirmed === false) {

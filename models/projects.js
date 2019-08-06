@@ -15,11 +15,12 @@ function Projects() {
 	  return mongoose.model('Project', projectSchema);
   };
 
-  this.addProject = (req, owner_id) => {
+  this.addProject = (req, file, owner_id) => {
     const projectModel = this.getProjectModel();
     const projectNM = new projectModel(req);
     projectNM.owner_id = owner_id;
     projectNM.project_id = 111;
+    projectNM.screenshot = file.path;
     return projectNM;
   };
 }

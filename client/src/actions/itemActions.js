@@ -21,8 +21,21 @@ export const getItems = () => dispatch => {
   );
 };
 
+// export const getProject = () => dispatch => {
+//   dispatch(setItemsLoading);
+//   axios.get(`/api/project/${id}`)
+//   .then(res =>
+//     dispatch({
+//       type: GET_ITEM,
+//       payload: res.data
+//     }))
+//   .catch(err =>
+//     dispatch(returnErrors(err.response.data, err.response.status))
+//   );
+// };
+
 export const addItem = item => (dispatch, getState) => {
-  axios.post('/api/items', item, tokenConfig(getState))
+  axios.post('/api/project', item, tokenConfig(getState))
   .then(res =>
     dispatch({
       type: ADD_ITEM,

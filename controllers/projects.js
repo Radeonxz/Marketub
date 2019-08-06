@@ -7,11 +7,16 @@ const joi = require('joi');
 
 require(path.join(__base, 'utils/object'));
 const Projects = require(path.join(__base, 'models/projects'));
+const Users = require(path.join(__base, 'models/users'));
 const Query_Resp = require(path.join(__base, 'models/query_response'));
 
 // Project model
 const ProjectM = new Projects();
 const projectModel = ProjectM.getProjectModel();
+
+// User model
+const UserM = new Users();
+const userModel = UserM.getUserModel();
 
 // Response model
 const query_resp = new Query_Resp();
@@ -56,13 +61,15 @@ const postProjectSchema = {
     allowUnknownQuery: false
 	},
 	body: {
-    name: joi.array().items(joi.string().required(), joi.string()).required(),
-    description: joi.array().items(joi.string().required(), joi.string()).required(),
-    skill_sets: joi.array(),
+    // name: joi.array().items(joi.string().required(), joi.string()).required(),
+    name: joi.string().required(),
+    // description: joi.array().items(joi.string().required(), joi.string()).required(),
+    description: joi.string().required(),
+    skill_sets: joi.string(),
     timestamp: joi.string(),
     site_link: joi.string(),
     github_link: joi.string()
-	}
+  }
 };
 exports.postProjectSchema = postProjectSchema;
 
@@ -70,13 +77,32 @@ postProject = (req, res) => {
   const fctName = moduleName + 'postProject ';
 
   const owner_id = req.client.user.account_info.user_id;
+  const query = {'account_info.user_id': owner_id};
 
   (async () => {
     try{
-      const projectNM = ProjectM.addProject(req.body, owner_id);
+      if(req.file === undefined) {
+        throw Error(`File with extension not allowed.`);
+      }
+
+      const userDB = await userModel.findOne(query);
+      if(!userDB) {
+        const str = 'user_id: ' + owner_id + ' not found';
+        StatusErr.data.details = str;
+        StatusErr.data.code = 404;
+        return res.status(404).json(StatusErr);
+      }
+
+      const projectNM = ProjectM.addProject(req.body, req.file, owner_id);
+      const id = projectNM.project_id;
+      userDB.projects_array.push({project_id: id});
+
       await projectNM.save();
+      await userDB.save();
+      
       const respData = {
-        'project_id': projectNM.project_id,
+        'project_id': id,
+        'user_id': owner_id,
         'affected': 1
       };
 
