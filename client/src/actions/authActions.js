@@ -19,7 +19,7 @@ export const loadUser = () => (dispatch, getState) => {
   axios.get('/api/auth/user', tokenConfig(getState))
   .then(res => dispatch({
     type: USER_LOADED,
-    payload: res.data
+    payload: res.data.data
   }))
   .catch(err => {
     dispatch(returnErrors(err.response.data, err.response.status));
@@ -69,7 +69,7 @@ export const login = ({ email, password }) => dispatch => {
   axios.post('/api/auth/login', body, config)
   .then(res => dispatch({
     type: LOGIN_SUCCESS,
-    payload: res.data
+    payload: res.data.data
   }))
   .catch(err => {
     dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
@@ -91,7 +91,6 @@ export const logout = () => {
 export const tokenConfig = getState => {
   // Get token from localstorage
   const token = getState().auth.token;
-
   // Headers
   const config = {
     headers: {

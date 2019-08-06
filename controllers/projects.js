@@ -61,9 +61,11 @@ const postProjectSchema = {
     allowUnknownQuery: false
 	},
 	body: {
-    name: joi.array().items(joi.string().required(), joi.string()).required(),
-    description: joi.array().items(joi.string().required(), joi.string()).required(),
-    skill_sets: joi.array(),
+    // name: joi.array().items(joi.string().required(), joi.string()).required(),
+    name: joi.string().required(),
+    // description: joi.array().items(joi.string().required(), joi.string()).required(),
+    description: joi.string().required(),
+    skill_sets: joi.string(),
     timestamp: joi.string(),
     site_link: joi.string(),
     github_link: joi.string()
@@ -92,13 +94,10 @@ postProject = (req, res) => {
       }
 
       const projectNM = ProjectM.addProject(req.body, req.file, owner_id);
-      console.log('userDB is', userDB);
       const id = projectNM.project_id;
-      console.log('id is', id);
-      userDB.projects_array.push(id);
+      userDB.projects_array.push({project_id: id});
+
       await projectNM.save();
-      console.log('projectNM is', projectNM);
-      console.log('userDB is', userDB);
       await userDB.save();
       
       const respData = {

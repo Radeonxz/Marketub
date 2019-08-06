@@ -4,11 +4,11 @@ const path = require('path');
 
 const multer = require('multer');
 
-let folderPath = path.join(__base, 'uploads/');
+const folderPath = path.join(__base, 'uploads');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    folderPath = req.client.is_admin === true ? `${folderPath}admin/` : folderPath;
-    cb(null, folderPath);
+    const savePath = req.client.is_admin === true ? `${folderPath}/admin/` : `${folderPath}/public/`;
+    cb(null, savePath);
   },
   filename: (req, file, cb) => {
     cb(null, new Date().toISOString() + file.originalname);
@@ -18,12 +18,8 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const fileTypeArr = ['image/jpeg', 'image/jpg', 'image/png']
   if (fileTypeArr.includes(file.mimetype)) {
-    // req.client.is_file = true;
-    console.log('yyy');
     cb(null, true);
   } else {
-    // req.client.is_file = false;
-    console.log('nnn');
     cb(null, false);
   }
 };

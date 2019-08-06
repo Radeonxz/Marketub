@@ -105,7 +105,7 @@ class RegisterModal extends Component {
                   type='text'
                   name='username'
                   id='name'
-                  placeholder='Username'
+                  placeholder='Required'
                   className='mb-3'
                   onChange={this.onChange}
                 />
@@ -115,7 +115,7 @@ class RegisterModal extends Component {
                   type='email'
                   name='email'
                   id='email'
-                  placeholder='Email'
+                  placeholder='Required'
                   className='mb-3'
                   onChange={this.onChange}
                 />
@@ -125,7 +125,7 @@ class RegisterModal extends Component {
                   type='password'
                   name='password'
                   id='password'
-                  placeholder='Password'
+                  placeholder='Required'
                   className='mb-3'
                   onChange={this.onChange}
                 />
@@ -135,7 +135,7 @@ class RegisterModal extends Component {
                   type='password'
                   name='password_confirm'
                   id='password_confirm'
-                  placeholder='Confirm Password'
+                  placeholder='Required'
                   className='mb-3'
                   onChange={this.onChange}
                 />
@@ -145,7 +145,7 @@ class RegisterModal extends Component {
                   type='text'
                   name='activation'
                   id='activation'
-                  placeholder='Activation Code'
+                  placeholder='Optional'
                   className='mb-3'
                   onChange={this.onChange}
                 />

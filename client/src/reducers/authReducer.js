@@ -52,8 +52,7 @@ export default function(state = initialState, action) {
         token: null,
         user: null,
         isAuthenticated: false,
-        isLoading: false,
-        user: action.payload
+        isLoading: false
       };
     
     default:

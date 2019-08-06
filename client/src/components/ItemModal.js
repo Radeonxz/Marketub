@@ -36,26 +36,28 @@ class ItemModal extends Component {
   };
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    if(e.target.name === 'screenshot') {
+      this.setState({ screenshot: e.target.files[0] });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   };
 
   onSubmit = e => {
     e.preventDefault();
 
     const { name, description, skill_sets, timestamp, site_link, github_link, screenshot } =this.state;
-
-    const newProject = {
-      name,
-      description,
-      skill_sets,
-      timestamp,
-      site_link,
-      github_link,
-      screenshot
-    }
+    const fd = new FormData();
+    fd.append('name', name);
+    fd.append('description', description);
+    fd.append('skill_sets', skill_sets);
+    fd.append('timestamp', timestamp);
+    fd.append('site_link', site_link);
+    fd.append('github_link', github_link);
+    fd.append('screenshot', screenshot, screenshot.name);
 
     //add item via addItem action
-    this.props.addItem(newProject);
+    this.props.addItem(fd);
 
     //close modal
     this.toggle();
@@ -82,7 +84,7 @@ class ItemModal extends Component {
                   type='text'
                   name='name'
                   id='item'
-                  placeholder='Name'
+                  placeholder='Required'
                   onChange={this.onChange}
                 />
 
@@ -91,7 +93,7 @@ class ItemModal extends Component {
                   type='text'
                   name='description'
                   id='description'
-                  placeholder='Description'
+                  placeholder='Required'
                   onChange={this.onChange}
                 />
 
@@ -100,7 +102,7 @@ class ItemModal extends Component {
                   type='text'
                   name='skill_sets'
                   id='skill_sets'
-                  placeholder='Skill Sets'
+                  placeholder='Optional'
                   onChange={this.onChange}
                 />
 
@@ -109,7 +111,7 @@ class ItemModal extends Component {
                   type='text'
                   name='timestamp'
                   id='timestamp'
-                  placeholder='Created At'
+                  placeholder='Required'
                   onChange={this.onChange}
                 />
 
@@ -118,7 +120,7 @@ class ItemModal extends Component {
                   type='text'
                   name='site_link'
                   id='site_link'
-                  placeholder='Site Link'
+                  placeholder='Optional'
                   onChange={this.onChange}
                 />
 
@@ -127,16 +129,16 @@ class ItemModal extends Component {
                   type='text'
                   name='github_link'
                   id='github_link'
-                  placeholder='Github Repo'
+                  placeholder='Optional'
                   onChange={this.onChange}
                 />
 
                 <Label for='item'>Screenshot</Label>
                 <Input
-                  type='text'
+                  type='file'
                   name='screenshot'
                   id='screenshot'
-                  placeholder='Screenshot'
+                  placeholder='Optional'
                   onChange={this.onChange}
                 />
                 <Button

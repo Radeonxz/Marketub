@@ -20,7 +20,7 @@ function Projects() {
     const projectNM = new projectModel(req);
     projectNM.owner_id = owner_id;
     projectNM.project_id = 111;
-    projectNM.image = file.path;
+    projectNM.screenshot = file.path;
     return projectNM;
   };
 }
