@@ -11,7 +11,11 @@ const storage = multer.diskStorage({
     cb(null, savePath);
   },
   filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + file.originalname);
+    if(req.client.is_admin === true) {
+      cb(null, file.originalname);
+    } else {
+      cb(null, new Date().toISOString() + file.originalname);
+    }
   }
 });
 
