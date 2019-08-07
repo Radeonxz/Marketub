@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import {
   Container,
-  ListGroup,
-  ListGroupItem,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  CardText,
   Button
 } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getUsers, getUser } from '../actions/userActions';
 import PropTypes from 'prop-types';
@@ -24,7 +28,7 @@ class UsersList extends Component {
     console.log('this.props is', this.props);
   }
 
-  onDeleteClick = id => {
+  onFetchUserClick = id => {
     this.props.getUser(id);
   }
 
@@ -33,24 +37,34 @@ class UsersList extends Component {
     const { users } = this.props.user;
     return(
       <Container>
-        <ListGroup>
-          <TransitionGroup className="users-list">
-            {users.map(({ _id, name }) => (
-              <CSSTransition key={_id} timeout={500} classNames="fade">
-                <ListGroupItem>
-                { this.props.isAuthenticated ? <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={this.onDeleteClick.bind(this, _id)}
-                  >&times;</Button> : null }
-                  
-                  {name}
-                </ListGroupItem>
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
-        </ListGroup>
+        <Row>
+          {users.map(({ _id, name }) => (
+            // <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <Col lg='3' md='4' sm='6'>
+              <Card>
+                <CardBody>
+                  <Row>
+                    <Col sm='5'>
+                      <img width='100%' src='https://randomuser.me/api/portraits/lego/2.jpg' alt='Avatar' />
+                    </Col>
+                    <Col sm='7'>
+                      <CardTitle className='allusers-card-title'><strong>{name}</strong></CardTitle>
+                      <CardText className='allusers-card-text'>Popularity: 199</CardText>
+                    </Col>
+                  </Row>
+                </CardBody>
+                <CardFooter className='text-center'>
+                  <Button
+                    className='projects-btn'
+                    color='info'
+                    size='sm'
+                    onClick={this.onFetchUserClick.bind(this, _id)}
+                  >More Projects</Button>
+                </CardFooter>
+              </Card>
+            </Col>
+          ))}
+       </Row>
       </Container>
     );
   }
