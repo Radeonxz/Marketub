@@ -20,6 +20,7 @@ const config = {};
 // };
 
 config.server = {
+  'host': 'http://localhost',
   'port': process.env.PORT || 5000
 };
 

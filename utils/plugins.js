@@ -21,7 +21,7 @@ const updTime = context => {
 	context.created_at = currentDate;    
 }
 
-const modifiedOn = (schema, options) => {
+exports.modifiedOn = (schema, options) => {
   schema.add({'created_at': { type: Date}});
   schema.add({'updated_at': { type: Date}});
 
@@ -30,4 +30,3 @@ const modifiedOn = (schema, options) => {
     next();
   });    
 }
-exports.modifiedOn = modifiedOn;

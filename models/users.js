@@ -12,7 +12,7 @@ require(path.join(__base, 'utils/object'));
 const userSchema = require(path.join(__base, 'mongoose/users/schema')).UserSchema;
 const nodemailer = require(path.join(__base, 'utils/nodemailer'));
 
-function Users() {
+module.exports = function Users() {
   this.name = "Users Object";
     
   this.getUserModel = () => {
@@ -86,17 +86,17 @@ function Users() {
   };
 
   this.buildMailObj = (user, mailTemp, token) => {
-    let subject = '';
-    let url;
+    let subject, url;
+    const host = `${config.server.host}:${config.server.port}/auth`;
     switch(mailTemp) {
       case 'register':
         subject = 'Welcome';
-        url = `http://localhost:5555/auth/activate?token=${token}`;
+        url = `${host}/activate?token=${token}`;
         break;
 
       case 'get_activation':
         subject = 'Activate account';
-        url = `http://localhost:5555/auth/activate?token=${token}`;
+        url = `${host}/activate?token=${token}`;
         break;
 
       case 'activate':
@@ -105,7 +105,7 @@ function Users() {
       
       case 'forgot_password':
         subject = 'Change password';
-        url= `http://localhost:5555/auth/reset_password?token=${token}`;
+        url= `${host}/reset_password?token=${token}`;
         break;
       
       case 'reset_password':
@@ -134,6 +134,4 @@ function Users() {
       });
     });
   }
-}
-
-module.exports = Users;
+};

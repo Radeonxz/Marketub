@@ -3,7 +3,7 @@ const moduleName = 'query_response ';
 const path = require('path');
 require(path.join(__base, 'utils/object'));
 
-function Query_resp() {
+module.exports = function Query_resp() {
   this.name = 'Query_resp ';
 
   this.buildQueryRespA = function(respObj) {
@@ -26,5 +26,4 @@ function Query_resp() {
     
     return query_response;
   };
-} 
-module.exports = Query_resp;
+};
