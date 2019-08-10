@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const config = require(path.join(__base, 'config/config'));
 
-const authn = (req, res, next) => {
+module.exports = authn = (req, res, next) => {
   const token = req.header('x-auth-token');
 
   // Check for token
@@ -28,5 +28,3 @@ const authn = (req, res, next) => {
     res.status(400).json(message);
   }
 };
-
-module.exports = authn;

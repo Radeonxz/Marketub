@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 require(path.join(__base, 'utils/object'));
 const projectSchema = require(path.join(__base, 'mongoose/projects/schema')).projectSchema;
 
-function Projects() {
+module.exports = function Projects() {
   this.name = "Projects Object";
     
   this.getProjectModel = () => {
@@ -23,6 +23,12 @@ function Projects() {
     projectNM.screenshot = file.path;
     return projectNM;
   };
-}
 
-module.exports = Projects;
+  this.updProject = (project, req, file) => {
+    const projectNM = Object.assign(project, req);
+    if(file !== undefined) {
+      projectNM.screenshot = file.path;
+    }
+    return projectNM;
+  };
+};

@@ -6,10 +6,9 @@ const Authn = require(path.join(__base, 'middlewares/authentication'));
 const Authr = require(path.join(__base, 'middlewares/authorization'));
 const Upload = require(path.join(__base, 'middlewares/uploadFile'));
 
-const setup = app => {
+exports.setup = app => {
     app.get('/api/project/:id', /*Authn, Authr,*/ Projects.getProject);
     app.post('/api/project', Authn, Authr, Upload.single('screenshot'), validate(Projects.postProjectSchema), Projects.postProject);
-    // app.put('/api/project', Projects.postUsers);
-    // app.delete('/api/project/:id', Projects.deleteProject);
+    app.put('/api/project/:id', Authn, Authr, Upload.single('screenshot'), validate(Projects.putProjectSchema), Projects.putProject);
+    app.delete('/api/project/:id', Authn, Authr, Projects.deleteProject);
 };
-exports.setup = setup;

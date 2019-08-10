@@ -1,6 +1,6 @@
 const moduleName = 'authorization';
 
-const authr = (req, res, next) => {
+module.exports = authr = (req, res, next) => {
   const route = req.client.route.split('/')[0];
   console.log('route is', route);
   const role_id = req.client.user.account_info.role_id;
@@ -33,5 +33,3 @@ const authr = (req, res, next) => {
     next();
   }
 };
-
-module.exports = authr;

@@ -3,7 +3,8 @@
   "env": {
     "MONGODB_URI": "",
     "JWTSECRET": "",
-    "ACTIVATION": "",
+    "ACTIVATIONP": "",
+    "ACTIVATIONA": "",
     "MAILER_SERVICE_PROVIDER": "Gmail",
     "MAILER_SERVICE_USER": "",
     "MAILER_SERVICE_PASS": ""

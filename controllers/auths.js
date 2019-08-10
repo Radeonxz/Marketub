@@ -15,7 +15,7 @@ const userModel = UserM.getUserModel();
 const query_resp = new Query_Resp();
 
 // Get user
-getUser = (req, res) => {
+exports.getUser = (req, res) => {
   const fctName = moduleName + 'getUser ';
 
   const user_id = req.client.user.account_info.user_id;
@@ -43,10 +43,8 @@ getUser = (req, res) => {
   })();
 };
 
-exports.getUser = getUser;
-
 // Login user
-const loginUserSchema = {
+exports.loginUserSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
@@ -56,9 +54,8 @@ const loginUserSchema = {
     password: joi.string().required(),
 	}
 };
-exports.loginUserSchema = loginUserSchema;
 
-loginUser = (req, res) => {
+exports.loginUser = (req, res) => {
   const fctName = moduleName + 'loginUser ';
 
   const { email, password } = req.body;
@@ -105,19 +102,16 @@ loginUser = (req, res) => {
   })();
 };
 
-exports.loginUser = loginUser;
-
 // Get activation link
-const getActivationSchema = {
+exports.getActivationSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
 	},
 	query: {}
 };
-exports.getActivationSchema = getActivationSchema;
 
-getActivation = (req, res) => {
+exports.getActivation = (req, res) => {
   const fctName = moduleName + 'getActivation ';
   console.log('req.client', req.client);
   const mailTemp = req.client.route;
@@ -159,10 +153,8 @@ getActivation = (req, res) => {
   })();
 };
 
-exports.getActivation = getActivation;
-
 // Activate user
-const userActivateSchema = {
+exports.userActivateSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
@@ -171,9 +163,8 @@ const userActivateSchema = {
     token: joi.string().required()
 	}
 };
-exports.userActivateSchema = userActivateSchema;
 
-userActivate = (req, res) => {
+exports.userActivate = (req, res) => {
   const fctName = moduleName + 'userActivate ';
 
   const mailTemp = req.client.route;
@@ -221,26 +212,22 @@ userActivate = (req, res) => {
   })();
 }
 
-exports.userActivate = userActivate;
-
 // Register user
-const registerUserSchema = {
+exports.registerUserSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
 	},
 	body: {
     username: joi.string().required(),
-    role_id: joi.number(),
     email: joi.string().email().required(),
     activation: joi.string().required(),
     password: joi.string().required(),
     password_confirm: joi.string().required(),
 	}
 };
-exports.registerUserSchema = registerUserSchema;
 
-registerUser = (req, res) => {
+exports.registerUser = (req, res) => {
   const fctName = moduleName + 'registerUser ';
   const mailTemp = req.client.route;
 
@@ -274,10 +261,8 @@ registerUser = (req, res) => {
   })();
 }
 
-exports.registerUser = registerUser;
-
 // Forgot password
-const forgotPasswordSchema = {
+exports.forgotPasswordSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
@@ -286,9 +271,8 @@ const forgotPasswordSchema = {
     email: joi.string().email().required()
 	}
 };
-exports.forgotPasswordSchema = forgotPasswordSchema;
 
-forgotPassword = (req, res) => {
+exports.forgotPassword = (req, res) => {
   const fctName = moduleName + 'forgotPassword ';
  
   const mailTemp = req.client.route;
@@ -334,10 +318,8 @@ forgotPassword = (req, res) => {
   })();
 }
 
-exports.forgotPassword = forgotPassword;
-
 // Reset password
-const resetPasswordSchema = {
+exports.resetPasswordSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
@@ -348,9 +330,8 @@ const resetPasswordSchema = {
     password_confirm: joi.string().required(),
 	}
 };
-exports.resetPasswordSchema = resetPasswordSchema;
 
-resetPassword = (req, res) => {
+exports.resetPassword = (req, res) => {
   const fctName = moduleName + 'resetPassword ';
  
   const mailTemp = req.client.route;
@@ -402,5 +383,3 @@ resetPassword = (req, res) => {
     }
   })();
 }
-
-exports.resetPassword = resetPassword;

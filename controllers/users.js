@@ -23,7 +23,7 @@ const query_resp = new Query_Resp();
 
 /********************** CRUD User **********************/
 // Get user
-getUser = (req, res) => {
+exports.getUser = (req, res) => {
   const fctName = moduleName + 'getUser ';
  
   const username = req.params.id;
@@ -59,10 +59,8 @@ getUser = (req, res) => {
   })();
 }
 
-exports.getUser = getUser;
-
 // Get all users
-getAllUsers = (req, res) => {
+exports.getAllUsers = (req, res) => {
   const fctName = moduleName + 'getAllUsers ';
 
   (async () => {
@@ -87,10 +85,8 @@ getAllUsers = (req, res) => {
   })();
 }
 
-exports.getAllUsers = getAllUsers;
-
 // Delete user
-const deleteUserSchema = {
+exports.deleteUserSchema = {
 	options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
@@ -100,9 +96,8 @@ const deleteUserSchema = {
     email: joi.string().email().required()
 	}
 };
-exports.deleteUserSchema = deleteUserSchema;
 
-deleteUser = (req, res) => {
+exports.deleteUser = (req, res) => {
   const fctName = moduleName + 'deleteUser ';
  
   const user_id = req.query.user_id;
@@ -136,5 +131,3 @@ deleteUser = (req, res) => {
     }
   })();
 }
-
-exports.deleteUser = deleteUser;

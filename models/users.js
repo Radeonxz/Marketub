@@ -12,7 +12,7 @@ require(path.join(__base, 'utils/object'));
 const userSchema = require(path.join(__base, 'mongoose/users/schema')).UserSchema;
 const nodemailer = require(path.join(__base, 'utils/nodemailer'));
 
-function Users() {
+module.exports = function Users() {
   this.name = "Users Object";
     
   this.getUserModel = () => {
@@ -20,17 +20,22 @@ function Users() {
   };
 
   this.addUser = req => {
-    const code = config.activation.code;
+    const premium = config.activation.premium;
+    const admin = config.activation.admin;
+    // default guset user
+    let role_id = 1;
     this.checkPassword(req.password, req.password_confirm);
-    if(req.activation !== code) {
-      throw Error(`Invalid activation code.`);
+    if(req.activation && req.activation === premium) {
+      // premium user
+      role_id = 500;
+    } else if(req.activation && req.activation === admin) {
+      // admin
+      role_id = 999;
     }
 
     const userModel = this.getUserModel();
     const userNM = new userModel(req);
-    if(req.role_id) {
-      userNM.account_info.role_id = req.role_id;
-    }
+    userNM.account_info.role_id = role_id;
 
     // userNM.user_id = uuidv4();
     userNM.account_info.user_id = 111;
@@ -86,17 +91,17 @@ function Users() {
   };
 
   this.buildMailObj = (user, mailTemp, token) => {
-    let subject = '';
-    let url;
+    let subject, url;
+    const host = `${config.server.host}:${config.server.port}/auth`;
     switch(mailTemp) {
       case 'register':
         subject = 'Welcome';
-        url = `http://localhost:5555/auth/activate?token=${token}`;
+        url = `${host}/activate?token=${token}`;
         break;
 
       case 'get_activation':
         subject = 'Activate account';
-        url = `http://localhost:5555/auth/activate?token=${token}`;
+        url = `${host}/activate?token=${token}`;
         break;
 
       case 'activate':
@@ -105,7 +110,7 @@ function Users() {
       
       case 'forgot_password':
         subject = 'Change password';
-        url= `http://localhost:5555/auth/reset_password?token=${token}`;
+        url= `${host}/reset_password?token=${token}`;
         break;
       
       case 'reset_password':
@@ -134,6 +139,4 @@ function Users() {
       });
     });
   }
-}
-
-module.exports = Users;
+};
