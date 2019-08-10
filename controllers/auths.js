@@ -220,7 +220,6 @@ exports.registerUserSchema = {
 	},
 	body: {
     username: joi.string().required(),
-    role_id: joi.number(),
     email: joi.string().email().required(),
     activation: joi.string().required(),
     password: joi.string().required(),

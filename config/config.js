@@ -29,7 +29,8 @@ config.JWT = {
 }
 
 config.activation = {
-  'code': process.env.ACTIVATION
+  'premium': process.env.ACTIVATIONP,
+  'admin': process.env.ACTIVATIONA,
 }
 
 config.nodemailer = {

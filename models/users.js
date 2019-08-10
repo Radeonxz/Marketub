@@ -20,17 +20,22 @@ module.exports = function Users() {
   };
 
   this.addUser = req => {
-    const code = config.activation.code;
+    const premium = config.activation.premium;
+    const admin = config.activation.admin;
+    // default guset user
+    let role_id = 1;
     this.checkPassword(req.password, req.password_confirm);
-    if(req.activation !== code) {
-      throw Error(`Invalid activation code.`);
+    if(req.activation && req.activation === premium) {
+      // premium user
+      role_id = 500;
+    } else if(req.activation && req.activation === admin) {
+      // admin
+      role_id = 999;
     }
 
     const userModel = this.getUserModel();
     const userNM = new userModel(req);
-    if(req.role_id) {
-      userNM.account_info.role_id = req.role_id;
-    }
+    userNM.account_info.role_id = role_id;
 
     // userNM.user_id = uuidv4();
     userNM.account_info.user_id = 111;
