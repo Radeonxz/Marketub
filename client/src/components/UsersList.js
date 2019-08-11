@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Container,
   Row,
@@ -12,35 +12,37 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getUsers, getUser } from '../actions/userActions';
+import UserProjectsListModal from './UserProjectsListModal/UserProjectsListModal';
 import PropTypes from 'prop-types';
 
 class UsersList extends Component {
   static propTypes = {
     getUsers: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
     getUser: PropTypes.func.isRequired,
-    item: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool
   }
 
   componentDidMount() {
     this.props.getUsers();
-    console.log('this.props is', this.props);
+    // console.log('this.props is', this.props);
   }
 
-  onFetchUserClick = id => {
-    this.props.getUser(id);
+  onFetchUserClick = username => {
+    this.props.getUser(username);
   }
 
   render() {
     // const { items } = this.props.item;
     const { users } = this.props.user;
+    console.log('uuu this.props is', this.props);
+    console.log('uuu this.users is', users);
     return(
       <Container>
         <Row>
-          {users.map(({ _id, name }) => (
+          {users.map(({ user_id, username }) => (
             // <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <Col lg='3' md='4' sm='6'>
+            <Col lg='3' md='4' sm='6' key={user_id}>
               <Card>
                 <CardBody>
                   <Row>
@@ -48,18 +50,23 @@ class UsersList extends Component {
                       <img width='100%' src='https://randomuser.me/api/portraits/lego/2.jpg' alt='Avatar' />
                     </Col>
                     <Col sm='7'>
-                      <CardTitle className='allusers-card-title'><strong>{name}</strong></CardTitle>
+                      <CardTitle className='allusers-card-title'><strong>{username}</strong></CardTitle>
                       <CardText className='allusers-card-text'>Popularity: 199</CardText>
                     </Col>
                   </Row>
                 </CardBody>
                 <CardFooter className='text-center'>
-                  <Button
+                  {/* <Button
                     className='projects-btn'
                     color='info'
                     size='sm'
-                    onClick={this.onFetchUserClick.bind(this, _id)}
-                  >More Projects</Button>
+                    onClick={this.onFetchUserClick.bind(this, username)}
+                  >More Projects</Button> */}
+                  <Fragment>
+                    <Button onClick={this.onFetchUserClick.bind(this, username)}>
+                      <UserProjectsListModal user_projects={this.props.user.user.projects_array}/>
+                    </Button>
+                  </Fragment>
                 </CardFooter>
               </Card>
             </Col>
