@@ -14,7 +14,11 @@ import './App.css';
 
 class App extends Component {
   componentDidMount() {
-    store.dispatch(loadUser());
+    // console.log('1111111', store.getState());
+    const token = store.getState().auth.token;
+    if(token) {
+      store.dispatch(loadUser());
+    }
   }
 
   render() {

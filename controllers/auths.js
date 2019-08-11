@@ -77,7 +77,7 @@ exports.loginUser = (req, res) => {
         token,
         user: {
           id: userDB.account_info.user_id,
-          name: userDB.username,
+          username: userDB.username,
           email: userDB.email
         }
       };
