@@ -14,6 +14,8 @@ import RegisterModal from './auth/RegisterModal';
 import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 
+import MyProjects from './MyProjects';
+
 class AppNavbar extends Component {
   state = {
     isOpen: false
@@ -38,6 +40,9 @@ class AppNavbar extends Component {
           <span className='navbar-text mr-3'>
             <strong>{ user ? `Welcome back, ${user.username}` : null }</strong>
           </span>
+        </NavItem>
+        <NavItem>
+          <MyProjects />
         </NavItem>
         <NavItem>
           <Logout />

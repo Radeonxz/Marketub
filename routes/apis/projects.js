@@ -8,6 +8,7 @@ const Upload = require(path.join(__base, 'middlewares/uploadFile'));
 
 exports.setup = app => {
     app.get('/api/project/:id', /*Authn, Authr,*/ Projects.getProject);
+    app.get('/api/projects', Authn, Authr, Projects.getAllProjects);
     app.post('/api/project', Authn, Authr, Upload.single('screenshot'), validate(Projects.postProjectSchema), Projects.postProject);
     app.put('/api/project/:id', Authn, Authr, Upload.single('screenshot'), validate(Projects.putProjectSchema), Projects.putProject);
     app.delete('/api/project/:id', Authn, Authr, Projects.deleteProject);

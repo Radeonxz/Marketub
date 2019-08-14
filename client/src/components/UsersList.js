@@ -16,6 +16,10 @@ import UserProjectsListModal from './UserProjectsListModal/UserProjectsListModal
 import PropTypes from 'prop-types';
 
 class UsersList extends Component {
+  state = {
+    collapse: false
+  }
+
   static propTypes = {
     getUsers: PropTypes.func.isRequired,
     getUser: PropTypes.func.isRequired,
@@ -30,7 +34,12 @@ class UsersList extends Component {
 
   onFetchUserClick = username => {
     this.props.getUser(username);
+    this.setState(state => ({ collapse: !state.collapse }));
   }
+
+  // toggle = () => {
+  //   this.setState(state => ({ collapse: !state.collapse }));
+  // };
 
   render() {
     // const { items } = this.props.item;
@@ -63,9 +72,36 @@ class UsersList extends Component {
                     onClick={this.onFetchUserClick.bind(this, username)}
                   >More Projects</Button> */}
                   <Fragment>
-                    <Button onClick={this.onFetchUserClick.bind(this, username)}>
-                      <UserProjectsListModal user_projects={this.props.user.user.projects_array}/>
+                    // <Button onClick={this.onFetchUserClick.bind(this, username)}>
+                    //   <UserProjectsListModal user_projects={this.props.user.user.projects_array}/>
+                    // </Button>
+                    <Button color="primary" onClick={this.onFetchUserClick.bind(this, username)} style={{ marginBottom: '1rem' }}>
+                      Toggle
                     </Button>
+                    <Collapse isOpen={this.state.collapse}>
+                      {user_projects.map(({ project_id, name }) => (
+                        <Col lg='12' md='12' sm='12' key={ project_id }>
+                          <Card className='user-projects-list-card'>
+                            <CardBody>
+                              <Row>
+                                <Col sm='8'>
+                                  <img width='80%' src='https://randomuser.me/api/portraits/lego/2.jpg' alt='Avatar' />
+                                </Col>
+                                <Col sm='4'>
+                                  <CardTitle className='allusers-card-title'><strong>Project name: {name}</strong></CardTitle>
+                                  <CardText className='allusers-card-text'>Desc: {description}</CardText>
+                                  <CardText className='allusers-card-text'>Site Link: {site_link}</CardText>
+                                  <CardText className='allusers-card-text'>Github: {github_link}</CardText>
+                                  <CardText className='allusers-card-text'>Skill Sets: {skill_sets}</CardText>
+                                  <CardText className='allusers-card-text'>Timestamp: {timestamp}</CardText>
+                                  <CardText className='allusers-card-text'>Likes: {likes}</CardText>
+                                </Col>
+                              </Row>
+                            </CardBody>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Collapse>
                   </Fragment>
                 </CardFooter>
               </Card>
@@ -84,5 +120,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-    { getUsers, getUser }
-  )(UsersList);
+  { getUsers, getUser }
+)(UsersList);

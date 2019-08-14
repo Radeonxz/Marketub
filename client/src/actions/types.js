@@ -11,6 +11,12 @@ export const GET_USER = 'GET_USER';
 export const GET_USERS_LOADING = 'GET_USERS_LOADING';
 // export const GET_USER_LOADING = 'GET_USER_LOADING';
 
+// Project
+export const GET_PROJECTS = 'GET_PROJECTS';
+export const ADD_PROJECT = 'ADD_PROJECT';
+export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const PROJECTS_LOADING = 'PROJECTS_LOADING';
+
 //Auth
 export const USER_LOADING = 'USER_LOADING';
 export const USER_LOADED = 'USER_LOADED';
