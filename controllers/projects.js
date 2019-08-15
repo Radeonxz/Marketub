@@ -52,6 +52,34 @@ exports.getProject = (req, res) => {
   })();
 }
 
+// Get all projects of current user
+exports.getAllProjects = (req, res) => {
+  const fctName = moduleName + 'getAllProjects ';
+
+  const owner_id = req.client.user.account_info.user_id;
+  const query = {'owner_id': owner_id};
+
+  (async () => {
+    try{
+      const projectDB = await projectModel.findAll(query);
+      if(!projectDB) {
+        const str = 'user_id: ' + owner_id + ' not found';
+        StatusErr.data.details = str;
+        StatusErr.data.code = 404;
+        return res.status(404).json(StatusErr);
+      }
+
+      const query_response = query_resp.buildQueryRespA({'data': projectDB});
+      return res.status(200).json(query_response);
+    } catch(err) {
+      const str = 'projectModel.find err: ' + err.message;
+      console.error(fctName + str);
+      StatusErr.data.details = str;
+      return res.status(403).json(err);
+    }
+  })();  
+};
+
 // Post project
 exports.postProjectSchema = {
 	options: {
@@ -91,8 +119,7 @@ exports.postProject = (req, res) => {
       }
 
       const projectNM = ProjectM.addProject(req.body, req.file, owner_id);
-      const id = projectNM.project_id;
-      userDB.projects_array.push({project_id: id});
+      userDB.projects_array.push({project_id: projectNM.project_id});
 
       await projectNM.save();
       await userDB.save();
