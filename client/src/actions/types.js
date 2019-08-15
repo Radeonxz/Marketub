@@ -14,6 +14,7 @@ export const GET_USERS_LOADING = 'GET_USERS_LOADING';
 // Project
 export const GET_PROJECTS = 'GET_PROJECTS';
 export const ADD_PROJECT = 'ADD_PROJECT';
+export const UPDATE_PROJECT = 'UPDATE_PROJECT';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
 export const PROJECTS_LOADING = 'PROJECTS_LOADING';
 

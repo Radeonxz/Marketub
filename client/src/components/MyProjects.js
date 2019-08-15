@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getProjects, createProject, updateProject, deleteProject } from '../actions/projectActions';
+import { getProjects, addProject, updateProject, deleteProject } from '../actions/projectActions';
 import PropTypes from 'prop-types';
 
 class MyProjects extends Component {
@@ -55,9 +55,9 @@ class MyProjects extends Component {
 const mapStateToProps = state => ({
   user: state.user,
   isAuthenticated: state.auth.isAuthenticated
-}); 
+});
 
 export default connect(
   mapStateToProps,
-  { getItems, deleteItem }
+  { getProjects, addProject, updateProject, deleteProject }
 )(MyProjects);

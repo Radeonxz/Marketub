@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { 
+import {
   GET_USERS,
   GET_USER,
   GET_USERS_LOADING,
@@ -11,12 +11,12 @@ import { returnErrors } from './errorActions';
 export const getUsers = () => dispatch => {
   dispatch(setUsersLoading);
   axios.get('/api/users')
-  .then(res => 
+  .then(res =>
     dispatch({
       type: GET_USERS,
       payload: res.data.data
   }))
-  .catch(err => 
+  .catch(err =>
     dispatch(returnErrors(err.response.data, err.response.status))
   );
 };
@@ -24,12 +24,12 @@ export const getUsers = () => dispatch => {
 export const getUser = id => dispatch => {
   dispatch(setUsersLoading);
   axios.get(`/api/user/${id}`)
-  .then(res => 
+  .then(res =>
     dispatch({
       type: GET_USER,
       payload: res.data.data
   }))
-  .catch(err => 
+  .catch(err =>
     dispatch(returnErrors(err.response.data, err.response.status))
   );
 };

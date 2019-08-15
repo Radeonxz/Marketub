@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import AppNavbar from './components/AppNavbar';
 import UsersList from './components/UsersList';
-import ShoppingList from './components/ShoppingList';
-import ItemModal from './components/ItemModal';
+// import ShoppingList from './components/ShoppingList';
+// import ItemModal from './components/ItemModal';
 
 import { Provider } from 'react-redux';
 import store from './store';

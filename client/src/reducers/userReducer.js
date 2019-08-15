@@ -2,7 +2,7 @@ import { GET_USERS, GET_USER, GET_USERS_LOADING } from '../actions/types';
 
 const initialState = {
   users: [],
-  user: [],
+  user_projects: [],
   loading: false
 };
 
@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
     case GET_USER:
       return {
         ...state,
-        user: action.payload,
+        user_projects: action.payload,
         loading: false
       };
 

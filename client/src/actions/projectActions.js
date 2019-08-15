@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { 
+import {
   GET_PROJECTS,
   ADD_PROJECT,
+  UPDATE_PROJECT,
   DELETE_PROJECT,
   PROJECTS_LOADING
 } from './types';
@@ -9,14 +10,14 @@ import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
 export const getProjects = () => dispatch => {
-  dispatch(setItemsLoading);
+  dispatch(setProjectsLoading);
   axios.get('/api/projects')
-  .then(res => 
+  .then(res =>
     dispatch({
       type: GET_PROJECTS,
       payload: res.data
     }))
-  .catch(err => 
+  .catch(err =>
     dispatch(returnErrors(err.response.data, err.response.status))
   );
 };
@@ -28,7 +29,19 @@ export const addProject = project => (dispatch, getState) => {
       type: ADD_PROJECT,
       payload: res.data
     }))
-  .catch(err => 
+  .catch(err =>
+    dispatch(returnErrors(err.response.data, err.response.status))
+  );
+};
+
+export const updateProject = (project, project_id) => (dispatch, getState) => {
+  axios.put(`/api/project/${project_id}`, project, tokenConfig(getState))
+  .then(res =>
+    dispatch({
+      type: UPDATE_PROJECT,
+      payload: res.data
+    }))
+  .catch(err =>
     dispatch(returnErrors(err.response.data, err.response.status))
   );
 };
@@ -38,9 +51,9 @@ export const deleteProject = project_id => (dispatch, getState) => {
   .then(res =>
     dispatch({
       type: DELETE_PROJECT,
-      payload: id
+      payload: project_id
     }))
-  .catch(err => 
+  .catch(err =>
     dispatch(returnErrors(err.response.data, err.response.status))
   );
 };

@@ -1,4 +1,4 @@
-import { GET_PROJECTS, ADD_PROJECT, DELETE_PROJECT, PROJECTS_LOADING } from '../actions/types';
+import { GET_PROJECTS, ADD_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, PROJECTS_LOADING } from '../actions/types';
 
 const initialState = {
   user_projects: [],
@@ -15,6 +15,12 @@ export default function(state = initialState, action) {
       };
     
     case ADD_PROJECT:
+      return {
+        ...state,
+        user_projects: [action.payload, ...state.user_projects]
+      };
+
+    case UPDATE_PROJECT:
       return {
         ...state,
         user_projects: [action.payload, ...state.user_projects]
