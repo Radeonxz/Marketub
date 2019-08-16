@@ -1,0 +1,24 @@
+.user-projects-list-collapse {
+  margin-top: 1rem;
+  /* padding: 0; */
+}
+
+.user-projects-list-card-body {
+  padding: 0 !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-projects-list-card-img {
+  width: 70%;
+}
+
+.user-projects-list-card-img img {
+  height: 25rem;
+}
+
+.user-projects-list-card-content {
+  /* height: 25rem; */
+  width: 30%;
+}
