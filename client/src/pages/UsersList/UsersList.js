@@ -12,8 +12,12 @@ import {
   Button
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { getUsers, getUser } from '../actions/userActions';
+import { getUsers, getUser } from '../../actions/userActions';
 import PropTypes from 'prop-types';
+
+import UserProjectsListCollapse from '../../components/UserProjectsListCollapse/UserProjectsListCollapse';
+
+import './UsersList.css';
 
 class UsersList extends Component {
   state = {
@@ -39,9 +43,13 @@ class UsersList extends Component {
     this.setState(state => ({ collapse: !state.collapse }));
   }
 
+  onClickToCloseCollapse = () => {
+    this.setState(state => ({ collapse: false }));
+  };
+
   render() {
     const { users, user_projects } = this.props.user;
-
+    const button_text = this.state.collapse ? 'Close' : 'Projects';
     return(
       <Container>
         <Row>
@@ -61,50 +69,23 @@ class UsersList extends Component {
                   </Row>
                 </CardBody>
                 <CardFooter className='text-center'>
-                  <Fragment>
-                    <Button color="primary" onClick={this.onFetchUserClick.bind(this, username)} style={{ marginBottom: '1rem' }}>
-                      Toggle
-                    </Button>
-                  </Fragment>
+                  <Button
+                    className='users-list-card-btn'
+                    color='primary'
+                    onClick={this.onFetchUserClick.bind(this, username)}
+                    style={{ marginBottom: '1rem' }}
+                  >
+                    {button_text}
+                  </Button>
                 </CardFooter>
               </Card>
             </Col>
           ))}
+          <Col lg='12' md='12' sm='12'>
+            <UserProjectsListCollapse collapse={this.state.collapse} user_projects={user_projects}/>
+          </Col>
         </Row>
-        <Collapse isOpen={this.state.collapse}>
-          {user_projects.projects_array ? user_projects.projects_array.map(({
-            project_id,
-            name,
-            description,
-            screenshot,
-            site_link,
-            github_link,
-            skill_sets,
-            timestamp,
-            likes
-          }) => (
-            <Col lg='12' md='12' sm='12' key={ project_id }>
-              <Card className='user-projects-list-card'>
-                <CardBody>
-                  <Row>
-                    <Col sm='8'>
-                      <img width='80%' src='https://randomuser.me/api/portraits/lego/2.jpg' alt='Avatar' />
-                    </Col>
-                    <Col sm='4'>
-                      <CardTitle className='allusers-card-title'><strong>Project name: {name}</strong></CardTitle>
-                      <CardText className='allusers-card-text'>Desc: {description}</CardText>
-                      <CardText className='allusers-card-text'>Site Link: {site_link}</CardText>
-                      <CardText className='allusers-card-text'>Github: {github_link}</CardText>
-                      <CardText className='allusers-card-text'>Skill Sets: {skill_sets}</CardText>
-                      <CardText className='allusers-card-text'>Timestamp: {timestamp}</CardText>
-                      <CardText className='allusers-card-text'>Likes: {likes}</CardText>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
-          )) : null}
-        </Collapse>
+        
       </Container>
     );
   }
