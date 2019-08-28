@@ -10,11 +10,13 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
+import RegisterModal from '../auth/RegisterModal';
+import LoginModal from '../auth/LoginModal';
+import Logout from '../auth/Logout';
 
-import MyProjects from './MyProjects';
+import MyProjects from '../MyProjects';
+
+import './AppNavbar.css';
 
 class AppNavbar extends Component {
   state = {
@@ -68,7 +70,7 @@ class AppNavbar extends Component {
             <NavbarBrand href='/'>Portfolio-Hub</NavbarBrand>
             <NavbarToggler onClick={this.toggle}/>
             <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className='ml-auto' navbar>
+              <Nav className='ml-auto app-navbar' navbar>
                 { isAuthenticated ? authLinks : guestLinks }
               </Nav>
             </Collapse>

@@ -74,7 +74,6 @@ exports.getAllUsers = (req, res) => {
       }
 
       const query_response = query_resp.buildQueryRespA({'data': userDB});
-      console.log('query_response is', query_response);
       _.each(query_response.data, user => {
         user.user_id = user.account_info.user_id;
         delete user.account_info;
