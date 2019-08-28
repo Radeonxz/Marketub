@@ -16,6 +16,8 @@ import Logout from '../auth/Logout';
 
 import MyProjects from '../MyProjects';
 
+import './AppNavbar.css';
+
 class AppNavbar extends Component {
   state = {
     isOpen: false
@@ -68,7 +70,7 @@ class AppNavbar extends Component {
             <NavbarBrand href='/'>Portfolio-Hub</NavbarBrand>
             <NavbarToggler onClick={this.toggle}/>
             <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className='ml-auto' navbar>
+              <Nav className='ml-auto app-navbar' navbar>
                 { isAuthenticated ? authLinks : guestLinks }
               </Nav>
             </Collapse>

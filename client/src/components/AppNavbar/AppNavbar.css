@@ -1,0 +1,7 @@
+.app-navbar li a{
+  color: #fff !important;
+}
+
+.app-navbar li a:hover{
+  color: coral !important;
+}
