@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-import AppNavbar from './components/AppNavbar';
+import AppNavbar from './components/AppNavbar/AppNavbar';
 import UsersList from './pages/UsersList/UsersList';
 // import ShoppingList from './components/ShoppingList';
 // import ItemModal from './components/ItemModal';

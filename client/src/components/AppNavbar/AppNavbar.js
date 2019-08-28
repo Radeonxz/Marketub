@@ -10,11 +10,11 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
+import RegisterModal from '../auth/RegisterModal';
+import LoginModal from '../auth/LoginModal';
+import Logout from '../auth/Logout';
 
-import MyProjects from './MyProjects';
+import MyProjects from '../MyProjects';
 
 class AppNavbar extends Component {
   state = {
