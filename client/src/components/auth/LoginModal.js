@@ -14,14 +14,16 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/authActions';
+import { login, resetPassword, activateAccount } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
 class LoginModal extends Component {
   state = {
     modal: false,
+    nestedModal: false,
+    nestedModalHeader: '',
+    nestedModalText: '',
     nestedModalResetPass: false,
-    nestedModalActivate: false,
     closeAll: false,
     email: '',
     password: '',
@@ -32,6 +34,8 @@ class LoginModal extends Component {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
+    resetPassword: PropTypes.func.isRequired,
+    activateAccount: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
   }
 
@@ -39,8 +43,11 @@ class LoginModal extends Component {
     const { error, isAuthenticated } = this.props;
     if(error !== prevProps.error) {
       // Check for register error
-      if(error.id === 'LOGIN_FAIL') {
-        this.setState({ msg: error.info.data.message });
+      if(error.id === 'LOGIN_FAIL'
+        || error.id === 'RESETPASS_FAIL'
+        || error.id === 'ACTIVATE_FAIL'
+      ) {
+        this.setState({ msg: error.info.data.details });
       } else {
         this.setState({ msg: null });
       }
@@ -62,24 +69,28 @@ class LoginModal extends Component {
     });
   };
 
-  toggleNestedRestPass = () => {
-    this.setState({
-      nestedModalResetPass: !this.state.nestedModalResetPass,
-      closeAll: false
-    });
-  };
-
-  toggleNestedActivate = () => {
-    this.setState({
-      nestedModalActivate: !this.state.nestedModalActivate,
-      closeAll: false
-    });
+  toggleNestedModal = (header, text, resetPass) => {
+    // Cealer errors
+    this.props.clearErrors();
+    if(header && text && resetPass) {
+      this.setState({
+        nestedModal: !this.state.nestedModal,
+        closeAll: false,
+        nestedModalHeader: header,
+        nestedModalText: text,
+        nestedModalResetPass: resetPass,
+      });
+    } else {
+      this.setState({
+        nestedModal: !this.state.nestedModal,
+        closeAll: false
+      });
+    }
   };
 
   toggleAll = () => {
     this.setState({
-      nestedModalResetPass: false,
-      nestedModalActivate: false,
+      nestedModal: !this.state.nestedModal,
       closeAll: true
     });
   };
@@ -90,28 +101,24 @@ class LoginModal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     const { email, password } = this.state;
-
     const user = {
       email,
       password
-    }
+    };
 
     // Attempt to login
     this.props.login(user);
   };
 
-  onSubmitReset = e => {
+  onSubmitNestModal = e => {
     e.preventDefault();
-
     const { email } = this.state;
 
-    // Attempt to reset
-    this.props.resetPassword(email);
-
-    this.props.toggleNestedRestPass();
-  }
+    // Attempt to reset or activate
+    this.state.nestedModalResetPass ? this.props.resetPassword({ email: email }) : this.props.activateAccount({ email: email });
+    this.toggleNestedModal();
+  };
 
   render() {
     return(
@@ -156,12 +163,16 @@ class LoginModal extends Component {
                 >Submit</Button>
               </FormGroup>
             </Form>
-            <Modal isOpen={this.state.nestedModalResetPass} toggle={this.toggleNestedRestPass} onClosed={this.state.closeAll ? this.toggle : undefined}>
-              <ModalHeader>Reset password</ModalHeader>
+            <Modal
+              isOpen={this.state.nestedModal}
+              toggle={this.toggleNestedModal}
+              onClosed={this.state.closeAll ? this.toggle : undefined}
+            >
+              <ModalHeader>{this.state.nestedModalHeader}</ModalHeader>
               <ModalBody>
-                <Form onSubmit={this.onSubmitReset}>
+                <Form onSubmit={this.onSubmitNestModal}>
                   <FormGroup>
-                    <p>We will send you a link to your registered email to help you to reset your password.</p>
+                    <p>{this.state.nestedModalText}</p>
                     <Label for='email'>Email</Label>
                     <Input
                       type='email'
@@ -176,48 +187,26 @@ class LoginModal extends Component {
                       color='success'
                       style={{marginTop: '2rem'}}
                       block
-                    >Login</Button>
+                    >Submit</Button>
                   </FormGroup>
                 </Form>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.toggleNestedRestPass}>Back to login</Button>{' '}
-                <Button color="primary" onClick={this.toggleAll}>Close all</Button>
-              </ModalFooter>
-            </Modal>
-
-            <Modal isOpen={this.state.nestedModalActivate} toggle={this.nestedModalActivate} onClosed={this.state.closeAll ? this.toggle : undefined}>
-              <ModalHeader>Reset password</ModalHeader>
-              <ModalBody>
-                <Form onSubmit={this.onSubmitReset}>
-                  <FormGroup>
-                    <p>Enter your email to activate your account.</p>
-                    <Label for='email'>Email</Label>
-                    <Input
-                      type='email'
-                      name='email'
-                      id='email'
-                      placeholder='Email'
-                      className='mb-3'
-                      onChange={this.onChange}
-                    />
-
-                    <Button
-                      color='success'
-                      style={{marginTop: '2rem'}}
-                      block
-                    >Login</Button>
-                  </FormGroup>
-                </Form>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={this.toggleNestedActivate}>Back to login</Button>{' '}
+                <Button color="primary" onClick={this.toggleNestedModal}>Back to login</Button>{' '}
                 <Button color="primary" onClick={this.toggleAll}>Close all</Button>
               </ModalFooter>
             </Modal>
             <ModalFooter>
-              <a href='#' onClick={this.toggleNestedRestPass}>Forgot password?</a>
-              <a href='#' onClick={this.toggleNestedActivate}>Activate email?</a>
+              <a href='/#' onClick={() => this.toggleNestedModal(
+                'Reset Password',
+                'Enter your email to activate your account.',
+                true
+              )}>Forgot password?</a>
+              <a href='/#' onClick={() => this.toggleNestedModal(
+                'Activate Email',
+                'Enter your email to activate your account.',
+                false
+              )}>Activate email?</a>
             </ModalFooter>
           </ModalBody>
         </Modal>
@@ -233,5 +222,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { login, clearErrors }
+  { login, resetPassword, activateAccount, clearErrors }
 )(LoginModal);

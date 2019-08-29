@@ -299,7 +299,7 @@ exports.forgotPassword = (req, res) => {
         // 'token': tempJWT.token,
         'response': mailRes.response,
         'user': {
-          'user_id': userDB.user_id,
+          'user_id': userDB.account_info.user_id,
           'username': userDB.username,
           'email': userDB.email,
         },
@@ -365,7 +365,7 @@ exports.resetPassword = (req, res) => {
         'token': token,
         'response': mailRes.response,
         'user': {
-          'user_id': userDB.user_id,
+          'user_id': userDB.account_info.user_id,
           'username': userDB.username,
           'email': userDB.email,
         },

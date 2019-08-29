@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   Container,
   Row,
@@ -8,7 +8,6 @@ import {
   CardFooter,
   CardTitle,
   CardText,
-  Collapse,
   Button
 } from 'reactstrap';
 import { connect } from 'react-redux';
