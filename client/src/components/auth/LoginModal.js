@@ -4,6 +4,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  ModalFooter,
   Form,
   FormGroup,
   Label,
@@ -19,6 +20,9 @@ import { clearErrors } from '../../actions/errorActions';
 class LoginModal extends Component {
   state = {
     modal: false,
+    nestedModalResetPass: false,
+    nestedModalActivate: false,
+    closeAll: false,
     email: '',
     password: '',
     msg: null,
@@ -58,6 +62,28 @@ class LoginModal extends Component {
     });
   };
 
+  toggleNestedRestPass = () => {
+    this.setState({
+      nestedModalResetPass: !this.state.nestedModalResetPass,
+      closeAll: false
+    });
+  };
+
+  toggleNestedActivate = () => {
+    this.setState({
+      nestedModalActivate: !this.state.nestedModalActivate,
+      closeAll: false
+    });
+  };
+
+  toggleAll = () => {
+    this.setState({
+      nestedModalResetPass: false,
+      nestedModalActivate: false,
+      closeAll: true
+    });
+  };
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -75,6 +101,17 @@ class LoginModal extends Component {
     // Attempt to login
     this.props.login(user);
   };
+
+  onSubmitReset = e => {
+    e.preventDefault();
+
+    const { email } = this.state;
+
+    // Attempt to reset
+    this.props.resetPassword(email);
+
+    this.props.toggleNestedRestPass();
+  }
 
   render() {
     return(
@@ -113,12 +150,75 @@ class LoginModal extends Component {
                   onChange={this.onChange}
                 />
                 <Button
-                  color='dark'
+                  color='success'
                   style={{marginTop: '2rem'}}
                   block
-                >Login</Button>
+                >Submit</Button>
               </FormGroup>
             </Form>
+            <Modal isOpen={this.state.nestedModalResetPass} toggle={this.toggleNestedRestPass} onClosed={this.state.closeAll ? this.toggle : undefined}>
+              <ModalHeader>Reset password</ModalHeader>
+              <ModalBody>
+                <Form onSubmit={this.onSubmitReset}>
+                  <FormGroup>
+                    <p>We will send you a link to your registered email to help you to reset your password.</p>
+                    <Label for='email'>Email</Label>
+                    <Input
+                      type='email'
+                      name='email'
+                      id='email'
+                      placeholder='Email'
+                      className='mb-3'
+                      onChange={this.onChange}
+                    />
+
+                    <Button
+                      color='success'
+                      style={{marginTop: '2rem'}}
+                      block
+                    >Login</Button>
+                  </FormGroup>
+                </Form>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.toggleNestedRestPass}>Back to login</Button>{' '}
+                <Button color="primary" onClick={this.toggleAll}>Close all</Button>
+              </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={this.state.nestedModalActivate} toggle={this.nestedModalActivate} onClosed={this.state.closeAll ? this.toggle : undefined}>
+              <ModalHeader>Reset password</ModalHeader>
+              <ModalBody>
+                <Form onSubmit={this.onSubmitReset}>
+                  <FormGroup>
+                    <p>Enter your email to activate your account.</p>
+                    <Label for='email'>Email</Label>
+                    <Input
+                      type='email'
+                      name='email'
+                      id='email'
+                      placeholder='Email'
+                      className='mb-3'
+                      onChange={this.onChange}
+                    />
+
+                    <Button
+                      color='success'
+                      style={{marginTop: '2rem'}}
+                      block
+                    >Login</Button>
+                  </FormGroup>
+                </Form>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.toggleNestedActivate}>Back to login</Button>{' '}
+                <Button color="primary" onClick={this.toggleAll}>Close all</Button>
+              </ModalFooter>
+            </Modal>
+            <ModalFooter>
+              <a href='#' onClick={this.toggleNestedRestPass}>Forgot password?</a>
+              <a href='#' onClick={this.toggleNestedActivate}>Activate email?</a>
+            </ModalFooter>
           </ModalBody>
         </Modal>
       </div>
