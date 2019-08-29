@@ -6,6 +6,10 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  RESETPASS_SUCCESS,
+  RESETPASS_FAIL,
+  ACTIVATE_SUCCESS,
+  ACTIVATE_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL
@@ -79,6 +83,15 @@ export const login = ({ email, password }) => dispatch => {
   });
 }
 
+// Reset Password
+export const resetPassword = ({ email }) => dispatch => {
+
+};
+
+// Activate Account
+export const activateAccount = ({ email }) => dispatch => {
+
+};
 
 // Logout User
 export const logout = () => {
