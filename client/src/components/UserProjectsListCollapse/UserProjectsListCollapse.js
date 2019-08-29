@@ -12,7 +12,6 @@ import './UserProjectsListCollapse.css';
 export default class UserProjectsListCollapse extends Component {
   
   render() {
-    console.log('this.props', this.props);
     const { user_projects } = this.props;
     return(
       <Collapse isOpen={this.props.collapse} className='user-projects-list-collapse'>

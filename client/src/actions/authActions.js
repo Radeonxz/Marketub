@@ -26,7 +26,7 @@ export const loadUser = () => (dispatch, getState) => {
     payload: res.data.data
   }))
   .catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status));
+    dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_ERROR'));
     dispatch({
       type: AUTH_ERROR
     });
@@ -81,16 +81,53 @@ export const login = ({ email, password }) => dispatch => {
       type: LOGIN_FAIL
     });
   });
-}
+};
 
 // Reset Password
 export const resetPassword = ({ email }) => dispatch => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
+  // Request body
+  const body = JSON.stringify({ email });
+  axios.post('/api/auth/forgot_password', body, config)
+  .then(res => dispatch({
+    type: RESETPASS_SUCCESS
+  }))
+  .catch(err => {
+    dispatch(returnErrors(err.response.data, err.response.status, 'RESETPASS_FAIL'));
+    dispatch({
+      type: RESETPASS_FAIL
+    });
+  });
 };
 
 // Activate Account
 export const activateAccount = ({ email }) => dispatch => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
+  // Request body
+  const body = JSON.stringify({ email });
+
+  axios.post('/api/auth/get_activation', body, config)
+  .then(res => dispatch({
+    type: ACTIVATE_SUCCESS
+  }))
+  .catch(err => {
+    dispatch(returnErrors(err.response.data, err.response.status, 'ACTIVATE_FAIL'));
+    dispatch({
+      type: ACTIVATE_FAIL
+    });
+  });
 };
 
 // Logout User
