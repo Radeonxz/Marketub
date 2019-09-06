@@ -72,7 +72,7 @@ class LoginModal extends Component {
   toggleNestedModal = (header, text, resetPass) => {
     // Cealer errors
     this.props.clearErrors();
-    if(header && text && resetPass) {
+    if(header && text) {
       this.setState({
         nestedModal: !this.state.nestedModal,
         closeAll: false,
@@ -137,7 +137,9 @@ class LoginModal extends Component {
 
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='email'>Email</Label>
+                <Label for='email'>
+                  Email
+                </Label>
                 <Input
                   type='email'
                   name='email'
@@ -147,7 +149,9 @@ class LoginModal extends Component {
                   onChange={this.onChange}
                 />
 
-                <Label for='password'>Password</Label>
+                <Label for='password'>
+                  Password
+                </Label>
                 <Input
                   type='password'
                   name='password'
@@ -160,7 +164,9 @@ class LoginModal extends Component {
                   color='success'
                   style={{marginTop: '2rem'}}
                   block
-                >Submit</Button>
+                >
+                  Submit
+                </Button>
               </FormGroup>
             </Form>
             <Modal
@@ -173,7 +179,9 @@ class LoginModal extends Component {
                 <Form onSubmit={this.onSubmitNestModal}>
                   <FormGroup>
                     <p>{this.state.nestedModalText}</p>
-                    <Label for='email'>Email</Label>
+                    <Label for='email'>
+                      Email
+                    </Label>
                     <Input
                       type='email'
                       name='email'
@@ -187,19 +195,32 @@ class LoginModal extends Component {
                       color='success'
                       style={{marginTop: '2rem'}}
                       block
-                    >Submit</Button>
+                    >
+                      Submit
+                    </Button>
                   </FormGroup>
                 </Form>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.toggleNestedModal}>Back to login</Button>{' '}
-                <Button color="primary" onClick={this.toggleAll}>Close all</Button>
+                <Button
+                  color='primary'
+                  onClick={this.toggleNestedModal}
+                >
+                  Back to login
+                </Button>
+                {' '}
+                <Button
+                  color='primary'
+                  onClick={this.toggleAll}
+                >
+                  Close all
+                </Button>
               </ModalFooter>
             </Modal>
             <ModalFooter>
               <a href='/#' onClick={() => this.toggleNestedModal(
                 'Reset Password',
-                'Enter your email to activate your account.',
+                'Enter your email to reset your password.',
                 true
               )}>Forgot password?</a>
               <a href='/#' onClick={() => this.toggleNestedModal(
