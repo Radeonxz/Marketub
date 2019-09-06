@@ -100,7 +100,9 @@ class RegisterModal extends Component {
 
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='username'>Username</Label>
+                <Label for='username'>
+                  Username
+                </Label>
                 <Input
                   type='text'
                   name='username'
@@ -110,7 +112,9 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                 />
 
-                <Label for='email'>Email</Label>
+                <Label for='email'>
+                  Email
+                </Label>
                 <Input
                   type='email'
                   name='email'
@@ -120,7 +124,9 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                 />
 
-                <Label for='password'>Password</Label>
+                <Label for='password'>
+                  Password
+                </Label>
                 <Input
                   type='password'
                   name='password'
@@ -130,7 +136,9 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                 />
 
-                <Label for='password_confirm'>Confirm Password</Label>
+                <Label for='password_confirm'>
+                  Confirm Password
+                </Label>
                 <Input
                   type='password'
                   name='password_confirm'
@@ -140,7 +148,9 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                 />
 
-                <Label for='password_confirm'>Activation</Label>
+                <Label for='password_confirm'>
+                  Activation
+                </Label>
                 <Input
                   type='text'
                   name='activation'
@@ -150,7 +160,7 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                 />
                 <Button
-                  color='dark'
+                  color='success'
                   style={{marginTop: '2rem'}}
                   block
                 >Register</Button>
