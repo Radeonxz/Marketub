@@ -50,7 +50,8 @@ exports.loginUserSchema = {
     allowUnknownQuery: false
 	},
 	body: {
-    email: joi.string().email().required(),
+    email: joi.string().email(),
+    username: joi.string(),
     password: joi.string().required(),
 	}
 };
@@ -58,8 +59,13 @@ exports.loginUserSchema = {
 exports.loginUser = (req, res) => {
   const fctName = moduleName + 'loginUser ';
 
-  const { email, password } = req.body;
-  const query = {email: email};
+  const { email, username, password } = req.body;
+  let query;
+  if(email) {
+    query = {email: email};
+  } else if(username) {
+    query = {username: username};
+  }
 
   (async () => {
     try{
