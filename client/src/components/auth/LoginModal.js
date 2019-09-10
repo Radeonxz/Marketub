@@ -138,13 +138,13 @@ class LoginModal extends Component {
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for='email'>
-                  Email
+                  Email or Username
                 </Label>
                 <Input
                   type='email'
                   name='email'
                   id='email'
-                  placeholder='Email'
+                  placeholder='Email or Username'
                   className='mb-3'
                   onChange={this.onChange}
                 />
@@ -224,10 +224,10 @@ class LoginModal extends Component {
                 true
               )}>Forgot password?</a>
               <a href='/#' onClick={() => this.toggleNestedModal(
-                'Activate Email',
-                'Enter your email to activate your account.',
+                'Find Username',
+                'Enter your email to find your username.',
                 false
-              )}>Activate email?</a>
+              )}>Forgot username?</a>
             </ModalFooter>
           </ModalBody>
         </Modal>
