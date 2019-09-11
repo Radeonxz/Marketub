@@ -26,6 +26,7 @@ class LoginModal extends Component {
     nestedModalResetPass: false,
     closeAll: false,
     email: '',
+    username: '',
     password: '',
     msg: null,
   }
@@ -114,9 +115,10 @@ class LoginModal extends Component {
   onSubmitNestModal = e => {
     e.preventDefault();
     const { email } = this.state;
+    const { username } = this.state;
 
     // Attempt to reset or activate
-    this.state.nestedModalResetPass ? this.props.resetPassword({ email: email }) : this.props.activateAccount({ email: email });
+    this.state.nestedModalResetPass ? this.props.resetPassword({ email: email }) : this.props.forgotUsername({ username: username });
     this.toggleNestedModal();
   };
 
