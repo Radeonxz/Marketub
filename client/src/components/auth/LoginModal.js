@@ -115,10 +115,11 @@ class LoginModal extends Component {
   onSubmitNestModal = e => {
     e.preventDefault();
     const { email } = this.state;
-    const { username } = this.state;
+    // const { username } = this.state;
 
     // Attempt to reset or activate
-    this.state.nestedModalResetPass ? this.props.resetPassword({ email: email }) : this.props.forgotUsername({ username: username });
+    // this.state.nestedModalResetPass ? this.props.resetPassword({ email: email }) : this.props.forgotUsername({ username: username });
+    this.props.resetPassword({ email: email });
     this.toggleNestedModal();
   };
 
@@ -225,11 +226,11 @@ class LoginModal extends Component {
                 'Enter your email to reset your password.',
                 true
               )}>Forgot password?</a>
-              <a href='/#' onClick={() => this.toggleNestedModal(
+              {/* <a href='/#' onClick={() => this.toggleNestedModal(
                 'Find Username',
                 'Enter your email to find your username.',
                 false
-              )}>Forgot username?</a>
+              )}>Forgot username?</a> */}
             </ModalFooter>
           </ModalBody>
         </Modal>

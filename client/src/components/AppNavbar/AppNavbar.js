@@ -12,9 +12,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RegisterModal from '../auth/RegisterModal';
 import LoginModal from '../auth/LoginModal';
+import MyProjects from '../MyProjects/MyProjects';
 import Logout from '../auth/Logout';
-
-// import MyProjects from '../MyProjects';
 
 import './AppNavbar.css';
 
@@ -43,9 +42,9 @@ class AppNavbar extends Component {
             <strong>{ user ? `Welcome back, ${user.username}` : null }</strong>
           </span>
         </NavItem>
-        {/* <NavItem>
+        <NavItem>
           <MyProjects />
-        </NavItem> */}
+        </NavItem>
         <NavItem>
           <Logout />
         </NavItem>
