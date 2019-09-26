@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import AppNavbar from './components/AppNavbar/AppNavbar';
 import UsersList from './pages/UsersList/UsersList';
@@ -22,16 +23,20 @@ class App extends Component {
 
   render() {
     return (
-      <Provider store={store}>
-        <div className='App'>
-          <AppNavbar/>
-          <Container>
-            {/* <ItemModal/> */}
-            {/* <ShoppingList/> */}
-            <UsersList/>
-          </Container>
-        </div>
-      </Provider>
+      <BrowserRouter>
+        <React.Fragment>
+          <Provider store={store}>
+            <div className='App'>
+              <AppNavbar/>
+              <Container>
+                {/* <ItemModal/> */}
+                {/* <ShoppingList/> */}
+                <UsersList/>
+              </Container>
+            </div>
+          </Provider>
+        </React.Fragment>
+      </BrowserRouter>
     );
   }
 }
