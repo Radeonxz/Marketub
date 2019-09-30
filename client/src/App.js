@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+// import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import AppNavbar from './components/AppNavbar/AppNavbar';
 import UsersList from './pages/UsersList/UsersList';
@@ -9,6 +9,8 @@ import UsersList from './pages/UsersList/UsersList';
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/authActions';
+
+import Routes from './routes';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -23,7 +25,7 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      // <BrowserRouter>
         <React.Fragment>
           <Provider store={store}>
             <div className='App'>
@@ -36,7 +38,7 @@ class App extends Component {
             </div>
           </Provider>
         </React.Fragment>
-      </BrowserRouter>
+      // </BrowserRouter>
     );
   }
 }
