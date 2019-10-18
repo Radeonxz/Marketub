@@ -8,8 +8,8 @@ import {
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getProjects, addProject, updateProject, deleteProject } from '../../actions/projectActions';
 import PropTypes from 'prop-types';
+import { getProjects, addProject, updateProject, deleteProject } from '../../actions/projectActions';
 
 class MyProjects extends Component {
   static propTypes = {
