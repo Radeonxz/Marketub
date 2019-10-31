@@ -19,21 +19,21 @@ exports.getUser = (req, res) => {
   const fctName = moduleName + 'getUser ';
 
   const user_id = req.client.user.account_info.user_id;
-  const query = {'account_info.user_id': user_id};
+  const query = { 'account_info.user_id': user_id };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = `User_id: ${user_id} not found`;
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
       }
 
-      const query_response = query_resp.buildQueryRespA({'data': userDB});
+      const query_response = query_resp.buildQueryRespA({ data: userDB });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = `userDB.find err: ${err.message}`;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -45,15 +45,15 @@ exports.getUser = (req, res) => {
 
 // Login user
 exports.loginUserSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
+  },
+  body: {
     email: joi.string().email(),
     username: joi.string(),
-    password: joi.string().required(),
-	}
+    password: joi.string().required()
+  }
 };
 
 exports.loginUser = (req, res) => {
@@ -61,16 +61,16 @@ exports.loginUser = (req, res) => {
 
   const { email, username, password } = req.body;
   let query;
-  if(email) {
-    query = {email: email};
-  } else if(username) {
-    query = {username: username};
+  if (email) {
+    query = { email: email };
+  } else if (username) {
+    query = { username: username };
   }
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = `Email: ${email} not found`;
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -88,7 +88,7 @@ exports.loginUser = (req, res) => {
         }
       };
 
-      if(userDB.account_status.email_confirmed === false) {
+      if (userDB.account_status.email_confirmed === false) {
         const str = `Please activate account by confirming your email address`;
         StatusErr.data.details = str;
         StatusErr.data.token = token;
@@ -96,9 +96,9 @@ exports.loginUser = (req, res) => {
         return res.status(401).json(StatusErr);
       }
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = `userDB.find err: ${err.message}`;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -110,24 +110,23 @@ exports.loginUser = (req, res) => {
 
 // Get activation link
 exports.getActivationSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	query: {}
+  },
+  query: {}
 };
 
 exports.getActivation = (req, res) => {
   const fctName = moduleName + 'getActivation ';
-  console.log('req.client', req.client);
   const mailTemp = req.client.route;
   const user_id = req.client.user.account_info.user_id;
-  const query = {'account_info.user_id': user_id};
+  const query = { 'account_info.user_id': user_id };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = `User_id: ${user_id} not found`;
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -141,15 +140,15 @@ exports.getActivation = (req, res) => {
       const mailObj = UserM.buildMailObj(userDB, mailTemp, tempJWT.token);
       const mailRes = await UserM.sendResetTokenMail(mailObj);
       const respData = {
-        'response': mailRes.response,
-        'tempToken': tempJWT.token,
-        'account_info': userNM.account_info,
-        'affected': 0
+        response: mailRes.response,
+        tempToken: tempJWT.token,
+        account_info: userNM.account_info,
+        affected: 0
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = `userDB.find err: ${err.message}`;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -161,13 +160,13 @@ exports.getActivation = (req, res) => {
 
 // Activate user
 exports.userActivateSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
+  },
+  body: {
     token: joi.string().required()
-	}
+  }
 };
 
 exports.userActivate = (req, res) => {
@@ -183,9 +182,9 @@ exports.userActivate = (req, res) => {
   };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = 'Token is invalid or expired';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -200,15 +199,15 @@ exports.userActivate = (req, res) => {
       const mailRes = await UserM.sendResetTokenMail(mailObj);
       const token = await UserM.generateJWT(userDB);
       const respData = {
-        'token': token,
-        'response': mailRes.response,
-        'account_info': userNM.account_info,
-        'affected': 1
+        token: token,
+        response: mailRes.response,
+        account_info: userNM.account_info,
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userDB.update err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -216,21 +215,24 @@ exports.userActivate = (req, res) => {
       return res.status(403).json(StatusErr);
     }
   })();
-}
+};
 
 // Register user
 exports.registerUserSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
+  },
+  body: {
     username: joi.string().required(),
-    email: joi.string().email().required(),
+    email: joi
+      .string()
+      .email()
+      .required(),
     activation: joi.string().required(),
     password: joi.string().required(),
-    password_confirm: joi.string().required(),
-	}
+    password_confirm: joi.string().required()
+  }
 };
 
 exports.registerUser = (req, res) => {
@@ -238,7 +240,7 @@ exports.registerUser = (req, res) => {
   const mailTemp = req.client.route;
 
   (async () => {
-    try{
+    try {
       const userNM = UserM.addUser(req.body);
       userNM.password = await UserM.hashPassword(userNM.password);
       const tempJWT = await UserM.genTempJWT();
@@ -249,15 +251,15 @@ exports.registerUser = (req, res) => {
       const mailRes = await UserM.sendResetTokenMail(mailObj);
       const token = await UserM.generateJWT(userNM);
       const respData = {
-        'token': token,
-        'response': mailRes.response,
-        'account_info': userNM.account_info,
-        'affected': 1
+        token: token,
+        response: mailRes.response,
+        account_info: userNM.account_info,
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userNM.save err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -265,30 +267,33 @@ exports.registerUser = (req, res) => {
       return res.status(403).json(StatusErr);
     }
   })();
-}
+};
 
 // Forgot password
 exports.forgotPasswordSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
-    email: joi.string().email().required()
-	}
+  },
+  body: {
+    email: joi
+      .string()
+      .email()
+      .required()
+  }
 };
 
 exports.forgotPassword = (req, res) => {
   const fctName = moduleName + 'forgotPassword ';
- 
+
   const mailTemp = req.client.route;
   const { email } = req.body;
-  const query = {email: email};
+  const query = { email: email };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = 'email: ' + email + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -303,18 +308,18 @@ exports.forgotPassword = (req, res) => {
       const mailRes = await UserM.sendResetTokenMail(mailObj);
       const respData = {
         // 'token': tempJWT.token,
-        'response': mailRes.response,
-        'user': {
-          'user_id': userDB.account_info.user_id,
-          'username': userDB.username,
-          'email': userDB.email,
+        response: mailRes.response,
+        user: {
+          user_id: userDB.account_info.user_id,
+          username: userDB.username,
+          email: userDB.email
         },
-        'affected': 0
+        affected: 0
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userDB.update err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -322,24 +327,24 @@ exports.forgotPassword = (req, res) => {
       return res.status(403).json(StatusErr);
     }
   })();
-}
+};
 
 // Reset password
 exports.resetPasswordSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
+  },
+  body: {
     token: joi.string().required(),
     password: joi.string().required(),
-    password_confirm: joi.string().required(),
-	}
+    password_confirm: joi.string().required()
+  }
 };
 
 exports.resetPassword = (req, res) => {
   const fctName = moduleName + 'resetPassword ';
- 
+
   const mailTemp = req.client.route;
   const { token, password, password_confirm } = req.body;
   const query = {
@@ -350,9 +355,9 @@ exports.resetPassword = (req, res) => {
   };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = 'Token is invalid or expired';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -368,19 +373,19 @@ exports.resetPassword = (req, res) => {
       const mailRes = await UserM.sendResetTokenMail(mailObj);
       const token = await UserM.generateJWT(userDB.user_id);
       const respData = {
-        'token': token,
-        'response': mailRes.response,
-        'user': {
-          'user_id': userDB.account_info.user_id,
-          'username': userDB.username,
-          'email': userDB.email,
+        token: token,
+        response: mailRes.response,
+        user: {
+          user_id: userDB.account_info.user_id,
+          username: userDB.username,
+          email: userDB.email
         },
-        'affected': 1
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userDB.update err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -388,4 +393,4 @@ exports.resetPassword = (req, res) => {
       return res.status(403).json(StatusErr);
     }
   })();
-}
+};

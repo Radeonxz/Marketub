@@ -9,14 +9,15 @@ const jwt = require('jsonwebtoken');
 
 const config = require(path.join(__base, 'config/config'));
 require(path.join(__base, 'utils/object'));
-const userSchema = require(path.join(__base, 'mongoose/users/schema')).UserSchema;
+const userSchema = require(path.join(__base, 'mongoose/users/schema'))
+  .UserSchema;
 const nodemailer = require(path.join(__base, 'utils/nodemailer'));
 
 module.exports = function Users() {
-  this.name = "Users Object";
-    
+  this.name = 'Users Object';
+
   this.getUserModel = () => {
-	  return mongoose.model('User', userSchema);
+    return mongoose.model('User', userSchema);
   };
 
   this.addUser = req => {
@@ -25,10 +26,10 @@ module.exports = function Users() {
     // default guset user
     let role_id = 1;
     this.checkPassword(req.password, req.password_confirm);
-    if(req.activation && req.activation === premium) {
+    if (req.activation && req.activation === premium) {
       // premium user
       role_id = 500;
-    } else if(req.activation && req.activation === admin) {
+    } else if (req.activation && req.activation === admin) {
       // admin
       role_id = 999;
     }
@@ -43,7 +44,7 @@ module.exports = function Users() {
   };
 
   this.checkPassword = (password, password_confirm) => {
-    if(password !== password_confirm) {
+    if (password !== password_confirm) {
       throw Error(`Passwords not match.`);
     }
   };
@@ -51,7 +52,7 @@ module.exports = function Users() {
   this.hashPassword = password => {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, (err, salt) => {
-        if(err) {
+        if (err) {
           reject(err);
         }
         bcrypt.hash(password, salt, (err, passHashed) => {
@@ -59,14 +60,14 @@ module.exports = function Users() {
         });
       });
     });
-  }
+  };
 
   this.generateJWT = user => {
     const JWTSecret = config.JWT.JWTSecret;
     const jwtOptions = {
       account_info: user.account_info,
       email_confirmed: user.account_status.email_confirmed
-    }
+    };
     return new Promise((resolve, reject) => {
       jwt.sign(jwtOptions, JWTSecret, { expiresIn: 3600 }, (err, token) => {
         err ? reject(err) : resolve(token);
@@ -76,7 +77,7 @@ module.exports = function Users() {
 
   this.comparePass = async (inputPass, dbPass) => {
     isMatch = await bcrypt.compare(inputPass, dbPass);
-    if(!isMatch) {
+    if (!isMatch) {
       throw Error(`Invalid credentials`);
     }
     return;
@@ -85,7 +86,7 @@ module.exports = function Users() {
   this.genTempJWT = () => {
     const tempJWT = {
       token: crypto.randomBytes(20).toString('hex'),
-      expires: Date.now() + 360000,
+      expires: Date.now() + 360000
     };
     return tempJWT;
   };
@@ -93,7 +94,7 @@ module.exports = function Users() {
   this.buildMailObj = (user, mailTemp, token) => {
     let subject, url;
     const host = `${config.server.host}:${config.server.port}/auth`;
-    switch(mailTemp) {
+    switch (mailTemp) {
       case 'register':
         subject = 'Welcome';
         url = `${host}/activate?token=${token}`;
@@ -107,14 +108,14 @@ module.exports = function Users() {
       case 'activate':
         subject = 'Email confirmed';
         break;
-      
-      case 'forgot_password':
+
+      case 'auth/forgot_password':
         subject = 'Change password';
-        url= `${host}/reset_password?token=${token}`;
+        url = `${host}/reset_password?token=${token}`;
         break;
-      
+
       case 'reset_password':
-        subject = 'Password changed'
+        subject = 'Password changed';
         break;
     }
 
@@ -138,5 +139,5 @@ module.exports = function Users() {
         err ? reject(err) : resolve(res);
       });
     });
-  }
+  };
 };
