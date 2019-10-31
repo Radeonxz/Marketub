@@ -18,7 +18,7 @@ import './App.css';
 class App extends Component {
   componentDidMount() {
     const token = store.getState().auth.token;
-    if(token) {
+    if (token) {
       store.dispatch(loadUser());
     }
   }
@@ -26,18 +26,18 @@ class App extends Component {
   render() {
     return (
       // <BrowserRouter>
-        <React.Fragment>
-          <Provider store={store}>
-            <div className='App'>
-              <AppNavbar/>
-              <Container>
-                {/* <ItemModal/> */}
-                {/* <ShoppingList/> */}
-                <UsersList/>
-              </Container>
-            </div>
-          </Provider>
-        </React.Fragment>
+      <React.Fragment>
+        <Provider store={store}>
+          <div className="App">
+            <AppNavbar />
+            <Container>
+              {/* <ItemModal/> */}
+              {/* <ShoppingList/> */}
+              <UsersList />
+            </Container>
+          </div>
+        </Provider>
+      </React.Fragment>
       // </BrowserRouter>
     );
   }

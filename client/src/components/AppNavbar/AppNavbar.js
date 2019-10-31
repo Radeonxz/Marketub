@@ -20,17 +20,17 @@ import './AppNavbar.css';
 class AppNavbar extends Component {
   state = {
     isOpen: false
-  }
+  };
 
   static propTypes = {
     auth: PropTypes.object.isRequired
-  }
+  };
 
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
@@ -38,8 +38,8 @@ class AppNavbar extends Component {
     const authLinks = (
       <Fragment>
         <NavItem>
-          <span className='navbar-text mr-3'>
-            <strong>{ user ? `Welcome back, ${user.username}` : null }</strong>
+          <span className="navbar-text mr-3">
+            <strong>{user ? `Welcome back, ${user.username}` : null}</strong>
           </span>
         </NavItem>
         <NavItem>
@@ -60,24 +60,23 @@ class AppNavbar extends Component {
           <LoginModal />
         </NavItem>
       </Fragment>
-    )
+    );
 
     return (
       <div>
-        <Navbar color='transparent' dark expand='sm' className='mb-5'>
+        <Navbar color="transparent" dark expand="sm" className="mb-5">
           <Container>
-            <NavbarBrand href='/'>Portfolio-Hub</NavbarBrand>
-            <NavbarToggler onClick={this.toggle}/>
+            <NavbarBrand href="/">Portfolio-Hub</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className='ml-auto app-navbar' navbar>
-                { isAuthenticated ? authLinks : guestLinks }
+              <Nav className="ml-auto app-navbar" navbar>
+                {isAuthenticated ? authLinks : guestLinks}
               </Nav>
             </Collapse>
           </Container>
         </Navbar>
       </div>
     );
-    
   }
 }
 
@@ -85,4 +84,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, null)(AppNavbar);
+export default connect(
+  mapStateToProps,
+  null
+)(AppNavbar);
