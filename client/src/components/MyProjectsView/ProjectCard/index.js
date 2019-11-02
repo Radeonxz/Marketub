@@ -81,11 +81,12 @@ const ProjectCard = props => {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings" ref={anchorRef}>
-            <MoreVertIcon
-              aria-owns={open ? 'menu-list-grow' : undefined}
-              onClick={handleToggle}
-            />
+          <IconButton
+            aria-label="settings"
+            ref={anchorRef}
+            onClick={handleToggle}
+          >
+            <MoreVertIcon aria-owns={open ? 'menu-list-grow' : undefined} />
           </IconButton>
         }
         title="Shrimp and Chorizo Paella"
@@ -152,6 +153,8 @@ const ProjectCard = props => {
   );
 };
 
-ProjectCard.propTypes = {};
+ProjectCard.propTypes = {
+  // projects: PropTypes.object.isRequired
+};
 
 export default ProjectCard;

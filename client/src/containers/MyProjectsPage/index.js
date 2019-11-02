@@ -1,29 +1,33 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import {
-  getProjects,
-  addProject,
-  updateProject,
-  deleteProject
+  getProjects
+  // addProject,
+  // updateProject,
+  // deleteProject
 } from '../../actions/projectActions';
 
 // import view component
 import MyProjectsView from '../../components/MyProjectsView';
 
 class MyProjectsPage extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getProjects();
+  }
   render() {
     return (
       <div>
-        <MyProjectsView />
+        <MyProjectsView /*projects={projects}*/ />
       </div>
     );
   }
 }
 
-MyProjectsPage.propTypes = {};
+MyProjectsPage.propTypes = {
+  getProjects: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({});
 

@@ -20,7 +20,7 @@ const MyProjectsView = props => {
   const classes = useStyles();
   return (
     // <Grid container className={classes.root} spacing={2}>
-    <Grid lg={12}>
+    <Grid item lg={12}>
       <Grid container justify="center" spacing={8}>
         {[0, 1, 2].map(value => (
           <Grid key={value} item>
