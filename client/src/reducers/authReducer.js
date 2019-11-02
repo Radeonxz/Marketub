@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
     case USER_LOADING:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       };
 
     case USER_LOADED:
@@ -54,7 +54,7 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         isLoading: false
       };
-    
+
     default:
       return state;
   }

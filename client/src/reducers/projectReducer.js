@@ -1,4 +1,10 @@
-import { GET_PROJECTS, ADD_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, PROJECTS_LOADING } from '../actions/types';
+import {
+  GET_PROJECTS,
+  ADD_PROJECT,
+  UPDATE_PROJECT,
+  DELETE_PROJECT,
+  PROJECTS_LOADING
+} from '../actions/types';
 
 const initialState = {
   user_projects: [],
@@ -13,7 +19,7 @@ export default function(state = initialState, action) {
         user_projects: action.payload,
         loading: false
       };
-    
+
     case ADD_PROJECT:
       return {
         ...state,
@@ -29,14 +35,16 @@ export default function(state = initialState, action) {
     case DELETE_PROJECT:
       return {
         ...state,
-        user_projects: state.user_projects.filter(item => project.project_id !== action.payload)
+        user_projects: state.user_projects.filter(
+          project => project.project_id !== action.payload
+        )
       };
 
     case PROJECTS_LOADING:
       return {
         ...state,
         loading: true
-      }
+      };
 
     default:
       return state;

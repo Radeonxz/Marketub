@@ -25,68 +25,69 @@ const query_resp = new Query_Resp();
 // Get project
 exports.getProject = (req, res) => {
   const fctName = moduleName + 'getProject ';
- 
+
   const project_id = req.params.id;
-  const query = {project_id: project_id};
+  const query = { project_id: project_id };
   console.log('req.client.is_admin is', req.client.is_admin);
   // console.log('res.locals.clientIp is', req.client.ip);
   // console.log('req.user is', req.client.user);
   (async () => {
-    try{
+    try {
       const projectDB = await projectModel.findOne(query);
-      if(!projectDB) {
+      if (!projectDB) {
         const str = 'project_id: ' + project_id + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
       }
 
-      const query_response = query_resp.buildQueryRespA({'data': projectDB});
+      const query_response = query_resp.buildQueryRespA({ data: projectDB });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'projectModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
     }
   })();
-}
+};
 
 // Get all projects of current user
 exports.getAllProjects = (req, res) => {
   const fctName = moduleName + 'getAllProjects ';
 
   const owner_id = req.client.user.account_info.user_id;
-  const query = {'owner_id': owner_id};
+  const query = { owner_id: owner_id };
 
   (async () => {
-    try{
-      const projectDB = await projectModel.findAll(query);
-      if(!projectDB) {
+    try {
+      const projectDB = await projectModel.find(query);
+
+      if (!projectDB) {
         const str = 'user_id: ' + owner_id + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
       }
 
-      const query_response = query_resp.buildQueryRespA({'data': projectDB});
+      const query_response = query_resp.buildQueryRespA({ data: projectDB });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'projectModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
     }
-  })();  
+  })();
 };
 
 // Post project
 exports.postProjectSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
+  },
+  body: {
     // name: joi.array().items(joi.string().required(), joi.string()).required(),
     name: joi.string().required(),
     // description: joi.array().items(joi.string().required(), joi.string()).required(),
@@ -102,16 +103,16 @@ exports.postProject = (req, res) => {
   const fctName = moduleName + 'postProject ';
 
   const owner_id = req.client.user.account_info.user_id;
-  const query = {'account_info.user_id': owner_id};
+  const query = { 'account_info.user_id': owner_id };
 
   (async () => {
-    try{
-      if(req.file === undefined) {
+    try {
+      if (req.file === undefined) {
         throw Error(`File with extension not allowed.`);
       }
 
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = 'user_id: ' + owner_id + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -119,20 +120,20 @@ exports.postProject = (req, res) => {
       }
 
       const projectNM = ProjectM.addProject(req.body, req.file, owner_id);
-      userDB.projects_array.push({project_id: projectNM.project_id});
+      userDB.projects_array.push({ project_id: projectNM.project_id });
 
       await projectNM.save();
       await userDB.save();
-      
+
       const respData = {
-        'project_id': id,
-        'user_id': owner_id,
-        'affected': 1
+        project_id: id,
+        user_id: owner_id,
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'projectNM.save err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -140,15 +141,15 @@ exports.postProject = (req, res) => {
       return res.status(403).json(StatusErr);
     }
   })();
-}
+};
 
 // Put project
 exports.putProjectSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	body: {
+  },
+  body: {
     // name: joi.array().items(joi.string().required(), joi.string()).required(),
     name: joi.string(),
     // description: joi.array().items(joi.string().required(), joi.string()).required(),
@@ -165,12 +166,12 @@ exports.putProject = (req, res) => {
 
   const project_id = req.params.id;
   const owner_id = req.client.user.account_info.user_id;
-  const query = {project_id: project_id};
+  const query = { project_id: project_id };
 
   (async () => {
-    try{
+    try {
       const projectDB = await projectModel.findOne(query);
-      if(!projectDB) {
+      if (!projectDB) {
         const str = 'project_id: ' + project_id + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -181,14 +182,14 @@ exports.putProject = (req, res) => {
       await projectNM.save();
 
       const respData = {
-        'project_id': projectNM.project_id,
-        'user_id': owner_id,
-        'affected': 1
+        project_id: projectNM.project_id,
+        user_id: owner_id,
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'projectNM.save err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
@@ -196,21 +197,21 @@ exports.putProject = (req, res) => {
       return res.status(403).json(StatusErr);
     }
   })();
-}
+};
 
 // Delete project
 exports.deleteProject = (req, res) => {
   const fctName = moduleName + 'deleteProject ';
 
   const project_id = req.params.id;
-  const query = {project_id: project_id};
+  const query = { project_id: project_id };
   console.log('req.client.is_admin is', req.client.is_admin);
   // console.log('res.locals.clientIp is', req.client.ip);
   // console.log('req.user is', req.client.user);
   (async () => {
-    try{
+    try {
       const projectDB = await projectModel.findOne(query);
-      if(!projectDB) {
+      if (!projectDB) {
         const str = 'project_id: ' + project_id + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -219,17 +220,17 @@ exports.deleteProject = (req, res) => {
 
       await projectModel.findOneAndRemove(query);
       const respData = {
-        'project_id': project_id,
-        'affected': 1
+        project_id: project_id,
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'projectModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
     }
   })();
-}
+};
