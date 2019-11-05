@@ -20,14 +20,14 @@ app.use('/uploads', express.static('uploads'));
 
 // Init body parser middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // CORS
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Method', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  if(req.method === 'OPTIONS') {
+  if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
   next();
@@ -42,19 +42,19 @@ routes.setup(app);
 // Routes validation
 const reditectUnmatchedAPI = (req, res) => {
   return res.status(400).json({
-    'status': 'error',
-    'data': {
-      'level': 'ERR',
-      'code': '400',
-      'message': 'Invalid API Call',
-      'details': 'Invalid API Call'
+    status: 'error',
+    data: {
+      level: 'ERR',
+      code: '400',
+      message: 'Invalid API Call',
+      details: 'Invalid API Call'
     }
   });
-}
+};
 app.all('*', reditectUnmatchedAPI);
 
 // Serve static assets if in production
-if(config.node_env ==='production') {
+if (config.node_env === 'production') {
   // Set static folder
   app.use(express.static('client/build'));
 
@@ -66,18 +66,26 @@ if(config.node_env ==='production') {
 // MongoDB setup
 const MongoDBOptions = {
   useNewUrlParser: true,
-  useCreateIndex: true
-}
+  useCreateIndex: true,
+  useUnifiedTopology: true
+};
 
-mongoose.connect(app.get('mongoURL'), MongoDBOptions)
-.then(() => {
-  // Start server
-  console.info('Express server starting ....');
-  const server = app.listen(app.get('port'), function () {
-    console.info('Express server is listening on port ' + server.address().port + ', ' + fctName);
+mongoose
+  .connect(app.get('mongoURL'), MongoDBOptions)
+  .then(() => {
+    // Start server
+    console.info('Express server starting ....');
+    const server = app.listen(app.get('port'), function() {
+      console.info(
+        'Express server is listening on port ' +
+          server.address().port +
+          ', ' +
+          fctName
+      );
+    });
+  })
+  .catch(err => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 
 module.exports = app;
