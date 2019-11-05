@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, Grid, Paper } from '@material-ui/core';
+import { makeStyles, Grid } from '@material-ui/core';
 import ProjectCard from './ProjectCard';
 
 const useStyles = makeStyles(theme => ({
@@ -18,21 +18,22 @@ const useStyles = makeStyles(theme => ({
 
 const MyProjectsView = props => {
   const classes = useStyles();
+  const { user_projects } = props;
   return (
-    // <Grid container className={classes.root} spacing={2}>
     <Grid item lg={12}>
       <Grid container justify="center" spacing={8}>
-        {[0, 1, 2].map(value => (
-          <Grid key={value} item>
-            <ProjectCard className={classes.paper} />
+        {user_projects.map(project => (
+          <Grid key={project.project_id} item>
+            <ProjectCard className={classes.paper} project={project} />
           </Grid>
         ))}
       </Grid>
     </Grid>
-    // </Grid>
   );
 };
 
-MyProjectsView.propTypes = {};
+MyProjectsView.propTypes = {
+  project: PropTypes.object
+};
 
 export default MyProjectsView;

@@ -21,6 +21,8 @@ import {
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkIcon from '@material-ui/icons/Link';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
@@ -54,6 +56,15 @@ const ProjectCard = props => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const {
+    created_at,
+    name,
+    description,
+    screenshot,
+    skill_sets,
+    github_link,
+    site_link
+  } = props.project;
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -89,8 +100,8 @@ const ProjectCard = props => {
             <MoreVertIcon aria-owns={open ? 'menu-list-grow' : undefined} />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={name}
+        subheader={`Created at: ${created_at.substring(0, 10)}`}
       />
       <Popper open={open} anchorEl={anchorRef.current} transition disablePortal>
         {({ TransitionProps, placement }) => (
@@ -121,17 +132,21 @@ const ProjectCard = props => {
       </Popper>
       <CardMedia
         className={classes.media}
-        image="/static/images/cards/paella.jpg"
+        image={screenshot}
         title="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
+        <IconButton aria-label="Github Link" href={github_link} target="_blank">
+          <GitHubIcon />
+        </IconButton>
+        <IconButton aria-label="Github Link" href={site_link} target="_blank">
+          <LinkIcon />
+        </IconButton>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
@@ -154,7 +169,7 @@ const ProjectCard = props => {
 };
 
 ProjectCard.propTypes = {
-  // projects: PropTypes.object.isRequired
+  project: PropTypes.array.isRequired
 };
 
 export default ProjectCard;

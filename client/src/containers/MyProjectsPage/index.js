@@ -17,19 +17,25 @@ class MyProjectsPage extends Component {
     this.props.getProjects();
   }
   render() {
+    const { user_projects } = this.props;
     return (
-      <div>
-        <MyProjectsView /*projects={projects}*/ />
-      </div>
+      user_projects && (
+        <div>
+          <MyProjectsView user_projects={user_projects} />
+        </div>
+      )
     );
   }
 }
 
 MyProjectsPage.propTypes = {
+  user_projects: PropTypes.array,
   getProjects: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user_projects: state.projects.user_projects
+});
 
 const mapDispatchToProps = dispatch => ({
   getProjects: () => {
