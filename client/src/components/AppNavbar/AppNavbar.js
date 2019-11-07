@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import RegisterModal from '../auth/RegisterModal';
 import LoginModal from '../auth/LoginModal';
 import MyProjects from '../MyProjects/MyProjects';
@@ -43,7 +44,9 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
-          <MyProjects />
+          <span className="navbar-text mr-3">
+            <Link to="/myprojects">My Projects</Link>
+          </span>
         </NavItem>
         <NavItem>
           <Logout />
