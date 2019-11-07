@@ -169,7 +169,7 @@ const ProjectCard = props => {
 };
 
 ProjectCard.propTypes = {
-  project: PropTypes.array.isRequired
+  project: PropTypes.object.isRequired
 };
 
 export default ProjectCard;
