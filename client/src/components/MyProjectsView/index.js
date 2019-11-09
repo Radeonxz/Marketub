@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Grid } from '@material-ui/core';
 import ProjectCard from './ProjectCard';
+import AddProjectTooltip from './AddProjectTooltip';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,6 +22,7 @@ const MyProjectsView = props => {
   const { user_projects } = props;
   return (
     <Grid item lg={12}>
+      <AddProjectTooltip editToggle={props.editToggle} />
       <Grid container justify="center" spacing={8}>
         {user_projects.map(project => (
           <Grid key={project.project_id} item>
@@ -33,7 +35,8 @@ const MyProjectsView = props => {
 };
 
 MyProjectsView.propTypes = {
-  project: PropTypes.object
+  user_projects: PropTypes.array,
+  editToggle: PropTypes.func
 };
 
 export default MyProjectsView;
