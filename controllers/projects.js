@@ -92,7 +92,7 @@ exports.postProjectSchema = {
     name: joi.string().required(),
     // description: joi.array().items(joi.string().required(), joi.string()).required(),
     description: joi.string().required(),
-    skill_sets: joi.string(),
+    skill_sets: joi.array(),
     timestamp: joi.string(),
     site_link: joi.string(),
     github_link: joi.string()
@@ -154,7 +154,7 @@ exports.putProjectSchema = {
     name: joi.string(),
     // description: joi.array().items(joi.string().required(), joi.string()).required(),
     description: joi.string(),
-    skill_sets: joi.string(),
+    skill_sets: joi.array(),
     timestamp: joi.string(),
     site_link: joi.string(),
     github_link: joi.string()

@@ -144,7 +144,7 @@ const ProjectCard = props => {
         <IconButton aria-label="Github Link" href={github_link} target="_blank">
           <GitHubIcon />
         </IconButton>
-        <IconButton aria-label="Github Link" href={site_link} target="_blank">
+        <IconButton aria-label="Site Link" href={site_link} target="_blank">
           <LinkIcon />
         </IconButton>
         <IconButton aria-label="add to favorites">
