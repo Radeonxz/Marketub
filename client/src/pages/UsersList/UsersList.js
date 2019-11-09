@@ -22,25 +22,30 @@ class UsersList extends Component {
   state = {
     collapse: false,
     user_projects: []
-  }
+  };
 
   static propTypes = {
     getUsers: PropTypes.func.isRequired,
     getUser: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool
-  }
+  };
 
   componentDidMount() {
     this.props.getUsers();
+    // document.addEventListener('mousedown', this.onClickToCloseCollapse);
   }
 
+  // componentWillUnmount() {
+  //   document.removeEventListener('mousedown', this.onClickToCloseCollapse);
+  // }
+
   onFetchUserClick = username => {
-    if(this.props.user.user_projects.length === 0) {
+    if (this.props.user.user_projects.length === 0) {
       this.props.getUser(username);
     }
     this.setState(state => ({ collapse: !state.collapse }));
-  }
+  };
 
   onClickToCloseCollapse = () => {
     this.setState(state => ({ collapse: false }));
@@ -49,28 +54,36 @@ class UsersList extends Component {
   render() {
     const { users, user_projects } = this.props.user;
     const button_text = this.state.collapse ? 'Close' : 'Projects';
-    return(
+    return (
       <Container>
         <Row>
           {users.map(({ user_id, username }) => (
             // <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <Col lg='3' md='4' sm='6' key={user_id}>
+            <Col lg="3" md="4" sm="6" key={user_id}>
               <Card>
                 <CardBody>
                   <Row>
-                    <Col sm='5'>
-                      <img width='100%' src='https://randomuser.me/api/portraits/lego/2.jpg' alt='Avatar' />
+                    <Col sm="5">
+                      <img
+                        width="100%"
+                        src="https://randomuser.me/api/portraits/lego/2.jpg"
+                        alt="Avatar"
+                      />
                     </Col>
-                    <Col sm='7'>
-                      <CardTitle className='allusers-card-title'><strong>{username}</strong></CardTitle>
-                      <CardText className='allusers-card-text'>Popularity: 199</CardText>
+                    <Col sm="7">
+                      <CardTitle className="allusers-card-title">
+                        <strong>{username}</strong>
+                      </CardTitle>
+                      <CardText className="allusers-card-text">
+                        Popularity: 199
+                      </CardText>
                     </Col>
                   </Row>
                 </CardBody>
-                <CardFooter className='text-center'>
+                <CardFooter className="text-center">
                   <Button
-                    className='users-list-card-btn'
-                    color='primary'
+                    className="users-list-card-btn"
+                    color="primary"
                     onClick={this.onFetchUserClick.bind(this, username)}
                     style={{ marginBottom: '1rem' }}
                   >
@@ -80,11 +93,13 @@ class UsersList extends Component {
               </Card>
             </Col>
           ))}
-          <Col lg='12' md='12' sm='12'>
-            <UserProjectsListCollapse collapse={this.state.collapse} user_projects={user_projects}/>
+          <Col lg="12" md="12" sm="12">
+            <UserProjectsListCollapse
+              collapse={this.state.collapse}
+              user_projects={user_projects}
+            />
           </Col>
         </Row>
-        
       </Container>
     );
   }
@@ -93,7 +108,7 @@ class UsersList extends Component {
 const mapStateToProps = state => ({
   user: state.user,
   isAuthenticated: state.auth.isAuthenticated
-}); 
+});
 
 export default connect(
   mapStateToProps,
