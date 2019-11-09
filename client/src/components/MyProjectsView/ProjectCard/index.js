@@ -18,6 +18,7 @@ import {
   MenuItem,
   MenuList
 } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
@@ -57,7 +58,7 @@ const ProjectCard = props => {
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const {
-    created_at,
+    timestamp,
     name,
     description,
     screenshot,
@@ -101,7 +102,7 @@ const ProjectCard = props => {
           </IconButton>
         }
         title={name}
-        subheader={`Created at: ${created_at.substring(0, 10)}`}
+        subheader={`Created at: ${timestamp}`}
       />
       <Popper open={open} anchorEl={anchorRef.current} transition disablePortal>
         {({ TransitionProps, placement }) => (
@@ -136,8 +137,20 @@ const ProjectCard = props => {
         title="Paella dish"
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" color="textSecondary" component={'span'}>
           {description}
+          <br />
+          <strong>Skill Sets:</strong>{' '}
+          {skill_sets.map((skill, index) => (
+            <Chip
+              key={index}
+              variant="outlined"
+              color="primary"
+              size="small"
+              style={{ margin: '0.1rem' }}
+              label={skill}
+            />
+          ))}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
