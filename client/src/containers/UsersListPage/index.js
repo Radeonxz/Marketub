@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import PropTypes from 'prop-types';
-import { getUsers, getUser } from '../../actions/userActions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import PropTypes from "prop-types";
+import { getUsers, getUser } from "../../actions/userActions";
 
-import UsersListPageView from '../../components/UsersListPageView';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import UsersListPageView from "../../components/UsersListPageView";
 
 class UsersListPage extends Component {
   componentDidMount() {
@@ -25,7 +26,15 @@ class UsersListPage extends Component {
   render() {
     const { usersList } = this.props;
     return (
-      <div>{usersList && <UsersListPageView usersList={usersList} />}</div>
+      <div>
+        {!(usersList.length > 0) && (
+          <CircularProgress
+            size="3rem"
+            style={{ position: "relative", left: "50%", color: "white" }}
+          />
+        )}
+        {usersList.length > 0 && <UsersListPageView usersList={usersList} />}
+      </div>
     );
   }
 }

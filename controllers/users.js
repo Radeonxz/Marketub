@@ -1,14 +1,14 @@
-const moduleName = 'controllers/users/~';
+const moduleName = "controllers/users/~";
 
-const path = require('path');
-const _ = require('underscore');
-const joi = require('joi');
+const path = require("path");
+const _ = require("underscore");
+const joi = require("joi");
 // const uuidv4 = require('uuid/v4');
 
-require(path.join(__base, 'utils/object'));
-const Users = require(path.join(__base, 'models/users'));
-const Projects = require(path.join(__base, 'models/projects'));
-const Query_Resp = require(path.join(__base, 'models/query_response'));
+require(path.join(__base, "utils/object"));
+const Users = require(path.join(__base, "models/users"));
+const Projects = require(path.join(__base, "models/projects"));
+const Query_Resp = require(path.join(__base, "models/query_response"));
 
 // User model
 const UserM = new Users();
@@ -24,7 +24,7 @@ const query_resp = new Query_Resp();
 /********************** CRUD User **********************/
 // Get user
 exports.getUser = (req, res) => {
-  const fctName = moduleName + 'getUser ';
+  const fctName = moduleName + "getUser ";
 
   const username = req.params.id;
   const query = { username: username };
@@ -33,14 +33,13 @@ exports.getUser = (req, res) => {
     try {
       const userDB = await userModel.findOne(query);
       if (!userDB) {
-        const str = 'username: ' + username + ' not found';
+        const str = "username: " + username + " not found";
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
       }
 
-      const project_ids = _.pluck(userDB.projects_array, 'project_id');
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaa', project_ids);
+      const project_ids = _.pluck(userDB.projects_array, "project_id");
       const projects = await projectModel.find({ project_id: project_ids });
       _.each(userDB.projects_array, userProject => {
         const project = _.find(projects, p => {
@@ -52,7 +51,7 @@ exports.getUser = (req, res) => {
       const query_response = query_resp.buildQueryRespA({ data: userDB });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userModel.find err: ' + err.message;
+      const str = "userModel.find err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
@@ -62,13 +61,13 @@ exports.getUser = (req, res) => {
 
 // Get all users
 exports.getAllUsers = (req, res) => {
-  const fctName = moduleName + 'getAllUsers ';
+  const fctName = moduleName + "getAllUsers ";
 
   (async () => {
     try {
       const userDB = await userModel.find({});
       if (!userDB) {
-        const str = 'No users found';
+        const str = "No users found";
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
@@ -81,7 +80,7 @@ exports.getAllUsers = (req, res) => {
       });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userModel.find err: ' + err.message;
+      const str = "userModel.find err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
@@ -105,7 +104,7 @@ exports.deleteUserSchema = {
 };
 
 exports.deleteUser = (req, res) => {
-  const fctName = moduleName + 'deleteUser ';
+  const fctName = moduleName + "deleteUser ";
 
   const user_id = req.query.user_id;
   const email = req.query.email;
@@ -131,7 +130,7 @@ exports.deleteUser = (req, res) => {
       const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userModel.find err: ' + err.message;
+      const str = "userModel.find err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);

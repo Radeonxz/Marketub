@@ -63,7 +63,6 @@ class RegisterModal extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-    console.log('this.state is', this.state);
   };
 
   onSubmit = e => {

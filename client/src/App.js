@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import AppNavbar from './components/AppNavbar/AppNavbar';
-import UsersListPage from './containers/UsersListPage';
-import MyProjects from './containers/MyProjectsPage';
+import React, { Component } from "react";
+import AppNavbar from "./components/AppNavbar/AppNavbar";
+import UsersListPage from "./containers/UsersListPage";
+import MyProjects from "./containers/MyProjectsPage";
 // import UsersList from './pages/UsersList/UsersList';
 // import ShoppingList from './components/ShoppingList';
 // import ItemModal from './components/ItemModal';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 
-import { Provider } from 'react-redux';
-import store from './store';
-import { loadUser } from './actions/authActions';
+import { Provider } from "react-redux";
+import store from "./store";
+import { loadUser } from "./actions/authActions";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 class App extends Component {
   componentDidMount() {

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
 import {
-  makeStyles,
   Card,
   CardHeader,
   CardMedia,
@@ -16,39 +16,34 @@ import {
   ClickAwayListener,
   MenuItem,
   MenuList
-} from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkIcon from '@material-ui/icons/Link';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+} from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import Chip from "@material-ui/core/Chip";
+import { red } from "@material-ui/core/colors";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ShareIcon from "@material-ui/icons/Share";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import LinkIcon from "@material-ui/icons/Link";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 450
+    width: "20rem",
+    height: "28rem",
+    position: "relative",
+    left: "50%",
+    transform: "translateX(-50%)"
   },
   media: {
     height: 0,
-    paddingTop: '56.25%' // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
-    })
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)'
+    paddingTop: "56.25%" // 16:9
   },
   avatar: {
     backgroundColor: red[500]
   }
 }));
 
-const options = ['Edit', 'Delete'];
+const options = ["Edit", "Delete"];
 
 const ProjectCard = props => {
   const classes = useStyles();
@@ -64,6 +59,7 @@ const ProjectCard = props => {
     github_link,
     site_link
   } = props.project;
+  const { isOwner } = props;
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -78,7 +74,6 @@ const ProjectCard = props => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -91,13 +86,15 @@ const ProjectCard = props => {
           </Avatar>
         }
         action={
-          <IconButton
-            aria-label="settings"
-            ref={anchorRef}
-            onClick={handleToggle}
-          >
-            <MoreVertIcon aria-owns={open ? 'menu-list-grow' : undefined} />
-          </IconButton>
+          isOwner && (
+            <IconButton
+              aria-label="settings"
+              ref={anchorRef}
+              onClick={handleToggle}
+            >
+              <MoreVertIcon aria-owns={open ? "menu-list-grow" : undefined} />
+            </IconButton>
+          )
         }
         title={name}
         subheader={`Created at: ${timestamp}`}
@@ -108,7 +105,7 @@ const ProjectCard = props => {
             {...TransitionProps}
             style={{
               transformOrigin:
-                placement === 'bottom' ? 'center top' : 'center bottom'
+                placement === "bottom" ? "center top" : "center bottom"
             }}
           >
             <Paper id="menu-list-grow">
@@ -135,45 +132,44 @@ const ProjectCard = props => {
         title="Paella dish"
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component={'span'}>
+        <Typography variant="body2" color="textSecondary" component={"span"}>
           {description}
           <br />
-          <strong>Skill Sets:</strong>{' '}
+          <strong>Skill Sets:</strong>{" "}
           {skill_sets.map((skill, index) => (
             <Chip
               key={index}
               variant="outlined"
               color="primary"
               size="small"
-              style={{ margin: '0.1rem' }}
+              style={{ margin: "0.1rem" }}
               label={skill}
             />
           ))}
         </Typography>
       </CardContent>
+      <Divider />
       <CardActions disableSpacing>
-        <IconButton aria-label="Github Link" href={github_link} target="_blank">
-          <GitHubIcon />
-        </IconButton>
-        <IconButton aria-label="Site Link" href={site_link} target="_blank">
-          <LinkIcon />
-        </IconButton>
+        {github_link && (
+          <IconButton
+            aria-label="Github Link"
+            href={github_link}
+            target="_blank"
+          >
+            <GitHubIcon />
+          </IconButton>
+        )}
+        {site_link && (
+          <IconButton aria-label="Site Link" href={site_link} target="_blank">
+            <LinkIcon />
+          </IconButton>
+        )}
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        {/* <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton> */}
       </CardActions>
     </Card>
   );
