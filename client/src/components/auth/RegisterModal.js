@@ -25,20 +25,20 @@ class RegisterModal extends Component {
     password_confirm: '',
     activation: '',
     msg: null
-  }
+  };
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
-  }
+  };
 
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
-    if(error !== prevProps.error) {
+    if (error !== prevProps.error) {
       // Check for register error
-      if(error.id === 'REGISTER_FAIL') {
+      if (error.id === 'REGISTER_FAIL') {
         this.setState({ msg: error.info.data.message });
       } else {
         this.setState({ msg: null });
@@ -46,8 +46,8 @@ class RegisterModal extends Component {
     }
 
     // If authenticated, close modal
-    if(this.state.modal) {
-      if(isAuthenticated) {
+    if (this.state.modal) {
+      if (isAuthenticated) {
         this.toggle();
       }
     }
@@ -63,12 +63,19 @@ class RegisterModal extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+    console.log('this.state is', this.state);
   };
 
   onSubmit = e => {
     e.preventDefault();
 
-    const { username, email, password, password_confirm, activation } = this.state;
+    const {
+      username,
+      email,
+      password,
+      password_confirm,
+      activation
+    } = this.state;
 
     // Create user object
     const newUser = {
@@ -84,86 +91,73 @@ class RegisterModal extends Component {
   };
 
   render() {
-    return(
+    return (
       <div>
-        <NavLink onClick={this.toggle} href='#'>
+        <NavLink onClick={this.toggle} href="#">
           Register
         </NavLink>
 
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-        >
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Register</ModalHeader>
           <ModalBody>
-            { this.state.msg ? (<Alert color='danger'>{ this.state.msg }</Alert>) : null }
+            {this.state.msg ? (
+              <Alert color="danger">{this.state.msg}</Alert>
+            ) : null}
 
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='username'>
-                  Username
-                </Label>
+                <Label for="username">Username</Label>
                 <Input
-                  type='text'
-                  name='username'
-                  id='name'
-                  placeholder='Required'
-                  className='mb-3'
+                  type="text"
+                  name="username"
+                  id="name"
+                  placeholder="Required"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
 
-                <Label for='email'>
-                  Email
-                </Label>
+                <Label for="email">Email</Label>
                 <Input
-                  type='email'
-                  name='email'
-                  id='email'
-                  placeholder='Required'
-                  className='mb-3'
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Required"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
 
-                <Label for='password'>
-                  Password
-                </Label>
+                <Label for="password">Password</Label>
                 <Input
-                  type='password'
-                  name='password'
-                  id='password'
-                  placeholder='Required'
-                  className='mb-3'
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Required"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
 
-                <Label for='password_confirm'>
-                  Confirm Password
-                </Label>
+                <Label for="password_confirm">Confirm Password</Label>
                 <Input
-                  type='password'
-                  name='password_confirm'
-                  id='password_confirm'
-                  placeholder='Required'
-                  className='mb-3'
+                  type="password"
+                  name="password_confirm"
+                  id="password_confirm"
+                  placeholder="Required"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
 
-                <Label for='password_confirm'>
-                  Activation
-                </Label>
+                <Label for="password_confirm">Activation</Label>
                 <Input
-                  type='text'
-                  name='activation'
-                  id='activation'
-                  placeholder='Optional'
-                  className='mb-3'
+                  type="text"
+                  name="activation"
+                  id="activation"
+                  placeholder="Optional"
+                  className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button
-                  color='success'
-                  style={{marginTop: '2rem'}}
-                  block
-                >Register</Button>
+                <Button color="success" style={{ marginTop: '2rem' }} block>
+                  Register
+                </Button>
               </FormGroup>
             </Form>
           </ModalBody>
@@ -176,7 +170,7 @@ class RegisterModal extends Component {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error
-}); 
+});
 
 export default connect(
   mapStateToProps,

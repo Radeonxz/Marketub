@@ -4,9 +4,29 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { getUsers, getUser } from '../../actions/userActions';
 
+import UsersListPageView from '../../components/UsersListPageView';
+
 class UsersListPage extends Component {
+  componentDidMount() {
+    this.props.getUsers();
+  }
+
+  onFetchUserClick = username => {
+    if (this.props.user.user_projects.length === 0) {
+      this.props.getUser(username);
+    }
+    this.setState(state => ({ collapse: !state.collapse }));
+  };
+
+  onClickToCloseCollapse = () => {
+    this.setState(state => ({ collapse: false }));
+  };
+
   render() {
-    return <div></div>;
+    const { usersList } = this.props;
+    return (
+      <div>{usersList && <UsersListPageView usersList={usersList} />}</div>
+    );
   }
 }
 
@@ -17,7 +37,7 @@ UsersListPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  usersList: state.usersList
+  usersList: state.user.usersList
 });
 
 const mapDispatchToProps = dispatch => ({

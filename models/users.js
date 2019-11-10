@@ -39,7 +39,7 @@ module.exports = function Users() {
     userNM.account_info.role_id = role_id;
 
     // userNM.user_id = uuidv4();
-    userNM.account_info.user_id = 111;
+    userNM.account_info.user_id = uuidv4();
     return userNM;
   };
 

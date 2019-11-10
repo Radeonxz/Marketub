@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import {
   getProjects,
@@ -8,6 +10,7 @@ import {
   updateProject,
   deleteProject
 } from '../../actions/projectActions';
+import { getUser } from '../../actions/userActions';
 
 // import view component
 import MyProjectsView from '../../components/MyProjectsView';
@@ -18,12 +21,19 @@ class MyProjectsPage extends Component {
     super(props);
 
     this.state = {
-      isEdit: false
+      isEdit: false,
+      isOwner: true
     };
   }
 
   componentDidMount() {
-    this.props.getProjects();
+    if (!_.isEmpty(this.props.match.params)) {
+      const { username } = this.props.match.params;
+      this.setState({ isOwner: false });
+      this.props.getUser(username);
+    } else {
+      this.props.getProjects();
+    }
   }
 
   editToggle = () => {
@@ -31,21 +41,22 @@ class MyProjectsPage extends Component {
   };
 
   render() {
-    const { user_projects } = this.props;
-    const { isEdit } = this.state;
+    const { user_projects, my_projects } = this.props;
+    const { isEdit, isOwner } = this.state;
 
-    console.log('isEdit is', isEdit);
     return (
-      user_projects && (
+      (!_.isEmpty(user_projects) || my_projects.length > 0) && (
         <div>
           <MyProjectsView
-            user_projects={user_projects}
+            user_projects={isOwner ? my_projects : user_projects.projects_array}
             editToggle={this.editToggle}
             // addProject={this.props.addProject}
             // updateProject={this.props.updateProject}
             // deleteProject={this.props.deleteProject}
           />
-          <EditProjectView isEdit={isEdit} editToggle={this.editToggle} />
+          {isOwner && (
+            <EditProjectView isEdit={isEdit} editToggle={this.editToggle} />
+          )}
         </div>
       )
     );
@@ -53,12 +64,14 @@ class MyProjectsPage extends Component {
 }
 
 MyProjectsPage.propTypes = {
+  my_projects: PropTypes.array,
   user_projects: PropTypes.array,
   getProjects: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  user_projects: state.projects.user_projects
+  my_projects: state.projects.user_projects,
+  user_projects: state.user.user_projects
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -73,12 +86,15 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteProject: project_id => {
     dispatch(deleteProject(project_id));
+  },
+  getUser: username => {
+    dispatch(getUser(username));
   }
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(MyProjectsPage);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+export default withRouter(compose(withConnect)(MyProjectsPage));
