@@ -20,21 +20,32 @@ export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
 
-  axios.get('/api/auth/user', tokenConfig(getState))
-  .then(res => dispatch({
-    type: USER_LOADED,
-    payload: res.data.data
-  }))
-  .catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status, 'AUTH_ERROR'));
-    dispatch({
-      type: AUTH_ERROR
+  axios
+    .get('/api/auth/user', tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data.data
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'AUTH_ERROR')
+      );
+      dispatch({
+        type: AUTH_ERROR
+      });
     });
-  });
-}
+};
 
 // Register User
-export const register = ({ name, email, password }) => dispatch => {
+export const register = ({
+  username,
+  email,
+  password,
+  password_confirm,
+  activation
+}) => dispatch => {
   // Headers
   const config = {
     headers: {
@@ -43,20 +54,31 @@ export const register = ({ name, email, password }) => dispatch => {
   };
 
   // Request body
-  const body = JSON.stringify({ name, email, password });
-
-  axios.post('/api/register', body, config)
-  .then(res => dispatch({
-    type: REGISTER_SUCCESS,
-    payload: res.data
-  }))
-  .catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
-    dispatch({
-      type: REGISTER_FAIL
-    });
+  const body = JSON.stringify({
+    username,
+    email,
+    password,
+    password_confirm,
+    activation
   });
-}
+
+  axios
+    .post('/api/auth/register', body, config)
+    .then(res =>
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
+      );
+      dispatch({
+        type: REGISTER_FAIL
+      });
+    });
+};
 
 // Login User
 export const login = ({ email, password }) => dispatch => {
@@ -70,17 +92,22 @@ export const login = ({ email, password }) => dispatch => {
   // Request body
   const body = JSON.stringify({ email, password });
 
-  axios.post('/api/auth/login', body, config)
-  .then(res => dispatch({
-    type: LOGIN_SUCCESS,
-    payload: res.data.data
-  }))
-  .catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
-    dispatch({
-      type: LOGIN_FAIL
+  axios
+    .post('/api/auth/login', body, config)
+    .then(res =>
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data.data
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
+      );
+      dispatch({
+        type: LOGIN_FAIL
+      });
     });
-  });
 };
 
 // Reset Password
@@ -94,16 +121,21 @@ export const resetPassword = ({ email }) => dispatch => {
 
   // Request body
   const body = JSON.stringify({ email });
-  axios.post('/api/auth/forgot_password', body, config)
-  .then(res => dispatch({
-    type: RESETPASS_SUCCESS
-  }))
-  .catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status, 'RESETPASS_FAIL'));
-    dispatch({
-      type: RESETPASS_FAIL
+  axios
+    .post('/api/auth/forgot_password', body, config)
+    .then(res =>
+      dispatch({
+        type: RESETPASS_SUCCESS
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'RESETPASS_FAIL')
+      );
+      dispatch({
+        type: RESETPASS_FAIL
+      });
     });
-  });
 };
 
 // Activate Account
@@ -118,16 +150,21 @@ export const activateAccount = ({ email }) => dispatch => {
   // Request body
   const body = JSON.stringify({ email });
 
-  axios.post('/api/auth/get_activation', body, config)
-  .then(res => dispatch({
-    type: ACTIVATE_SUCCESS
-  }))
-  .catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status, 'ACTIVATE_FAIL'));
-    dispatch({
-      type: ACTIVATE_FAIL
+  axios
+    .post('/api/auth/get_activation', body, config)
+    .then(res =>
+      dispatch({
+        type: ACTIVATE_SUCCESS
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'ACTIVATE_FAIL')
+      );
+      dispatch({
+        type: ACTIVATE_FAIL
+      });
     });
-  });
 };
 
 // Logout User
@@ -149,7 +186,7 @@ export const tokenConfig = getState => {
   };
 
   // If token, add to headers
-  if(token) {
+  if (token) {
     config.headers['x-auth-token'] = token;
   }
 

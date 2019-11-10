@@ -25,14 +25,14 @@ const query_resp = new Query_Resp();
 // Get user
 exports.getUser = (req, res) => {
   const fctName = moduleName + 'getUser ';
- 
+
   const username = req.params.id;
-  const query = {username: username};
+  const query = { username: username };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = 'username: ' + username + ' not found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -40,7 +40,8 @@ exports.getUser = (req, res) => {
       }
 
       const project_ids = _.pluck(userDB.projects_array, 'project_id');
-      const projects = await projectModel.find({project_id: project_ids});
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaa', project_ids);
+      const projects = await projectModel.find({ project_id: project_ids });
       _.each(userDB.projects_array, userProject => {
         const project = _.find(projects, p => {
           return userProject.project_id === p.project_id;
@@ -48,70 +49,73 @@ exports.getUser = (req, res) => {
         _.extend(userProject, project);
       });
 
-      const query_response = query_resp.buildQueryRespA({'data': userDB});
+      const query_response = query_resp.buildQueryRespA({ data: userDB });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
     }
   })();
-}
+};
 
 // Get all users
 exports.getAllUsers = (req, res) => {
   const fctName = moduleName + 'getAllUsers ';
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.find({});
-      if(!userDB) {
+      if (!userDB) {
         const str = 'No users found';
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
       }
 
-      const query_response = query_resp.buildQueryRespA({'data': userDB});
+      const query_response = query_resp.buildQueryRespA({ data: userDB });
       _.each(query_response.data, user => {
         user.user_id = user.account_info.user_id;
         delete user.account_info;
       });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
     }
   })();
-}
+};
 
 // Delete user
 exports.deleteUserSchema = {
-	options: {
+  options: {
     allowUnknownBody: false,
     allowUnknownQuery: false
-	},
-	query: {
+  },
+  query: {
     user_id: joi.string().required(),
-    email: joi.string().email().required()
-	}
+    email: joi
+      .string()
+      .email()
+      .required()
+  }
 };
 
 exports.deleteUser = (req, res) => {
   const fctName = moduleName + 'deleteUser ';
- 
+
   const user_id = req.query.user_id;
   const email = req.query.email;
 
-  const query = {email: email, user_id: user_id};
+  const query = { email: email, user_id: user_id };
 
   (async () => {
-    try{
+    try {
       const userDB = await userModel.findOne(query);
-      if(!userDB) {
+      if (!userDB) {
         const str = `user_id: ${user_id} with user's emai: ${email} not found`;
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
@@ -120,17 +124,17 @@ exports.deleteUser = (req, res) => {
 
       await userModel.findOneAndRemove(query);
       const respData = {
-        'user_id': user_id,
-        'affected': 1
+        user_id: user_id,
+        affected: 1
       };
 
-      const query_response = query_resp.buildQueryRespA({'data': respData});
+      const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
-    } catch(err) {
+    } catch (err) {
       const str = 'userModel.find err: ' + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       return res.status(403).json(err);
     }
   })();
-}
+};

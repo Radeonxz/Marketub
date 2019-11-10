@@ -1,13 +1,16 @@
-const moduleNam = 'utils/plugins~'; 
+const moduleNam = 'utils/plugins~';
 
-// const joi = require('joi');
+const joi = require('joi');
 
-// function GUIDvalidator (val) {
-//   const schema = joi.string().guid().required();
-//   return (!joi.validate(val, schema).error ? true:false);
-// }
-// const valGUID = [{validator:GUIDvalidator, msg: 'Invalid GUID.'}];
-// exports.valGUID = valGUID;
+const GUIDvalidator = val => {
+  const schema = joi
+    .string()
+    .guid()
+    .required();
+  return !joi.validate(val, schema).error ? true : false;
+};
+const valGUID = [{ validator: GUIDvalidator, msg: 'Invalid GUID.' }];
+exports.valGUID = valGUID;
 
 const updTime = context => {
   // get the current date
@@ -17,16 +20,15 @@ const updTime = context => {
   context.updated_at = currentDate;
 
   // if created_at doesn't exist, add to that field
-  if (!context.created_at)
-	context.created_at = currentDate;    
-}
+  if (!context.created_at) context.created_at = currentDate;
+};
 
 exports.modifiedOn = (schema, options) => {
-  schema.add({'created_at': { type: Date}});
-  schema.add({'updated_at': { type: Date}});
+  schema.add({ created_at: { type: Date } });
+  schema.add({ updated_at: { type: Date } });
 
   schema.pre('save', function(next) {
     updTime(this);
     next();
-  });    
-}
+  });
+};

@@ -10,7 +10,7 @@ const projectOptions = config.mongodb.schemaOptions;
 
 const projectSchema = new Schema(
   {
-    owner_id: { type: Number, required: true },
+    owner_id: { type: String, required: true, validate: plugins.valGUID },
     project_id: { type: Number, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },

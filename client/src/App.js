@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import { Container } from 'reactstrap';
 import AppNavbar from './components/AppNavbar/AppNavbar';
-import UsersList from './pages/UsersList/UsersList';
-import MyProjectsView from './containers/MyProjectsPage';
+import UsersListPage from './containers/UsersListPage';
+import MyProjects from './containers/MyProjectsPage';
+// import UsersList from './pages/UsersList/UsersList';
 // import ShoppingList from './components/ShoppingList';
 // import ItemModal from './components/ItemModal';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
@@ -32,17 +31,15 @@ class App extends Component {
               <AppNavbar />
               <Switch>
                 <Route exact path="/">
-                  <UsersList />
+                  <UsersListPage />
                 </Route>
                 <Route path="/myprojects">
-                  <MyProjectsView />
+                  <MyProjects />
+                </Route>
+                <Route path="/user/:username/projects">
+                  <MyProjects {...this.props} />
                 </Route>
               </Switch>
-              {/* <Container> */}
-              {/* <ItemModal/> */}
-              {/* <ShoppingList/> */}
-              {/* <UsersList /> */}
-              {/* </Container> */}
             </div>
           </Provider>
         </React.Fragment>

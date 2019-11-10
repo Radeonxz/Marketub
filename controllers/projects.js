@@ -95,7 +95,8 @@ exports.postProjectSchema = {
     skill_sets: joi.array(),
     timestamp: joi.string(),
     site_link: joi.string(),
-    github_link: joi.string()
+    github_link: joi.string(),
+    screenshot: joi.string()
   }
 };
 
@@ -107,9 +108,9 @@ exports.postProject = (req, res) => {
 
   (async () => {
     try {
-      if (req.file === undefined) {
-        throw Error(`File with extension not allowed.`);
-      }
+      // if (req.file === undefined) {
+      //   throw Error(`File with extension not allowed.`);
+      // }
 
       const userDB = await userModel.findOne(query);
       if (!userDB) {
