@@ -1,11 +1,11 @@
-const moduleName = 'controllers/projects/~';
+const moduleName = "controllers/projects/~";
 
-const path = require('path');
-const joi = require('joi');
+const path = require("path");
+const joi = require("joi");
 
-require(path.join(__base, 'utils/object'));
-const Users = require(path.join(__base, 'models/users'));
-const Query_Resp = require(path.join(__base, 'models/query_response'));
+require(path.join(__base, "utils/object"));
+const Users = require(path.join(__base, "models/users"));
+const Query_Resp = require(path.join(__base, "models/query_response"));
 
 // User model
 const UserM = new Users();
@@ -16,10 +16,10 @@ const query_resp = new Query_Resp();
 
 // Get user
 exports.getUser = (req, res) => {
-  const fctName = moduleName + 'getUser ';
+  const fctName = moduleName + "getUser ";
 
   const user_id = req.client.user.account_info.user_id;
-  const query = { 'account_info.user_id': user_id };
+  const query = { "account_info.user_id": user_id };
 
   (async () => {
     try {
@@ -57,7 +57,7 @@ exports.loginUserSchema = {
 };
 
 exports.loginUser = (req, res) => {
-  const fctName = moduleName + 'loginUser ';
+  const fctName = moduleName + "loginUser ";
 
   const { email, username, password } = req.body;
   let query;
@@ -118,10 +118,10 @@ exports.getActivationSchema = {
 };
 
 exports.getActivation = (req, res) => {
-  const fctName = moduleName + 'getActivation ';
+  const fctName = moduleName + "getActivation ";
   const mailTemp = req.client.route;
   const user_id = req.client.user.account_info.user_id;
-  const query = { 'account_info.user_id': user_id };
+  const query = { "account_info.user_id": user_id };
 
   (async () => {
     try {
@@ -170,13 +170,13 @@ exports.userActivateSchema = {
 };
 
 exports.userActivate = (req, res) => {
-  const fctName = moduleName + 'userActivate ';
+  const fctName = moduleName + "userActivate ";
 
   const mailTemp = req.client.route;
   const { token } = req.body;
   const query = {
-    'account_status.email_confirm_token': token,
-    'account_status.email_confirm_expires': {
+    "account_status.email_confirm_token": token,
+    "account_status.email_confirm_expires": {
       $gt: Date.now()
     }
   };
@@ -185,7 +185,7 @@ exports.userActivate = (req, res) => {
     try {
       const userDB = await userModel.findOne(query);
       if (!userDB) {
-        const str = 'Token is invalid or expired';
+        const str = "Token is invalid or expired";
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
@@ -208,7 +208,7 @@ exports.userActivate = (req, res) => {
       const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userDB.update err: ' + err.message;
+      const str = "userDB.update err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       StatusErr.data.affected = 0;
@@ -229,14 +229,14 @@ exports.registerUserSchema = {
       .string()
       .email()
       .required(),
-    activation: joi.string().required(),
+    activation: joi.string(),
     password: joi.string().required(),
     password_confirm: joi.string().required()
   }
 };
 
 exports.registerUser = (req, res) => {
-  const fctName = moduleName + 'registerUser ';
+  const fctName = moduleName + "registerUser ";
   const mailTemp = req.client.route;
 
   (async () => {
@@ -260,7 +260,7 @@ exports.registerUser = (req, res) => {
       const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userNM.save err: ' + err.message;
+      const str = "userNM.save err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       StatusErr.data.affected = 0;
@@ -284,7 +284,7 @@ exports.forgotPasswordSchema = {
 };
 
 exports.forgotPassword = (req, res) => {
-  const fctName = moduleName + 'forgotPassword ';
+  const fctName = moduleName + "forgotPassword ";
 
   const mailTemp = req.client.route;
   const { email } = req.body;
@@ -294,7 +294,7 @@ exports.forgotPassword = (req, res) => {
     try {
       const userDB = await userModel.findOne(query);
       if (!userDB) {
-        const str = 'email: ' + email + ' not found';
+        const str = "email: " + email + " not found";
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
@@ -320,7 +320,7 @@ exports.forgotPassword = (req, res) => {
       const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userDB.update err: ' + err.message;
+      const str = "userDB.update err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       StatusErr.data.affected = 0;
@@ -343,13 +343,13 @@ exports.resetPasswordSchema = {
 };
 
 exports.resetPassword = (req, res) => {
-  const fctName = moduleName + 'resetPassword ';
+  const fctName = moduleName + "resetPassword ";
 
   const mailTemp = req.client.route;
   const { token, password, password_confirm } = req.body;
   const query = {
-    'account_status.reset_password_token': token,
-    'account_status.reset_password_expires': {
+    "account_status.reset_password_token": token,
+    "account_status.reset_password_expires": {
       $gt: Date.now()
     }
   };
@@ -358,7 +358,7 @@ exports.resetPassword = (req, res) => {
     try {
       const userDB = await userModel.findOne(query);
       if (!userDB) {
-        const str = 'Token is invalid or expired';
+        const str = "Token is invalid or expired";
         StatusErr.data.details = str;
         StatusErr.data.code = 404;
         return res.status(404).json(StatusErr);
@@ -386,7 +386,7 @@ exports.resetPassword = (req, res) => {
       const query_response = query_resp.buildQueryRespA({ data: respData });
       return res.status(200).json(query_response);
     } catch (err) {
-      const str = 'userDB.update err: ' + err.message;
+      const str = "userDB.update err: " + err.message;
       console.error(fctName + str);
       StatusErr.data.details = str;
       StatusErr.data.affected = 0;

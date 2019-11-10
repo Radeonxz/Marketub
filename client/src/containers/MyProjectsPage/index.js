@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import _ from "lodash";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { withRouter } from "react-router";
+import PropTypes from "prop-types";
 import {
   getProjects,
   addProject,
   updateProject,
   deleteProject
-} from '../../actions/projectActions';
-import { getUser } from '../../actions/userActions';
+} from "../../actions/projectActions";
+import { getUser } from "../../actions/userActions";
 
 // import view component
-import MyProjectsView from '../../components/MyProjectsView';
-import EditProjectView from '../../components/EditProjectView';
+import MyProjectsView from "../../components/MyProjectsView";
+import EditProjectView from "../../components/EditProjectView";
 
 class MyProjectsPage extends Component {
   constructor(props) {
@@ -45,17 +45,21 @@ class MyProjectsPage extends Component {
     const { isEdit, isOwner } = this.state;
 
     return (
-      (!_.isEmpty(user_projects) || my_projects.length > 0) && (
+      (!_.isEmpty(user_projects) || isOwner) && (
         <div>
           <MyProjectsView
             user_projects={isOwner ? my_projects : user_projects.projects_array}
+            isOwner={isOwner}
             editToggle={this.editToggle}
-            // addProject={this.props.addProject}
             // updateProject={this.props.updateProject}
             // deleteProject={this.props.deleteProject}
           />
           {isOwner && (
-            <EditProjectView isEdit={isEdit} editToggle={this.editToggle} />
+            <EditProjectView
+              isEdit={isEdit}
+              editToggle={this.editToggle}
+              addProject={this.props.addProject}
+            />
           )}
         </div>
       )
@@ -65,7 +69,7 @@ class MyProjectsPage extends Component {
 
 MyProjectsPage.propTypes = {
   my_projects: PropTypes.array,
-  user_projects: PropTypes.array,
+  user_projects: PropTypes.object,
   getProjects: PropTypes.func.isRequired
 };
 

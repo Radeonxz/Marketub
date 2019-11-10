@@ -4,7 +4,7 @@ import {
   UPDATE_PROJECT,
   DELETE_PROJECT,
   PROJECTS_LOADING
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
   user_projects: [],
@@ -21,9 +21,10 @@ export default function(state = initialState, action) {
       };
 
     case ADD_PROJECT:
+      debugger;
       return {
         ...state,
-        user_projects: [action.payload, ...state.user_projects]
+        user_projects: [...state.user_projects, action.payload]
       };
 
     case UPDATE_PROJECT:

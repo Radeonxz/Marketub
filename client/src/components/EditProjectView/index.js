@@ -1,51 +1,42 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
-
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkIcon from '@material-ui/icons/Link';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    position: 'relative'
+    position: "relative"
   },
   title: {
     marginLeft: theme.spacing(2),
     flex: 1
   },
   inputContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginTop: '3rem'
+    display: "flex",
+    flexWrap: "wrap",
+    marginTop: "3rem"
   },
   inputGroup: {
-    maxWidth: '651px',
-    position: 'relative',
-    left: '50%',
-    transform: 'translateX(-50%)'
+    maxWidth: "651px",
+    position: "relative",
+    left: "50%",
+    transform: "translateX(-50%)"
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: '47%'
+    width: "47%"
   }
 }));
 
@@ -55,16 +46,36 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const EditProjectView = props => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+  const [state, setState] = useState({
+    name: "",
+    timestamp: "",
+    description: "",
+    skill_sets: [],
+    screenshot: "",
+    github_link: "",
+    site_link: ""
+  });
+
+  const onChange = e => {
+    const { name, value } = e.target;
+    if (name === "skill_sets") {
+      setState(prevState => {
+        return { ...prevState, ...skillsets.push(value) };
+      });
+    } else {
+      setState(prevState => {
+        return { ...prevState, ...{ [name]: value } };
+      });
+    }
+  };
+
+  const onSave = () => {
+    props.addProject(state);
+    props.editToggle();
+  };
 
   return (
     <div>
@@ -87,7 +98,7 @@ const EditProjectView = props => {
             <Typography variant="h6" className={classes.title}>
               Add new project
             </Typography>
-            <Button autoFocus color="inherit" onClick={props.editToggle}>
+            <Button autoFocus color="inherit" onClick={onSave}>
               save
             </Button>
           </Toolbar>
@@ -96,25 +107,33 @@ const EditProjectView = props => {
           <div className={classes.inputGroup}>
             <TextField
               label="Project Name"
+              name="name"
               id="margin-none"
               required
               className={classes.textField}
+              onChange={onChange}
             />
             <TextField
               label="Timestamp"
+              name="timestamp"
               id="margin-none"
               required
               className={classes.textField}
+              onChange={onChange}
             />
             <TextField
               id="standard-full-width"
               label="Description"
+              name="description"
               required
-              style={{ width: '97%', margin: 8 }}
+              style={{ width: "97%", margin: 8 }}
+              onChange={onChange}
             />
             <Autocomplete
               multiple
               options={skillsets}
+              name="skill_sets"
+              onChange={onChange}
               disableCloseOnSelect
               getOptionLabel={option => option.title}
               renderOption={(option, { selected }) => (
@@ -136,17 +155,23 @@ const EditProjectView = props => {
             <TextField
               id="standard-full-width"
               label="Screenshot"
-              style={{ width: '97%', margin: 8 }}
+              name="screenshot"
+              style={{ width: "97%", margin: 8 }}
+              onChange={onChange}
             />
             <TextField
               id="standard-full-width"
               label="Github Link"
-              style={{ width: '97%', margin: 8 }}
+              name="github_link"
+              style={{ width: "97%", margin: 8 }}
+              onChange={onChange}
             />
             <TextField
               id="standard-full-width"
+              name="site_link"
               label="Site Link"
-              style={{ width: '97%', margin: 8 }}
+              style={{ width: "97%", margin: 8 }}
+              onChange={onChange}
             />
           </div>
           <div></div>
@@ -157,15 +182,16 @@ const EditProjectView = props => {
 };
 
 const skillsets = [
-  { title: 'REST' },
-  { title: 'GraphQL' },
-  { title: 'ReactJS' },
-  { title: 'AngularJS' },
-  { title: 'VueJS' },
-  { title: 'NodeJS' },
-  { title: 'ExpressJS' },
-  { title: 'MongoDB' },
-  { title: 'MySQL' }
+  { title: "REST" },
+  { title: "GraphQL" },
+  { title: "Socket" },
+  { title: "ReactJS" },
+  { title: "AngularJS" },
+  { title: "VueJS" },
+  { title: "NodeJS" },
+  { title: "ExpressJS" },
+  { title: "MongoDB" },
+  { title: "MySQL" }
 ];
 
 export default EditProjectView;

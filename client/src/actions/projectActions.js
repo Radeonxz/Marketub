@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   GET_PROJECTS,
   ADD_PROJECT,
   UPDATE_PROJECT,
   DELETE_PROJECT,
   PROJECTS_LOADING
-} from './types';
-import { tokenConfig } from './authActions';
-import { returnErrors } from './errorActions';
+} from "./types";
+import { tokenConfig } from "./authActions";
+import { returnErrors } from "./errorActions";
 
 export const getProjects = () => (dispatch, getState) => {
   dispatch(setProjectsLoading);
   axios
-    .get('/api/projects', tokenConfig(getState))
+    .get("/api/projects", tokenConfig(getState))
     .then(res =>
       dispatch({
         type: GET_PROJECTS,
@@ -26,11 +26,11 @@ export const getProjects = () => (dispatch, getState) => {
 
 export const addProject = project => (dispatch, getState) => {
   axios
-    .post('/api/project', project, tokenConfig(getState))
+    .post("/api/project", project, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_PROJECT,
-        payload: res.data
+        payload: res.data.project
       })
     )
     .catch(err =>
