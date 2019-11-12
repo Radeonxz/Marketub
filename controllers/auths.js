@@ -138,9 +138,9 @@ exports.getActivation = (req, res) => {
       userDB.account_status.email_confirm_expires = tempJWT.expires;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp, tempJWT.token);
-      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      // const mailRes = await UserM.sendResetTokenMail(mailObj);
       const respData = {
-        response: mailRes.response,
+        // response: mailRes.response,
         tempToken: tempJWT.token,
         account_info: userNM.account_info,
         affected: 0
@@ -196,11 +196,11 @@ exports.userActivate = (req, res) => {
       userDB.account_status.email_confirmed = true;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp);
-      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      // const mailRes = await UserM.sendResetTokenMail(mailObj);
       const token = await UserM.generateJWT(userDB);
       const respData = {
         token: token,
-        response: mailRes.response,
+        // response: mailRes.response,
         account_info: userNM.account_info,
         affected: 1
       };
@@ -248,11 +248,11 @@ exports.registerUser = (req, res) => {
       userNM.account_status.email_confirm_expires = tempJWT.expires;
       await userNM.save();
       const mailObj = UserM.buildMailObj(userNM, mailTemp, tempJWT.token);
-      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      // const mailRes = await UserM.sendResetTokenMail(mailObj);
       const token = await UserM.generateJWT(userNM);
       const respData = {
         token: token,
-        response: mailRes.response,
+        // response: mailRes.response,
         account_info: userNM.account_info,
         affected: 1
       };
@@ -305,10 +305,10 @@ exports.forgotPassword = (req, res) => {
       userDB.account_status.reset_password_expires = tempJWT.expires;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp, tempJWT.token);
-      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      // const mailRes = await UserM.sendResetTokenMail(mailObj);
       const respData = {
         // 'token': tempJWT.token,
-        response: mailRes.response,
+        // response: mailRes.response,
         user: {
           user_id: userDB.account_info.user_id,
           username: userDB.username,
@@ -370,11 +370,11 @@ exports.resetPassword = (req, res) => {
       userDB.account_status.reset_password_expires = null;
       await userDB.save();
       const mailObj = UserM.buildMailObj(userDB, mailTemp);
-      const mailRes = await UserM.sendResetTokenMail(mailObj);
+      // const mailRes = await UserM.sendResetTokenMail(mailObj);
       const token = await UserM.generateJWT(userDB.user_id);
       const respData = {
         token: token,
-        response: mailRes.response,
+        // response: mailRes.response,
         user: {
           user_id: userDB.account_info.user_id,
           username: userDB.username,
