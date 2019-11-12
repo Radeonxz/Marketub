@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { makeStyles, Grid } from "@material-ui/core";
 import ProjectCard from "./ProjectCard";
 import AddProjectTooltip from "./AddProjectTooltip";
-import { relative } from "path";
 
 const useStyles = makeStyles(theme => ({
   root: {

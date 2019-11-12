@@ -5,7 +5,7 @@ import MyProjects from "./containers/MyProjectsPage";
 // import UsersList from './pages/UsersList/UsersList';
 // import ShoppingList from './components/ShoppingList';
 // import ItemModal from './components/ItemModal';
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import store from "./store";

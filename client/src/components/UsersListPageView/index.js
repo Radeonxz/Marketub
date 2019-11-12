@@ -51,7 +51,7 @@ const RecipeReviewCard = props => {
                 <CardHeader
                   avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                      R
+                      {username.charAt(0).toUpperCase()}
                     </Avatar>
                   }
                   action={
