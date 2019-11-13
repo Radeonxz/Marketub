@@ -21,7 +21,6 @@ export default function(state = initialState, action) {
       };
 
     case ADD_PROJECT:
-      debugger;
       return {
         ...state,
         user_projects: [...state.user_projects, action.payload]

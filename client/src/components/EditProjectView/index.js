@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import _ from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -50,6 +51,8 @@ const EditProjectView = props => {
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
   const [state, setState] = useState({
+    isUpdate: false,
+    project_id: "",
     name: "",
     timestamp: "",
     description: "",
@@ -58,6 +61,25 @@ const EditProjectView = props => {
     github_link: "",
     site_link: ""
   });
+
+  const { isEdit, editProject } = props;
+  if (
+    !_.isEmpty(editProject) &&
+    editProject.project_id !== state.project_id &&
+    !state.isUpdate
+  ) {
+    setState({
+      project_id: editProject.project_id,
+      name: editProject.name,
+      timestamp: editProject.timestamp,
+      description: editProject.description,
+      skill_sets: editProject.skill_sets,
+      screenshot: editProject.screenshot,
+      github_link: editProject.github_link,
+      site_link: editProject.site_link,
+      isUpdate: true
+    });
+  }
 
   const onChange = e => {
     const { name, value } = e.target;
@@ -72,16 +94,34 @@ const EditProjectView = props => {
     }
   };
 
+  const onClose = () => {
+    props.editToggle();
+    setState({
+      isUpdate: false
+    });
+  };
+
   const onSave = () => {
     props.addProject(state);
     props.editToggle();
+    setState({
+      isUpdate: false,
+      project_id: "",
+      name: "",
+      timestamp: "",
+      description: "",
+      skill_sets: [],
+      screenshot: "",
+      github_link: "",
+      site_link: ""
+    });
   };
 
   return (
     <div>
       <Dialog
         fullScreen
-        open={props.isEdit}
+        open={isEdit}
         onClose={props.editToggle}
         TransitionComponent={Transition}
       >
@@ -90,13 +130,13 @@ const EditProjectView = props => {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={props.editToggle}
+              onClick={onClose}
               aria-label="close"
             >
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Add new project
+              {_.isEmpty(editProject) ? "Add new project" : "Update project"}
             </Typography>
             <Button autoFocus color="inherit" onClick={onSave}>
               save
@@ -109,6 +149,7 @@ const EditProjectView = props => {
               label="Project Name"
               name="name"
               id="margin-none"
+              value={state.name && state.name}
               required
               className={classes.textField}
               onChange={onChange}
@@ -117,6 +158,7 @@ const EditProjectView = props => {
               label="Timestamp"
               name="timestamp"
               id="margin-none"
+              value={state.timestamp && state.timestamp}
               required
               className={classes.textField}
               onChange={onChange}
@@ -125,6 +167,7 @@ const EditProjectView = props => {
               id="standard-full-width"
               label="Description"
               name="description"
+              value={state.description && state.description}
               required
               style={{ width: "97%", margin: 8 }}
               onChange={onChange}
@@ -156,6 +199,7 @@ const EditProjectView = props => {
               id="standard-full-width"
               label="Screenshot"
               name="screenshot"
+              value={state.screenshot && state.screenshot}
               style={{ width: "97%", margin: 8 }}
               onChange={onChange}
             />
@@ -163,6 +207,7 @@ const EditProjectView = props => {
               id="standard-full-width"
               label="Github Link"
               name="github_link"
+              value={state.github_link && state.github_link}
               style={{ width: "97%", margin: 8 }}
               onChange={onChange}
             />
@@ -170,6 +215,7 @@ const EditProjectView = props => {
               id="standard-full-width"
               name="site_link"
               label="Site Link"
+              value={state.site_link && state.site_link}
               style={{ width: "97%", margin: 8 }}
               onChange={onChange}
             />
