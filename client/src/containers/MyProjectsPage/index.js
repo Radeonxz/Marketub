@@ -22,7 +22,8 @@ class MyProjectsPage extends Component {
 
     this.state = {
       isEdit: false,
-      isOwner: true
+      isOwner: true,
+      editProject: {}
     };
   }
 
@@ -36,13 +37,13 @@ class MyProjectsPage extends Component {
     }
   }
 
-  editToggle = () => {
-    this.setState(state => ({ isEdit: !state.isEdit }));
+  editToggle = project => {
+    this.setState(state => ({ editProject: project, isEdit: !state.isEdit }));
   };
 
   render() {
     const { user_projects, my_projects } = this.props;
-    const { isEdit, isOwner } = this.state;
+    const { isEdit, isOwner, editProject } = this.state;
 
     return (
       (!_.isEmpty(user_projects) || isOwner) && (
@@ -51,14 +52,15 @@ class MyProjectsPage extends Component {
             user_projects={isOwner ? my_projects : user_projects.projects_array}
             isOwner={isOwner}
             editToggle={this.editToggle}
-            // updateProject={this.props.updateProject}
-            // deleteProject={this.props.deleteProject}
+            deleteProject={this.props.deleteProject}
           />
           {isOwner && (
             <EditProjectView
               isEdit={isEdit}
+              editProject={editProject}
               editToggle={this.editToggle}
               addProject={this.props.addProject}
+              updateProject={this.props.updateProject}
             />
           )}
         </div>
@@ -96,9 +98,6 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default withRouter(compose(withConnect)(MyProjectsPage));

@@ -38,6 +38,8 @@ const MyProjectsView = props => {
               className={classes.paper}
               project={project}
               isOwner={isOwner}
+              editToggle={props.editToggle}
+              deleteProject={props.deleteProject}
             />
           </Grid>
         ))}

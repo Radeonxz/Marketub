@@ -11,7 +11,6 @@ import {
   IconButton,
   Typography,
   Popper,
-  Grow,
   Paper,
   ClickAwayListener,
   MenuItem,
@@ -49,8 +48,8 @@ const ProjectCard = props => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const {
+    project_id,
     timestamp,
     name,
     description,
@@ -62,7 +61,11 @@ const ProjectCard = props => {
   const { isOwner } = props;
 
   const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
+    if (index === 0) {
+      props.editToggle(props.project);
+    } else if (index === 1) {
+      props.deleteProject(project_id);
+    }
     setOpen(false);
   };
 
@@ -99,31 +102,28 @@ const ProjectCard = props => {
         title={name}
         subheader={`Created at: ${timestamp}`}
       />
-      <Popper open={open} anchorEl={anchorRef.current} transition disablePortal>
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom"
-            }}
-          >
-            <Paper id="menu-list-grow">
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList>
-                  {options.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      disabled={index === 2}
-                      onClick={event => handleMenuItemClick(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        transition
+        disablePortal
+        placement="bottom-end"
+      >
+        <Paper id="menu-list-grow">
+          <ClickAwayListener onClickAway={handleClose}>
+            <MenuList>
+              {options.map((option, index) => (
+                <MenuItem
+                  key={option}
+                  disabled={index === 2}
+                  onClick={event => handleMenuItemClick(event, index)}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </ClickAwayListener>
+        </Paper>
         )}
       </Popper>
       <CardMedia
