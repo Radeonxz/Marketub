@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
 import UsersListPage from "./containers/UsersListPage";
 import MyProjects from "./containers/MyProjectsPage";
-// import UsersList from './pages/UsersList/UsersList';
-// import ShoppingList from './components/ShoppingList';
 // import ItemModal from './components/ItemModal';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 

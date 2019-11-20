@@ -1,10 +1,10 @@
-const moduleNam = 'mongoose/users/schema/~';
+const moduleNam = "mongoose/users/schema/~";
 
-const path = require('path');
+const path = require("path");
 
-const config = require(path.join(__base, 'config/config'));
-const Schema = require('mongoose').Schema;
-const plugins = require(path.join(__base, 'utils/plugins'));
+const config = require(path.join(__base, "config/config"));
+const Schema = require("mongoose").Schema;
+const plugins = require(path.join(__base, "utils/plugins"));
 
 const userOptions = config.mongodb.schemaOptions;
 

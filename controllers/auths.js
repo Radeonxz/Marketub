@@ -229,7 +229,7 @@ exports.registerUserSchema = {
       .string()
       .email()
       .required(),
-    activation: joi.string(),
+    activation: joi.string().allow(""),
     password: joi.string().required(),
     password_confirm: joi.string().required()
   }
