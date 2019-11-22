@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     left: "50%",
     transform: "translateX(-50%)",
-    maxWidth: 300
+    height: 210,
+    maxWidth: 290
   },
   avatar: {
     backgroundColor: red[500]
