@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
 import UsersListPage from "./containers/UsersListPage";
 import MyProjects from "./containers/MyProjectsPage";
-// import ItemModal from './components/ItemModal';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
