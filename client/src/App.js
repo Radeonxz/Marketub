@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
-import UsersListPage from "./containers/UsersListPage";
+import UsersList from "./containers/UsersListPage";
 import MyProjects from "./containers/MyProjectsPage";
+import Labs from "./labs";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
@@ -28,13 +29,17 @@ class App extends Component {
               <AppNavbar />
               <Switch>
                 <Route exact path="/">
-                  <UsersListPage />
+                  <UsersList />
                 </Route>
                 <Route path="/myprojects">
                   <MyProjects />
                 </Route>
                 <Route path="/user/:username/projects">
                   <MyProjects {...this.props} />
+                </Route>
+                {/* Test labs page */}
+                <Route exact path="/labs">
+                  <Labs />
                 </Route>
               </Switch>
             </div>

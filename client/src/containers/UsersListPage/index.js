@@ -7,7 +7,8 @@ import { changeLang } from "../../actions/langActions";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import UsersListPageView from "../../components/UsersListPageView";
-import LangSelectView from "../../components/LangSelectView";
+// Language Select
+// import LangSelectView from "../../components/LangSelectView";
 
 class UsersListPage extends Component {
   // Language Select
@@ -60,12 +61,12 @@ class UsersListPage extends Component {
     const { usersList } = this.props;
 
     // Language Select
-    const { languages } = this.state;
-    const data = {
-      languages: languages,
-      firstLang: this.props.locale,
-      onChangeLocale: this.onChangeLocale
-    };
+    // const { languages } = this.state;
+    // const data = {
+    //   languages: languages,
+    //   firstLang: this.props.locale,
+    //   onChangeLocale: this.onChangeLocale
+    // };
 
     return (
       <div>
