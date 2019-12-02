@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import _ from "lodash";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -6,9 +6,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
 
 const LangSelectView = props => {
-  console.log("langSelect props is", props);
   const { languages, firstLang } = props.data;
-  const { state, setState } = useState({});
 
   const selectedLang = _.find(languages, { id: firstLang });
   const autoCompleteProps = {
@@ -24,11 +22,6 @@ const LangSelectView = props => {
         fullWidth
       />
     )
-  };
-
-  const onChange = event => {
-    const value = event.target.value || event.target.contextValue;
-    setState({ ...state, firstLang: value });
   };
 
   return (
