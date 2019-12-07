@@ -24,15 +24,19 @@ const LangSelectView = props => {
     )
   };
 
+  const buttonProps = {
+    variant: "outlined",
+    color: "primary",
+    onClick: props.data.onChangeLocale.bind()
+  }
+
   return (
     <div style={{ width: 500 }}>
       {languages.length > 0 && (
         <div>
           <Autocomplete {...autoCompleteProps} />
           <Button
-            variant="outlined"
-            color="primary"
-            onClick={props.data.onChangeLocale.bind()}
+            {...buttonProps}
           >
             Change
           </Button>
