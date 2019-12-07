@@ -51,7 +51,9 @@ const MyProjectsView = props => {
 
 MyProjectsView.propTypes = {
   user_projects: PropTypes.array,
-  editToggle: PropTypes.func
+  isOwner: PropTypes.bool,
+  editToggle: PropTypes.func,
+  deleteProject: PropTypes.func
 };
 
 export default MyProjectsView;
