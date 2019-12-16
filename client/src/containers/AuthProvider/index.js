@@ -20,9 +20,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({});
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(AuthProvider);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  AuthProvider
+);

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import PropTypes from "prop-types";
-import { getUsers, getUser } from "../../actions/userActions";
-import { changeLang } from "../../actions/langActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import PropTypes from 'prop-types';
+import { getUsers, getUser } from '../../actions/userActions';
+import { changeLang } from '../../actions/langActions';
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-import UsersListPageView from "../../components/UsersListPageView";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import UsersListPageView from '../../components/UsersListPageView';
 // Language Select
 // import LangSelectView from "../../components/LangSelectView";
 
@@ -39,10 +39,10 @@ class UsersListPage extends Component {
 
   // Language Select
   onChangeLocale = () => {
-    if (this.props.locale === "en") {
-      this.props.changeLang("fr");
+    if (this.props.locale === 'en') {
+      this.props.changeLang('fr');
     } else {
-      this.props.changeLang("en");
+      this.props.changeLang('en');
     }
   };
 
@@ -74,7 +74,7 @@ class UsersListPage extends Component {
         {!(usersList.length > 0) && (
           <CircularProgress
             size="3rem"
-            style={{ position: "relative", left: "50%", color: "white" }}
+            style={{ position: 'relative', left: '50%', color: 'white' }}
           />
         )}
         {usersList.length > 0 && <UsersListPageView usersList={usersList} />}
