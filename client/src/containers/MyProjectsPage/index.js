@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import _ from "lodash";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { withRouter } from "react-router";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import _ from 'lodash';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import {
   getProjects,
   addProject,
   updateProject,
   deleteProject
-} from "../../actions/projectActions";
-import { getUser } from "../../actions/userActions";
+} from '../../actions/projectActions';
+import { getUser } from '../../actions/userActions';
 
 // import view component
-import MyProjectsView from "../../components/MyProjectsView";
-import EditProjectView from "../../components/EditProjectView";
+import MyProjectsView from '../../components/MyProjectsView';
+import EditProjectView from '../../components/EditProjectView';
 
 class MyProjectsPage extends Component {
   constructor(props) {
