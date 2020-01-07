@@ -24,16 +24,8 @@ const MyProjectsView = props => {
     <div className={classes.root}>
       <Grid container spacing={4}>
         {isOwner && <AddProjectTooltip editToggle={props.editToggle} />}
-        {/* <Grid spacing={2} item> */}
         {user_projects.map(project => (
-          <Grid
-            key={project.project_id}
-            // spacing={2}
-            item
-            xs={12}
-            md={6}
-            lg={4}
-          >
+          <Grid key={project.project_id} item xs={12} md={6} lg={4}>
             <ProjectCard
               className={classes.paper}
               project={project}
@@ -43,7 +35,6 @@ const MyProjectsView = props => {
             />
           </Grid>
         ))}
-        {/* </Grid> */}
       </Grid>
     </div>
   );

@@ -38,7 +38,6 @@ class App extends Component {
                 <Route path="/user/:username/projects">
                   <MyProjects {...this.props} />
                 </Route>
-                {/* Test labs page */}
                 <Route exact path="/labs">
                   <Labs />
                 </Route>
