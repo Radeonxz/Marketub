@@ -65,10 +65,10 @@ const RecipeReviewCard = props => {
                     "MMM YYYY"
                   )}`}
                 />
-                <CardContent /*className={classes.content}*/>
+                <CardContent>
                   <Typography component="p">Popularity: 199</Typography>
                 </CardContent>
-                <CardActions disableSpacing /*className={classes.actions}*/>
+                <CardActions disableSpacing>
                   {github_link && (
                     <IconButton
                       aria-label="Github Link"
