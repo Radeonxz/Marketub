@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class AuthProvider extends Component {
   render() {
@@ -20,6 +19,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({});
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  AuthProvider
-);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthProvider);
