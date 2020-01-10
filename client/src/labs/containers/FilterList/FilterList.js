@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import FilterListView from "../../components/FilterListView";
 
 const FilterList = () => {
@@ -9,7 +8,5 @@ const FilterList = () => {
     </div>
   );
 };
-
-FilterList.propTypes = {};
 
 export default FilterList;
