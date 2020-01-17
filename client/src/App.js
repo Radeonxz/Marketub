@@ -7,7 +7,8 @@ import { loadUser } from "./actions/authActions";
 
 import AppNavbar from "./components/AppNavbar/AppNavbar";
 import UsersList from "./containers/UsersListPage";
-import MyProjects from "./containers/MyProjectsPage";
+// import MyProjects from "./containers/MyProjectsPage";
+import MyProjects from "./containers/MyProjectsPageContainer";
 import Labs from "./labs";
 
 import "bootstrap/dist/css/bootstrap.min.css";
