@@ -27,7 +27,7 @@ exports.getProject = (req, res) => {
   const fctName = moduleName + "getProject ";
 
   const project_id = req.params.id;
-  const query = { project_id: project_id };
+  const query = { project_id };
   console.log("req.client.is_admin is", req.client.is_admin);
   // console.log('res.locals.clientIp is', req.client.ip);
   // console.log('req.user is', req.client.user);
@@ -57,7 +57,7 @@ exports.getAllProjects = (req, res) => {
   const fctName = moduleName + "getAllProjects ";
 
   const owner_id = req.client.user.account_info.user_id;
-  const query = { owner_id: owner_id };
+  const query = { owner_id };
 
   (async () => {
     try {
@@ -167,7 +167,7 @@ exports.putProject = (req, res) => {
 
   const project_id = req.params.id;
   const owner_id = req.client.user.account_info.user_id;
-  const query = { project_id: project_id };
+  const query = { project_id };
 
   (async () => {
     try {
@@ -205,7 +205,7 @@ exports.deleteProject = (req, res) => {
   const fctName = moduleName + "deleteProject ";
 
   const project_id = req.params.id;
-  const query = { project_id: project_id };
+  const query = { project_id };
   console.log("req.client.is_admin is", req.client.is_admin);
   // console.log('res.locals.clientIp is', req.client.ip);
   // console.log('req.user is', req.client.user);

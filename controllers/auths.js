@@ -62,9 +62,9 @@ exports.loginUser = (req, res) => {
   const { email, username, password } = req.body;
   let query;
   if (email) {
-    query = { email: email };
+    query = { email };
   } else if (username) {
-    query = { username: username };
+    query = { username };
   }
 
   (async () => {
@@ -288,7 +288,7 @@ exports.forgotPassword = (req, res) => {
 
   const mailTemp = req.client.route;
   const { email } = req.body;
-  const query = { email: email };
+  const query = { email };
 
   (async () => {
     try {

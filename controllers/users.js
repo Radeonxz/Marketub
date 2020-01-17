@@ -27,7 +27,7 @@ exports.getUser = (req, res) => {
   const fctName = moduleName + "getUser ";
 
   const username = req.params.id;
-  const query = { username: username };
+  const query = { username };
 
   (async () => {
     try {
@@ -109,7 +109,7 @@ exports.deleteUser = (req, res) => {
   const user_id = req.query.user_id;
   const email = req.query.email;
 
-  const query = { email: email, user_id: user_id };
+  const query = { email, user_id };
 
   (async () => {
     try {
