@@ -6,6 +6,9 @@ const AuthProviderContainer = ({ isAuthenticated }) => {
 };
 
 AuthProviderContainer.propTypes = {
+  /**
+   * isAuthenticated status
+   */
   isAuthenticated: PropTypes.bool.isRequired
 };
 

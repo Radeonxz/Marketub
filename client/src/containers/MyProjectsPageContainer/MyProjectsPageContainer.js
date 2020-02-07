@@ -6,18 +6,27 @@ import PropTypes from "prop-types";
 import MyProjectsView from "../../components/MyProjectsView";
 import EditProjectView from "../../components/EditProjectView";
 
-const MyProjectsPageContainer = () => {
+const MyProjectsPageContainer = ({
+  match: { params },
+  my_projects,
+  user_projects,
+  getUser,
+  getProjects,
+  addProject,
+  updateProject,
+  deleteProject
+}) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isOwner, setIsOwner] = useState(true);
   const [editProject, setEditProject] = useState({});
 
   useEffect(() => {
-    if (!_.isEmpty(this.props.match.params)) {
-      const { username } = this.props.match.params;
+    if (!_.isEmpty(params)) {
+      const { username } = params;
       setIsOwner(false);
-      this.props.getUser(username);
+      getUser(username);
     } else {
-      this.props.getProjects();
+      getProjects();
     }
   }, []);
 
@@ -26,35 +35,61 @@ const MyProjectsPageContainer = () => {
     setIsEdit(!isEdit);
   };
 
-  const { user_projects, my_projects } = this.props;
+  const myProjectsViewProps = {
+    user_projects: isOwner ? my_projects : user_projects.projects_array,
+    isOwner,
+    editToggle,
+    deleteProject
+  };
+
+  const editProjectViewProps = {
+    isEdit,
+    editProject,
+    editToggle,
+    addProject,
+    updateProject
+  };
 
   return (
     (!_.isEmpty(user_projects) || isOwner) && (
       <div>
-        <MyProjectsView
-          user_projects={isOwner ? my_projects : user_projects.projects_array}
-          isOwner={isOwner}
-          editToggle={this.editToggle}
-          deleteProject={this.props.deleteProject}
-        />
-        {isOwner && (
-          <EditProjectView
-            isEdit={isEdit}
-            editProject={editProject}
-            editToggle={this.editToggle}
-            addProject={this.props.addProject}
-            updateProject={this.props.updateProject}
-          />
-        )}
+        <MyProjectsView {...myProjectsViewProps} />
+        {isOwner && <EditProjectView {...editProjectViewProps} />}
       </div>
     )
   );
 };
 
+MyProjectsPageContainer.defaultProps = {
+  my_projects: [],
+  user_projects: {}
+};
+
 MyProjectsPageContainer.propTypes = {
+  /**
+   * Current user's own projects
+   */
   my_projects: PropTypes.array,
+  /**
+   * User projects details object
+   */
   user_projects: PropTypes.object,
-  getProjects: PropTypes.func.isRequired
+  /**
+   * Method to get project
+   */
+  getProjects: PropTypes.func.isRequired,
+  /**
+   * Method to add project
+   */
+  addProject: PropTypes.func.isRequired,
+  /**
+   * Method to update project
+   */
+  updateProject: PropTypes.func.isRequired,
+  /**
+   * Method to delete project
+   */
+  deleteProject: PropTypes.func.isRequired
 };
 
 export default MyProjectsPageContainer;
