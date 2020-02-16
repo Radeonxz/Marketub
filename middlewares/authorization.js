@@ -13,7 +13,6 @@ module.exports = authr = (req, res, next) => {
   // all users have GET access
   // admin has all access, CRUD everything...
   if (role_id === 999) {
-    console.log("req is", req.method);
     req.client.is_admin = true;
     next();
   }
