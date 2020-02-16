@@ -1,17 +1,20 @@
-const moduleName = 'utils/uploadFile';
+const moduleName = "utils/uploadFile";
 
-const path = require('path');
+const path = require("path");
 
-const multer = require('multer');
+const multer = require("multer");
 
-const folderPath = path.join(__base, 'uploads');
+const folderPath = path.join(__base, "uploads");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const savePath = req.client.is_admin === true ? `${folderPath}/admin/` : `${folderPath}/public/`;
+    const savePath =
+      req.client.is_admin === true
+        ? `${folderPath}/admin/`
+        : `${folderPath}/public/`;
     cb(null, savePath);
   },
   filename: (req, file, cb) => {
-    if(req.client.is_admin === true) {
+    if (req.client.is_admin === true) {
       cb(null, file.originalname);
     } else {
       cb(null, new Date().toISOString() + file.originalname);
@@ -20,7 +23,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const fileTypeArr = ['image/jpeg', 'image/jpg', 'image/png']
+  const fileTypeArr = ["image/jpeg", "image/jpg", "image/png"];
   if (fileTypeArr.includes(file.mimetype)) {
     cb(null, true);
   } else {
