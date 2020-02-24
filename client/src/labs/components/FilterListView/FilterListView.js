@@ -15,10 +15,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const parseISO = s => {
-  s = s.split(/\D/);
-  return new Date(Date.UTC(s[0], --s[1], s[2], s[3], s[4], s[5], s[6]));
-};
+// const parseISO = s => {
+//   s = s.split(/\D/);
+//   return new Date(Date.UTC(s[0], --s[1], s[2], s[3], s[4], s[5], s[6]));
+// };
 
 const toFilterArr = (sourceArr, element) => {
   let filteredArr = sourceArr.filter(item => {
