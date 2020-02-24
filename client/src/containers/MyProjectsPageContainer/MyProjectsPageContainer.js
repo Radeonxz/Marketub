@@ -30,7 +30,7 @@ const MyProjectsPageContainer = ({
     }
   }, []);
 
-  editToggle = project => {
+  const editToggle = project => {
     setEditProject(project);
     setIsEdit(!isEdit);
   };
