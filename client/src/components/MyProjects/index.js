@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles, Grid } from "@material-ui/core";
-import ProjectCard from "./ProjectCard";
-import AddProjectTooltip from "./AddProjectTooltip";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles, Grid } from '@material-ui/core';
+import ProjectCard from './ProjectCard';
+import AddProjectTooltip from './AddProjectTooltip';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: "1rem 10rem",
+    padding: '1rem 10rem',
     flexGrow: 1
   },
   paper: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MyProjectsView = props => {
+const MyProjects = props => {
   const classes = useStyles();
   const { user_projects, isOwner } = props;
 
@@ -40,11 +40,11 @@ const MyProjectsView = props => {
   );
 };
 
-MyProjectsView.propTypes = {
+MyProjects.propTypes = {
   user_projects: PropTypes.array,
   isOwner: PropTypes.bool,
   editToggle: PropTypes.func,
   deleteProject: PropTypes.func
 };
 
-export default MyProjectsView;
+export default MyProjects;
