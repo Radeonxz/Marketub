@@ -177,7 +177,7 @@ const ProjectCard = props => {
 
 ProjectCard.propTypes = {
   project: PropTypes.object.isRequired,
-  isOwner: PropTypes.bool,
+  isOwner: PropTypes.bool
 };
 
 export default ProjectCard;
