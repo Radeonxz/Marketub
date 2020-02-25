@@ -12,7 +12,7 @@ import {
 import { getUser } from "../../actions/userActions";
 
 // import view component
-import MyProjectsView from "../../components/MyProjectsView";
+import MyProjects from "../../components/MyProjects";
 import EditProjectView from "../../components/EditProjectView";
 
 class MyProjectsPage extends Component {
@@ -47,7 +47,7 @@ class MyProjectsPage extends Component {
     return (
       (!_.isEmpty(user_projects) || isOwner) && (
         <div>
-          <MyProjectsView
+          <MyProjects
             user_projects={isOwner ? my_projects : user_projects.projects_array}
             isOwner={isOwner}
             editToggle={this.editToggle}
@@ -67,6 +67,11 @@ class MyProjectsPage extends Component {
     );
   }
 }
+
+MyProjectsPage.defaultProps = {
+  my_projects: [],
+  user_projects: {}
+};
 
 MyProjectsPage.propTypes = {
   my_projects: PropTypes.array,

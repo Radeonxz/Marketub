@@ -3,7 +3,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 
 // import view component
-import MyProjectsView from "../../components/MyProjectsView";
+import MyProjects from "../../components/MyProjects";
 import EditProjectView from "../../components/EditProjectView";
 
 const MyProjectsPageContainer = ({
@@ -35,7 +35,7 @@ const MyProjectsPageContainer = ({
     setIsEdit(!isEdit);
   };
 
-  const myProjectsViewProps = {
+  const myProjectsProps = {
     user_projects: isOwner ? my_projects : user_projects.projects_array,
     isOwner,
     editToggle,
@@ -53,7 +53,7 @@ const MyProjectsPageContainer = ({
   return (
     (!_.isEmpty(user_projects) || isOwner) && (
       <div>
-        <MyProjectsView {...myProjectsViewProps} />
+        <MyProjects {...myProjectsProps} />
         {isOwner && <EditProjectView {...editProjectViewProps} />}
       </div>
     )
