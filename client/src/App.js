@@ -6,7 +6,7 @@ import store from "./store";
 import { loadUser } from "./actions/authActions";
 
 import AppNavbar from "./components/AppNavbar/AppNavbar";
-import UsersList from "./containers/UsersListPage";
+import UsersListContainer from "./containers/UsersListContainer";
 // import MyProjects from "./containers/MyProjectsPage";
 import MyProjects from "./containers/MyProjectsPageContainer";
 import Labs from "./labs";
@@ -31,7 +31,7 @@ class App extends Component {
               <AppNavbar />
               <Switch>
                 <Route exact path="/">
-                  <UsersList />
+                  <UsersListContainer />
                 </Route>
                 <Route path="/myprojects">
                   <MyProjects />
