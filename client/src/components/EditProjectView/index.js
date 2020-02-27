@@ -76,8 +76,8 @@ const EditProjectView = props => {
       skill_sets: editProject.skill_sets,
       screenshot: editProject.screenshot,
       github_link: editProject.github_link,
-      site_link: editProject.site_link,
-      isUpdate: true
+      site_link: editProject.site_link
+      // isUpdate: true
     });
   }
 
