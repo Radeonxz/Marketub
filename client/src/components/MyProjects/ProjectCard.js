@@ -135,16 +135,18 @@ const ProjectCard = props => {
           {description}
           <br />
           <strong>Skill Sets:</strong>{" "}
-          {skill_sets.map((skill, index) => (
-            <Chip
-              key={index}
-              variant="outlined"
-              color="primary"
-              size="small"
-              style={{ margin: "0.1rem" }}
-              label={skill}
-            />
-          ))}
+          {skill_sets &&
+            skill_sets.length &&
+            skill_sets.map((skill, index) => (
+              <Chip
+                key={index}
+                variant="outlined"
+                color="primary"
+                size="small"
+                style={{ margin: "0.1rem" }}
+                label={skill}
+              />
+            ))}
         </Typography>
       </CardContent>
       <Divider />
