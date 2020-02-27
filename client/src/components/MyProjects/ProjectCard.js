@@ -124,7 +124,6 @@ const ProjectCard = props => {
             </MenuList>
           </ClickAwayListener>
         </Paper>
-        )}
       </Popper>
       <CardMedia
         className={classes.media}
