@@ -38,9 +38,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecipeReviewCard = props => {
+const RecipeReviewCard = ({ usersList }) => {
   const classes = useStyles();
-  const { usersList } = props;
 
   return (
     <div className={classes.root}>

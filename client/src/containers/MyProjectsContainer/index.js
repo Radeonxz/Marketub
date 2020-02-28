@@ -8,7 +8,7 @@ import {
 } from "../../actions/projectActions";
 import { getUser } from "../../actions/userActions";
 
-import MyProjectsPageContainer from "./MyProjectsPageContainer";
+import MyProjectsContainer from "./MyProjectsContainer";
 
 const mapStateToProps = state => ({
   my_projects: state.projects.user_projects,
@@ -34,5 +34,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(MyProjectsPageContainer)
+  connect(mapStateToProps, mapDispatchToProps)(MyProjectsContainer)
 );

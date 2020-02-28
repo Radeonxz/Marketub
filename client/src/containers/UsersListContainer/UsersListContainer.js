@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
-import UsersListPageView from "../../components/UsersListPageView";
+import UsersList from "../../components/UsersList";
 
 const UsersListContainer = ({ usersList, getUsers }) => {
   useEffect(() => {
@@ -17,7 +17,7 @@ const UsersListContainer = ({ usersList, getUsers }) => {
           style={{ position: "relative", left: "50%", color: "white" }}
         />
       )}
-      {usersList.length > 0 && <UsersListPageView usersList={usersList} />}
+      {usersList.length > 0 && <UsersList usersList={usersList} />}
     </div>
   );
 };
