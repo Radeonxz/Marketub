@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import store from "./store";
 import { loadUser } from "./actions/authActions";
 
 import AppNavbar from "./components/AppNavbar/AppNavbar";
-import UsersListContainer from "./containers/UsersListContainer";
-// import MyProjects from "./containers/MyProjectsPage";
-import MyProjects from "./containers/MyProjectsPageContainer";
-import Labs from "./labs";
+import AppRoutes from "./AppRoutes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -29,20 +26,7 @@ class App extends Component {
           <Provider store={store}>
             <div className="App">
               <AppNavbar />
-              <Switch>
-                <Route exact path="/">
-                  <UsersListContainer />
-                </Route>
-                <Route path="/myprojects">
-                  <MyProjects />
-                </Route>
-                <Route path="/user/:username/projects">
-                  <MyProjects {...this.props} />
-                </Route>
-                <Route exact path="/labs">
-                  <Labs />
-                </Route>
-              </Switch>
+              <AppRoutes />
             </div>
           </Provider>
         </React.Fragment>
