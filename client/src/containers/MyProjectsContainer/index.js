@@ -11,6 +11,8 @@ import { getUser } from "../../actions/userActions";
 import MyProjectsContainer from "./MyProjectsContainer";
 
 const mapStateToProps = state => ({
+  user_loading: state.user.loading,
+  projects_loading: state.projects.loading,
   my_projects: state.projects.user_projects,
   user_projects: state.user.user_projects
 });

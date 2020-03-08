@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 // import view component
 import MyProjects from "../../components/MyProjects";
-import EditProjectView from "../../components/EditProjectView";
+import EditProject from "../../components/EditProject";
 
 const MyProjectsPageContainer = ({
   match: { params },
+  user_loading,
+  projects_loading,
   my_projects,
   user_projects,
   getUser,
@@ -19,6 +23,7 @@ const MyProjectsPageContainer = ({
   const [isEdit, setIsEdit] = useState(false);
   const [isOwner, setIsOwner] = useState(true);
   const [editProject, setEditProject] = useState({});
+  const loading = user_loading || projects_loading;
 
   useEffect(() => {
     if (!_.isEmpty(params)) {
@@ -51,21 +56,39 @@ const MyProjectsPageContainer = ({
   };
 
   return (
-    (!_.isEmpty(user_projects) || isOwner) && (
-      <div>
-        <MyProjects {...myProjectsProps} />
-        {isOwner && <EditProjectView {...editProjectViewProps} />}
-      </div>
-    )
+    <>
+      {loading && (
+        <CircularProgress
+          size="3rem"
+          style={{ position: "relative", left: "50%", color: "white" }}
+        />
+      )}
+      {(!_.isEmpty(user_projects) || isOwner) && !loading && (
+        <div>
+          <MyProjects {...myProjectsProps} />
+          {isOwner && <EditProject {...editProjectViewProps} />}
+        </div>
+      )}
+    </>
   );
 };
 
 MyProjectsPageContainer.defaultProps = {
+  user_loading: false,
+  projects_loading: false,
   my_projects: [],
   user_projects: {}
 };
 
 MyProjectsPageContainer.propTypes = {
+  /**
+   * Loading status for get user
+   */
+  user_loading: PropTypes.bool.isRequired,
+  /**
+   * Loading status for get projects
+   */
+  projects_loading: PropTypes.bool.isRequired,
   /**
    * Current user's own projects
    */
