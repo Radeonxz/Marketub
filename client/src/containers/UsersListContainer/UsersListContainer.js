@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import UsersList from "../../components/UsersList";
 
-const UsersListContainer = ({ usersList, getUsers }) => {
+const UsersListContainer = ({ loading, usersList, getUsers }) => {
   useEffect(() => {
     getUsers();
   }, []);
@@ -22,8 +22,24 @@ const UsersListContainer = ({ usersList, getUsers }) => {
   );
 };
 
+UsersListContainer.defaultProps = {
+  loading: false,
+  usersList: [],
+  getUsers: () => {}
+};
+
 UsersListContainer.propTypes = {
-  usersList: PropTypes.array,
+  /**
+   * Loading status for get projects
+   */
+  loading: PropTypes.bool.isRequired,
+  /**
+   * List of users array
+   */
+  usersList: PropTypes.array.isRequired,
+  /**
+   * Method to fetch all users
+   */
   getUsers: PropTypes.func.isRequired
 };
 

@@ -1,4 +1,4 @@
-import { GET_USERS, GET_USER, GET_USERS_LOADING } from '../actions/types';
+import { GET_USERS, GET_USER, GET_USERS_LOADING } from "../actions/types";
 
 const initialState = {
   usersList: [],

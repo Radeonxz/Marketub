@@ -1,10 +1,5 @@
 import axios from "axios";
-import {
-  GET_USERS,
-  GET_USER,
-  GET_USERS_LOADING
-  // GET_USER_LOADING
-} from "./types";
+import { GET_USERS, GET_USER, GET_USERS_LOADING } from "./types";
 
 import { returnErrors } from "./errorActions";
 
@@ -38,14 +33,8 @@ export const getUser = id => dispatch => {
     );
 };
 
-export const setUsersLoading = () => {
-  return {
+export const setUsersLoading = dispatch => {
+  dispatch({
     type: GET_USERS_LOADING
-  };
+  });
 };
-
-// export const setUserLoading = () => {
-//   return {
-//     type: GET_USER_LOADING
-//   };
-// };

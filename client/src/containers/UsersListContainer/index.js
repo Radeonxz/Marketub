@@ -4,6 +4,7 @@ import { getUsers, getUser } from "../../actions/userActions";
 import UsersListContainer from "./UsersListContainer";
 
 const mapStateToProps = state => ({
+  loading: state.user.loading,
   usersList: state.user.usersList
 });
 
