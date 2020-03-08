@@ -55,19 +55,17 @@ const MyProjectsPageContainer = ({
 
   return (
     <>
-      {loading ? (
+      {loading && (
         <CircularProgress
           size="3rem"
           style={{ position: "relative", left: "50%", color: "white" }}
         />
-      ) : (
-        (!_.isEmpty(user_projects) || isOwner) &&
-        !loading && (
-          <div>
-            <MyProjects {...myProjectsProps} />
-            {isOwner && <EditProjectView {...editProjectViewProps} />}
-          </div>
-        )
+      )}
+      {(!_.isEmpty(user_projects) || isOwner) && !loading && (
+        <div>
+          <MyProjects {...myProjectsProps} />
+          {isOwner && <EditProjectView {...editProjectViewProps} />}
+        </div>
       )}
     </>
   );
