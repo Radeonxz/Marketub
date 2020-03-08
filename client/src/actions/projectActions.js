@@ -66,8 +66,8 @@ export const deleteProject = project_id => (dispatch, getState) => {
     );
 };
 
-export const setProjectsLoading = () => {
-  return {
+export const setProjectsLoading = dispatch => {
+  dispatch({
     type: PROJECTS_LOADING
-  };
+  });
 };
