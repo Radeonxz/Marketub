@@ -40,9 +40,21 @@ const MyProjects = ({ user_projects, isOwner, editToggle, deleteProject }) => {
 };
 
 MyProjects.propTypes = {
+  /**
+   * User projects details object
+   */
   user_projects: PropTypes.array.isRequired,
+  /**
+   * Boolean of current user is owner or not
+   */
   isOwner: PropTypes.bool.isRequired,
+  /**
+   * Method to toggle edit
+   */
   editToggle: PropTypes.func.isRequired,
+  /**
+   * Method to delete project
+   */
   deleteProject: PropTypes.func.isRequired
 };
 
