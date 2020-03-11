@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from "react";
 import {
   Collapse,
   Navbar,
@@ -7,15 +7,15 @@ import {
   Nav,
   NavItem,
   Container
-} from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import RegisterModal from '../auth/RegisterModal';
-import LoginModal from '../auth/LoginModal';
-import Logout from '../auth/Logout';
+} from "reactstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import RegisterModal from "../auth/RegisterModal";
+import LoginModal from "../auth/LoginModal";
+import Logout from "../auth/Logout";
 
-import './AppNavbar.css';
+import "./AppNavbar.css";
 
 class AppNavbar extends Component {
   state = {
@@ -36,7 +36,7 @@ class AppNavbar extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     const authLinks = (
-      <Fragment>
+      <>
         <NavItem>
           <span className="navbar-text mr-3">
             <strong>{user ? `Welcome back, ${user.username}` : null}</strong>
@@ -50,18 +50,18 @@ class AppNavbar extends Component {
         <NavItem>
           <Logout />
         </NavItem>
-      </Fragment>
+      </>
     );
 
     const guestLinks = (
-      <Fragment>
+      <>
         <NavItem>
           <RegisterModal />
         </NavItem>
         <NavItem>
           <LoginModal />
         </NavItem>
-      </Fragment>
+      </>
     );
 
     return (
@@ -86,7 +86,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(AppNavbar);
+export default connect(mapStateToProps, null)(AppNavbar);
