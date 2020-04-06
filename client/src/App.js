@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import store from "./store";
 import { loadUser } from "./actions/authActions";
 
-import AppNavbar from "./components/AppNavbar/AppNavbar";
+import AppNavbar from "./components/AppNavbar";
 import AppRoutes from "./AppRoutes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
