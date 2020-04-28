@@ -21,14 +21,14 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <React.Fragment>
+      <>
         <Provider store={store}>
           <div className="App">
             <AppNavbar />
             <AppRoutes />
           </div>
         </Provider>
-      </React.Fragment>
+      </>
     </BrowserRouter>
   );
 };

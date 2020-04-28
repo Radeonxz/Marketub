@@ -11,9 +11,7 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import RegisterModal from "../auth/RegisterModal";
-import LoginModal from "../auth/LoginModal";
-import Logout from "../auth/Logout";
+import { RegisterModal, LoginModal, Logout } from "../Auth";
 
 import "./styled/AppNavbar.css";
 

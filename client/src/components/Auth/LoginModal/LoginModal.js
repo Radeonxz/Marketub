@@ -10,16 +10,16 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
+  Alert,
 } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   login,
   resetPassword,
-  activateAccount
-} from "../../actions/authActions";
-import { clearErrors } from "../../actions/errorActions";
+  activateAccount,
+} from "../../../actions/authActions";
+import { clearErrors } from "../../../actions/errorActions";
 
 class LoginModal extends Component {
   state = {
@@ -32,7 +32,7 @@ class LoginModal extends Component {
     email: "",
     username: "",
     password: "",
-    msg: null
+    msg: null,
   };
 
   static propTypes = {
@@ -41,7 +41,7 @@ class LoginModal extends Component {
     login: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     activateAccount: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    clearErrors: PropTypes.func.isRequired,
   };
 
   componentDidUpdate(prevProps) {
@@ -71,7 +71,7 @@ class LoginModal extends Component {
     // Cealer errors
     this.props.clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
 
@@ -84,12 +84,12 @@ class LoginModal extends Component {
         closeAll: false,
         nestedModalHeader: header,
         nestedModalText: text,
-        nestedModalResetPass: resetPass
+        nestedModalResetPass: resetPass,
       });
     } else {
       this.setState({
         nestedModal: !this.state.nestedModal,
-        closeAll: false
+        closeAll: false,
       });
     }
   };
@@ -97,27 +97,27 @@ class LoginModal extends Component {
   toggleAll = () => {
     this.setState({
       nestedModal: !this.state.nestedModal,
-      closeAll: true
+      closeAll: true,
     });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
     const user = {
       email,
-      password
+      password,
     };
 
     // Attempt to login
     if (email && password) this.props.login(user);
   };
 
-  onSubmitNestModal = e => {
+  onSubmitNestModal = (e) => {
     e.preventDefault();
     const { email } = this.state;
     // const { username } = this.state;
@@ -229,14 +229,14 @@ class LoginModal extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
 export default connect(mapStateToProps, {
   login,
   resetPassword,
   activateAccount,
-  clearErrors
+  clearErrors,
 })(LoginModal);

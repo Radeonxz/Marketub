@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Button,
   Modal,
@@ -9,36 +9,36 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
-} from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { register } from '../../actions/authActions';
-import { clearErrors } from '../../actions/errorActions';
+  Alert,
+} from "reactstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { register } from "../../../actions/authActions";
+import { clearErrors } from "../../../actions/errorActions";
 
 class RegisterModal extends Component {
   state = {
     modal: false,
-    username: '',
-    email: '',
-    password: '',
-    password_confirm: '',
-    activation: '',
-    msg: null
+    username: "",
+    email: "",
+    password: "",
+    password_confirm: "",
+    activation: "",
+    msg: null,
   };
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    clearErrors: PropTypes.func.isRequired,
   };
 
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
       // Check for register error
-      if (error.id === 'REGISTER_FAIL') {
+      if (error.id === "REGISTER_FAIL") {
         this.setState({ msg: error.info.data.message });
       } else {
         this.setState({ msg: null });
@@ -57,15 +57,15 @@ class RegisterModal extends Component {
     // Cealer errors
     this.props.clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const {
@@ -73,7 +73,7 @@ class RegisterModal extends Component {
       email,
       password,
       password_confirm,
-      activation
+      activation,
     } = this.state;
 
     // Create user object
@@ -82,7 +82,7 @@ class RegisterModal extends Component {
       email,
       password,
       password_confirm,
-      activation
+      activation,
     };
 
     // Attempt to register
@@ -154,7 +154,7 @@ class RegisterModal extends Component {
                   className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button color="success" style={{ marginTop: '2rem' }} block>
+                <Button color="success" style={{ marginTop: "2rem" }} block>
                   Register
                 </Button>
               </FormGroup>
@@ -166,12 +166,11 @@ class RegisterModal extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
-export default connect(
-  mapStateToProps,
-  { register, clearErrors }
-)(RegisterModal);
+export default connect(mapStateToProps, { register, clearErrors })(
+  RegisterModal
+);
