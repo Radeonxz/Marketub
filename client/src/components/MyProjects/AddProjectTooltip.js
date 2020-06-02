@@ -5,10 +5,10 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   absolute: {
     position: "absolute",
-    bottom: theme.spacing(2),
+    top: theme.spacing(2),
     right: theme.spacing(3)
   }
 }));
@@ -19,7 +19,7 @@ const SimpleTooltips = ({ editToggle }) => {
   return (
     <div>
       <Tooltip title="Add" aria-label="add">
-        <Fab color="secondary" className={classes.absolute}>
+        <Fab color="primary" className={classes.absolute}>
           <AddIcon onClick={editToggle} />
         </Fab>
       </Tooltip>
