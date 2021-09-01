@@ -36,6 +36,9 @@ app.use((req, res, next) => {
 // Init logger middleware
 app.use(logger);
 
+// Init routes setup
+routes.setup(app);
+
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
 	// Set static folder
@@ -49,9 +52,6 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
 }
-
-// Init routes setup
-routes.setup(app);
 
 // Routes validation
 // const reditectUnmatchedAPI = (req, res) => {
