@@ -24,13 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Method", "POST, GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Method", "POST, GET, OPTIONS");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	if (req.method === "OPTIONS") {
+		return res.sendStatus(200);
+	}
+	next();
 });
 
 // Init logger middleware
@@ -41,51 +41,51 @@ routes.setup(app);
 
 // Routes validation
 const reditectUnmatchedAPI = (req, res) => {
-  return res.status(400).json({
-    status: "error",
-    data: {
-      level: "ERR",
-      code: "400",
-      message: "Invalid API Call",
-      details: "Invalid API Call"
-    }
-  });
+	return res.status(400).json({
+		status: "error",
+		data: {
+			level: "ERR",
+			code: "400",
+			message: "Invalid API Call",
+			details: "Invalid API Call"
+		}
+	});
 };
 app.all("*", reditectUnmatchedAPI);
 
 // Serve static assets if in production
-if (config.node_env === "production") {
-  // Set static folder
-  app.use(express.static("client/build"));
+if (process.env.NODE_ENV === "production") {
+	// Set static folder
+	app.use(express.static("client/build"));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
+	// app.get("*", (req, res) => {
+	// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	// });
 }
 
 // MongoDB setup
 const MongoDBOptions = {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
+	useNewUrlParser: true,
+	useCreateIndex: true,
+	useUnifiedTopology: true
 };
 
 mongoose
-  .connect(app.get("mongoURL"), MongoDBOptions)
-  .then(() => {
-    // Start server
-    console.info("Express server starting ....");
-    const server = app.listen(app.get("port"), function() {
-      console.info(
-        "Express server is listening on port " +
-          server.address().port +
-          ", " +
-          fctName
-      );
-    });
-  })
-  .catch(err => {
-    console.error(err);
-  });
+	.connect(app.get("mongoURL"), MongoDBOptions)
+	.then(() => {
+		// Start server
+		console.info("Express server starting ....");
+		const server = app.listen(app.get("port"), function () {
+			console.info(
+				"Express server is listening on port " +
+					server.address().port +
+					", " +
+					fctName
+			);
+		});
+	})
+	.catch((err) => {
+		console.error(err);
+	});
 
 module.exports = app;
