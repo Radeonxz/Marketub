@@ -36,36 +36,36 @@ app.use((req, res, next) => {
 // Init logger middleware
 app.use(logger);
 
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+	// Set static folder
+	// app.use(express.static(path.join(__dirname, "../build")));
+	// app.get("*", (req, res) => {
+	// 	res.sendFile(path.join(__dirname, "../build"));
+	// });
+	app.use(express.static("client/build"));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	});
+}
+
 // Init routes setup
 routes.setup(app);
 
 // Routes validation
-const reditectUnmatchedAPI = (req, res) => {
-	return res.status(400).json({
-		status: "error",
-		data: {
-			level: "ERR",
-			code: "400",
-			message: "Invalid API Call",
-			details: "Invalid API Call"
-		}
-	});
-};
-app.all("*", reditectUnmatchedAPI);
-
-// Serve static assets if in production
-if (process.env.NODE_ENV === "production") {
-	// Set static folder
-	app.use(express.static(path.join(__dirname, "../build")));
-	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname, "../build"));
-	});
-	// app.use(express.static("client/build"));
-
-	// app.get("*", (req, res) => {
-	// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-	// });
-}
+// const reditectUnmatchedAPI = (req, res) => {
+// 	return res.status(400).json({
+// 		status: "error",
+// 		data: {
+// 			level: "ERR",
+// 			code: "400",
+// 			message: "Invalid API Call",
+// 			details: "Invalid API Call"
+// 		}
+// 	});
+// };
+// app.all("*", reditectUnmatchedAPI);
 
 // MongoDB setup
 const MongoDBOptions = {
