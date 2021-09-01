@@ -5,9 +5,7 @@ const config = {};
 //   PORT: process.env.PORT,
 //   JWTSecret: process.env.JWTSECRET,
 
-//   node_env: process.env.NODE_ENV,
-
-
+config.node_env = process.env.NODE_ENV;
 //   // http error code 400
 //   err_400: {
 //     'status': 'error',
@@ -20,31 +18,31 @@ const config = {};
 // };
 
 config.server = {
-  'host': 'http://localhost',
-  'port': process.env.PORT || 5000
+	host: "http://localhost",
+	port: process.env.PORT || 5000
 };
 
 config.JWT = {
-  'JWTSecret': process.env.JWTSECRET
-}
+	JWTSecret: process.env.JWTSECRET
+};
 
 config.activation = {
-  'premium': process.env.ACTIVATIONP,
-  'admin': process.env.ACTIVATIONA,
-}
+	premium: process.env.ACTIVATIONP,
+	admin: process.env.ACTIVATIONA
+};
 
 config.nodemailer = {
-  'service': process.env.MAILER_SERVICE_PROVIDER || 'Gmail',
-  'email': process.env.MAILER_SERVICE_USER,
-  'password': process.env.MAILER_SERVICE_PASS,
-}
+	service: process.env.MAILER_SERVICE_PROVIDER || "Gmail",
+	email: process.env.MAILER_SERVICE_USER,
+	password: process.env.MAILER_SERVICE_PASS
+};
 
 config.mongodb = {
-  'schemaOptions': {
-    autoIndex: true,
-    strict: true
-  },
-  'url': process.env.MONGODB_URI
+	schemaOptions: {
+		autoIndex: true,
+		strict: true
+	},
+	url: process.env.MONGODB_URI
 };
 
 module.exports = config;
