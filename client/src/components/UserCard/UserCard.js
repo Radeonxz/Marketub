@@ -13,7 +13,6 @@ import { red } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -43,19 +42,14 @@ const UserCard = ({ username, created_at, github_link, projects_array }) => {
 				<CardHeader
 					avatar={
 						<Avatar aria-label="recipe" className={classes.avatar}>
-							{username}
+							{username.charAt(0).toUpperCase()}
 						</Avatar>
-					}
-					action={
-						<IconButton aria-label="settings">
-							<MoreVertIcon />
-						</IconButton>
 					}
 					title={username}
 					subheader={`Member since ${moment(created_at).format("MMM YYYY")}`}
 				/>
 				<CardContent>
-					<Typography component="p">Popularity: 199</Typography>
+					<Typography component="p">{`Popularity: ${projects_array.length}`}</Typography>
 				</CardContent>
 				<CardActions disableSpacing>
 					{github_link && (
